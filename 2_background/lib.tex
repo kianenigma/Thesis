@@ -1,0 +1,86 @@
+% this file is called up by thesis.tex
+% content in this file will be fed into the main document
+
+\chapter{Background} \label{chap:background} % top level followed by section, subsection
+
+
+% ----------------------- paths to graphics ------------------------
+
+% change according to folder and file names
+\ifpdf
+    \graphicspath{{7/figures/PNG/}{7/figures/PDF/}{7/figures/}}
+\else
+    \graphicspath{{7/figures/EPS/}{7/figures/}}
+\fi
+
+
+% ----------------------- contents from here ------------------------
+% 
+
+\dots
+
+This will be an in-depth chapter about blockchains and how they work
+
+\section{Blockchains And Decentralized Applications}
+
+\subsection{Blockchain in a Nutshell}
+
+\subsection{Basic Concepts}
+
+\subsubsection{Peer to Peer Network}
+\subsubsection{Key-Value Database}
+\subsubsection{Trie and Storage Root}
+\subsubsection{Consensus}
+\subsubsection{Hash Functions}
+\subsubsection{Elliptic Curve Cryptography}
+\subsubsection{Binary Encoding - Parity Scale Codec}
+\subsubsection{Transactions and Signatures}
+\subsubsection{Transaction Queue}
+
+\subsubsection{Blocks and Block Authoring}
+
+\subsection{Putting it All Together: Decentralized State Transition Logic}
+
+\section{Speeding up a Blockchain: A Broad Perspective} \label{chap_bg:sec:ways_to_speedup}
+
+Blockchains are arguably among the most sophisticated peer-to-peer software deployed to date. They provide a trust-less environment in which different types of applications can be deployed. The early chains mostly adopted the application of being a digital currency, also known as \textit{cryptocurrency}. Bitcoin \cite{Nakamoto} was the pioneering cryptocurrency, announced in 2009. Nonetheless, soon thereafter, other chains were designed and released that could function in a more generic way. Ethereum \cite{etherwhite}, was the first of such chains that was programmable via the notion of smart-contracts, small scripts that were stored on-chain and executed upon receiving particular transactions. In the broad term, regardless of the application, the blockchain can be seen as a distributed application which can be executed by the means of submitting a \textit{transaction} to any of the nodes in its peer-to-peer network.
+
+The blockchain industry brought a great deal of hype with it. This, to some extent caused many of the underlying technologies that power blockchains to grow at a fast pace. Most notably, many peer to peer technologies have observed a significant advent rate\footnote{A simple query in google trends for terms such as "bitcoin", "blockchain" and "peer-to-peer" can show a direct correlation between the rise of bitcoin and the rest of the keywords}. Nonetheless, one area is still lacking behind, which is their relatively poor \textit{performance}. Some blockchain networks that are active today cannot exceed an overall throughput of more than a few dozens of transactions per second on average. This concern is the basis of this thesis. 
+
+In the next section, we will briefly survey some of the ways through which the throughput of a blockchain can be improved, and delineate which approach we will be focusing on for the rest of this thesis. Moreover, we will extract our exact research question from this brief survey. Note that we will not explain some blockchain concepts in-depth at this point and leave that for chapter \ref{chap:background}.
+
+
+As mentioned, blockchains can be seen, in a very broad way, and from a transaction processing point of view, as a \textit{decentralized transaction processing network}. The throughput of a blockchain network, in transaction's per second, is a function of numerous components and can be analysed from different points of view. While in this work we focus mainly on one aspect, it is helpful to enumerate all viewpoints and see how they each affect the overall performance.
+
+\subsection{Consensus and Block Authoring}
+
+The consensus algorithm is the means by which the nodes in the network align their viewpoints on the state of the world, and come to agreement about it. Similarly, the nodes in the network must also decide when and who will have permission to alter the state, i.e. take the role of \textit{author}. Two common consensus protocols are Proof-Of-\textbf{Work} (henceforth denoted as POW) and Proof-Of-\textbf{Stake} (henceforth denoted as POS). They use the computation power (\textit{work}) and a number of bonded tokens (\textit{stake}) as their guarantees that the author was indeed eligible for authoring a block. Without getting into further details about each protocols, what we care about is the fact that each of these consensus protocols has an \textit{inherently} different performance \cite{survey_on_all}. POW, as the names suggests, requires the author to prove their legitimacy by providing a proof that they have solved a particular hashing puzzle. This is slow by nature, and wastes a lot of computation power on each node that wants to produce blocks, which in turn can have a negative impact on the transaction throughput. Making this process faster requires the network to agree on an easier POW puzzle that can in turn make the system less secure \cite{security_of_bitcoin}. More precisely, the difficulty of the puzzle dictates the average time any node needs to spend to be able to produce a block, which dictates the final throughput. 
+
+To the contrary, POS does not need this this fruitless puzzle solving, which is beneficial in terms of computation resources. Moreover, since the chance of any node being the author is determined by their stake. Thus, a smaller block-time is not insecure by itself. 
+
+All in all, one general approach towards increasing the throughput of a blockchain is to \textit{re-think the consensus and block authoring mechanisms} that dictate when blocks are added to the chain, and by whom, with what frequency. It is crucially important to note that any approach in this domain falls somewhere in the spectrum of centralized-decentralized, where most often approaches that are more centralized will be more capable of delivering better performance, yet they do not have any of the security and immutability guarantees of a blockchain. 
+
+In this work transcend from this point of view and will look at a different component of a blockchain system which is completely independent of the underlying consensus. The main reason for this is that this is entirely different domain of research compared to our proposed approach, concurrency.
+
+\subsection{Chain Topology}
+
+Another approach is changing the nature of the chain topology. A classical blockchain is theoretically limited due to the fact that only one entity can append to the block at each time. This property will bring extra security and make the chain state easier to reason about (i.e. there is only one cannon chain). A radical approach is to question this property and allow different blocks to be mined at the same time. Consequently, this turn a blockchain from a literal \textit{chain of blocks} into a \textit{graph of nodes}. Hence, most often such technologies are referred to Directed Acyclic Graphs, \textbf{DAG} in short, solutions. 
+
+Such approaches will bring even more radical changes to the original defisoi
+
+\subsection{Sharding}
+
+\subsection{Networking}
+
+Further factors can exist, but not for a general purpose blockchain, hence we 
+
+\subsection{Summary: Any push forward toward better performance is added value} \label{chap_bg:subsec:summary_speedup}
+
+
+\section{Concurrency}
+
+\subsection{Locking, RW-Locks and more.}
+\subsection{Software Transactional Memory}
+\subsection{Static Analysis}
+\subsection{Transposition Driven Scheduling}
+
