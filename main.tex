@@ -39,9 +39,8 @@
 \newcommand\mustdo[1]{\textcolor{red}{#1}}
 
 % and this is a more sophisticated version of the same
-\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
-
-% use such as 
+%
+% use such as
 % \todo[inline]{The original todo note withouth changed colours.\newline Here's another line.}
 % \lipsum[11]\unsure{Is this correct?}\unsure{I'm unsure about also!}
 % \lipsum[11]\change{Change this!}
@@ -50,6 +49,7 @@
 % \lipsum[11]
 % \thiswillnotshow{This is hidden since option `disable' is chosen!}
 % \improvement[inline]{The following section needs to be rewritten!}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 
 %\usepackage{graphics}
 % or use the graphicx package for more complicated commands
@@ -121,7 +121,7 @@ Vrije Universiteit Amsterdam \hspace*{2cm} Universiteit van Amsterdam
 
 
 % ----------------------------------------------------------------------
-       
+
 % turn of those nasty overfull and underfull hboxes
 \hbadness=10000
 \hfuzz=50pt
@@ -204,8 +204,8 @@ Vrije Universiteit Amsterdam \hspace*{2cm} Universiteit van Amsterdam
 
 % Tie in external source file for definitions: /0_frontmatter/glossary.tex
 % Glossary entries can also be defined in the main text. See glossary.tex
-% 
-\include{0_frontmatter/glossary} 
+%
+\include{0_frontmatter/glossary}
 
 
 \begin{multicols}{2}  % \begin{multicols}{#columns}[header text][space]
@@ -237,13 +237,13 @@ Vrije Universiteit Amsterdam \hspace*{2cm} Universiteit van Amsterdam
 \include{1_introduction/lib}
 \include{2_background/lib}
 \include{3_design_implementation/lib}
-\include{4_benchmarks_analysis/lib}	
+\include{4_benchmarks_analysis/lib}
 \include{5_discussion_related/lib}
 \include{6_conclusion/lib}
-          
+
 \include{9_appendix/appendix}
-      
-            
+
+
 % --------------------------------------------------------------
 %:                  BACK MATTER: appendices, refs,..
 % --------------------------------------------------------------
@@ -257,7 +257,7 @@ Vrije Universiteit Amsterdam \hspace*{2cm} Universiteit van Amsterdam
 % The default below is 2 columns, small font, complete author names.
 % Entries are also linked back to the page number in the text and to external URL if provided in the BibTex file.
 
-% PhDbiblio-url2 = names small caps, title bold & hyperlinked, link to page 
+% PhDbiblio-url2 = names small caps, title bold & hyperlinked, link to page
 %\begin{multicols}{2} % \begin{multicols}{ # columns}[ header text][ space]
 %\begin{tiny} % tiny(5) < scriptsize(7) < footnotesize(8) < small (9)
 

@@ -8,51 +8,109 @@
 \fi
 
 \begin{chapquote}{Unknown.}
-``If Bitcoin was the calculator, Ethereum was the ENIAC\footnote{the first generation computer developed in 1944. It fills a 20-foot by 40-foot room and has 18,000 vacuum tubes.}. It is expensive, slow and hard to work with. The challenge of today is to build the \textbf{commodity, accessible and performant} computer.''
+``If Bitcoin was the calculator, Ethereum was the ENIAC\footnote{the first generation computer
+developed in 1944. It fills a 20-foot by 40-foot room and has 18,000 vacuum tubes.}. It is
+expensive, slow and hard to work with. The challenge of today is to build the \textbf{commodity,
+accessible and performant} computer.''
 \end{chapquote}
 
 \todo[inline]{
 
 Meeting notes:
 
-Why is this problem interesting?? 
+Why is this problem interesting??
 
-mostly short. Start with requirements (correctness). 
+mostly short. Start with requirements (correctness).
 
-Chapter 3 should be roughly design and impl details. and it should promise some goals that you meet in chapter 4.
+Chapter 3 should be roughly design and impl details. and it should promise some goals that you meet
+in chapter 4.
 
-Design in Notion is final. Write a set of requirements and explain \textbf{why} the design respects it. 
+Design in Notion is final. Write a set of requirements and explain \textbf{why} the design respects
+it.
 
-related work: say where you fit in the literature overlay. No need to brag and\textbf{compare with others}.
+related work: say where you fit in the literature overlay. No need to brag and\textbf{compare with
+others}.
 
 experiment setup should prove the goal, not only speedup etc.}
 
 
-Blockchains are indeed an interesting topic in 2020. Some people skeptically see them as controversial, or merely a "hyped hoax", and doubt that they will ever deliver much real value to the world. On the other hand, many believe that it is a revolutionary technology that will shape our future societies, much like the internet and how it has impacted many aspect of how we live in the last few decades \cite{will_blockchain_be_big_deal}. 
+Blockchains are indeed an interesting topic in 2020. Some people skeptically see them as
+controversial, or merely a "hyped hoax", and doubt that they will ever deliver much real value to
+the world. On the other hand, many believe that it is a revolutionary technology that will shape our
+future societies, much like the internet and how it has impacted many aspect of how we live in the
+last few decades \cite{will_blockchain_be_big_deal}.
 
-In a very broad term, a blockchain is a tamper-proof, append-only ledger that is being maintained in a decentralized fashion, and can only be updated once everyone agrees upon that change as a bundle of transactions. This bundle of transactions is called a \textbf{block}. Once this block is agreed upon, it is appended (aka. \textit{chained}) to the ledger, hence the term block-\textit{chain}. Moreover, the ledger itself is public and openly accessible to everyone. This means that everyone can verify and check the ledger and the transaction and block history, should they need to do it. At the same time asymmetric cryptography is the core identity indicator that one needs to interact with the chain, meaning that your personal identity can stay private in principle, if that is desired based on the circumstance. 
+In a very broad term, a blockchain is a tamper-proof, append-only ledger that is being maintained in
+a decentralized fashion, and can only be updated once everyone agrees upon that change as a bundle
+of transactions. This bundle of transactions is called a \textbf{block}. Once this block is agreed
+upon, it is appended (aka. \textit{chained}) to the ledger, hence the term block-\textit{chain}.
+Moreover, the ledger itself is public and openly accessible to everyone. This means that everyone
+can verify and check the ledger and the transaction and block history, should they need to do it. At
+the same time asymmetric cryptography is the core identity indicator that one needs to interact with
+the chain, meaning that your personal identity can stay private in principle, if that is desired
+based on the circumstance.
 
-In some sense, blockchains are revolutionary because they remove the need for \textit{trust}, and release it from the control of one entity (i.e. a single bank or institute), by encoding it as a self-sovereign decentralised software. Our institutions are built upon the idea that they manage people's assets, matters and belongings, and they ensure veracity, because we trust in them. In short, they have \textbf{authority}. Of course, this model could work well in principle, but it suffers from the same problem as some software do: it is a \textbf{single point of failure}. A corrupt authority is just as destructive as a flaky single point of failure in a software is. Blockchain attempts to resolve this by deploying software (i.e. itslef) in a transparent and decentralized manner, in which everyone's privacy is respected, whilst at the same time everyone can still check the veracity of the ledger, and the software itself. In other words, no single entity should be able to have any control over the system.
+In some sense, blockchains are revolutionary because they remove the need for \textit{trust}, and
+release it from the control of one entity (i.e. a single bank or institute), by encoding it as a
+self-sovereign decentralized software. Our institutions are built upon the idea that they manage
+people's assets, matters and belongings, and they ensure veracity, because we trust in them. In
+short, they have \textbf{authority}. Of course, this model could work well in principle, but it
+suffers from the same problem as some software do: it is a \textbf{single point of failure}. A
+corrupt authority is just as destructive as a flaky single point of failure in a software is.
+Blockchain attempts to resolve this by deploying software (i.e. itself) in a transparent and
+decentralized manner, in which everyone's privacy is respected, whilst at the same time everyone can
+still check the veracity of the ledger, and the software itself. In other words, no single entity
+should be able to have any control over the system.
 
-Now, all of these great properties don't come for cheap. Blockchains are extremely complicated pieces of software and they require a great deal of expertise to be written correctly. Moreover, many of the machinery used to create this \textit{decentralized} and \textit{public} append-only ledger, requires synchronisation, serialization, or generally other procedures that are slow and reduce the throughput at which the chain can process transactions. This, to some extent, contributes to the skepticism mentioned in at the beginning of this chapter. For example, Bitcoin, one of the famous deployed blockchains to date, consumes a lot of resources to operate, and cannot exceed a transaction throughput of more than half a dozen transactions per second \cite{security_of_bitcoin}.
+Now, all of these great properties don't come for cheap. Blockchains are extremely complicated
+pieces of software and they require a great deal of expertise to be written correctly. Moreover,
+many of the machinery used to create this \textit{decentralized} and \textit{public} append-only
+ledger, requires synchronization, serialization, or generally other procedures that are slow and
+reduce the throughput at which the chain can process transactions. This, to some extent, contributes
+to the skepticism mentioned in at the beginning of this chapter. For example, Bitcoin, one of the
+famous deployed blockchains to date, consumes a lot of resources to operate, and cannot exceed a
+transaction throughput of more than half a dozen transactions per second \cite{security_of_bitcoin}.
 
-Hence, we see it as in important goal to investigate the possibilities through which a blockchain system can be enhanced to perform \textit{faster}, and more \textit{efficiently}. 
+Hence, we see it as in important goal to investigate the possibilities through which a blockchain
+system can be enhanced to perform \textit{faster}, and more \textit{efficiently}.
 
 \section{Research Question} \label{chap_intro:sec:resarch_q}
 
-Based on the mentioned scenario, we can settle on the basic goal of improving the \textit{performance} and \textit{efficiency} of a blockchain system. There are numerous ways to achieve this goal, ranging from zooming into the details such as concurrency within some components of the software, all the way back to tuning the network parameters and implementations. In this work, we precisely focus on the former, enabling concurrency within transactions that are processed and then appended to the ledger. This approach is better compared with the other alternatives at the end of chapter \ref{chap:background}. We also mention in the same chapter why each of these approaches could have their own merit and value, and how they differ with one another.
- 
- All in all, we formulate the following as our research questions: 
- 
+Based on the mentioned scenario, we can settle on the basic goal of improving the
+\textit{performance} and \textit{efficiency} of a blockchain system. There are numerous ways to
+achieve this goal, ranging from zooming into the details such as concurrency within some components
+of the software, all the way back to tuning the network parameters and implementations. In this
+work, we precisely focus on the former, enabling concurrency within transactions that are processed
+and then appended to the ledger. This approach is better compared with the other alternatives at the
+end of chapter \ref{chap:background}. We also mention in the same chapter why each of these
+approaches could have their own merit and value, and how they differ with one another.
+
+ All in all, we formulate the following as our research questions:
+
  \begin{enumerate}
-     \item What approaches exist to deploy concurrency methods in the realm of blockchains, when seen as a generic decentralized transaction processing systems?
-     \item How deficient and reasonable are each these approaches, given that different blockchains can have radically different transaction types and concurrency requirements. 
+     \item What approaches exist to deploy concurrency methods in the realm of blockchains, when
+     seen as a generic decentralized transaction processing systems?
+     \item How deficient and reasonable are each these approaches, given that different blockchains
+     can have radically different transaction types and concurrency requirements.
  \end{enumerate}
- 
+
 \section{Rest of this work}
 
-The first half of this work leads the way toward our proposed approach to solving the aforementioned research question. \todo{should I say in this work or this thesis or our work or our thesis?}. In chapter \ref{chap:background}, we dive deep into the two pillars of background knowledge that we need to answer the above questions: blockchains and concurrency. First, we will clarify what exactly a blockchain is in section. Then, having known this, we can have a 100-feet view into a blockchain system and see what are the broad terms ways in which its speed can be improved in section \ref{chap_bg:sec:ways_to_speedup}
-. Then, in chapter \ref{chap:design_and_impl} we will define the requirements of the system and consequent design goals. This is followed by our proposed design in section \ref{chap_desgin:sec:design}. Finally, we provide some implementation details in \ref{chap:design_and_impl}. 
+The first half of this work leads the way toward our proposed approach to solving the aforementioned
+research question. \todo{should I say in this work or this thesis or our work or our thesis?}. In
+chapter \ref{chap:background}, we dive deep into the two pillars of background knowledge that we
+need to answer the above questions: blockchains and concurrency. First, we will clarify what exactly
+a blockchain is in section. Then, having known this, we can have a 100-feet view into a blockchain
+system and see what are the broad terms ways in which its speed can be improved in section
+\ref{chap_bg:sec:ways_to_speedup} . Then, in chapter \ref{chap:design_and_impl} we will define the
+requirements of the system and consequent design goals. This is followed by our proposed design in
+section \ref{chap_desgin:sec:design}. Finally, we provide some implementation details in
+\ref{chap:design_and_impl}.
 
-In the second part of this work, we put our solution to action and observe the outcome. Chapter \ref{chap:bench_analysis} will be devoted to the benchmarks and experiments through which we evaluate whether our research goals have been met. An important detail of this chapter is the data set, explained in section \ref{chap_b&a:sec:data_set}. In chapter \ref{chap:related} we compare our work with other similar research in the domain and see how it fits in the scientific literature. Finally, we conclude and propose future work in chapter \ref{chap:conclusion}.
+In the second part of this work, we put our solution to action and observe the outcome. Chapter
+\ref{chap:bench_analysis} will be devoted to the benchmarks and experiments through which we
+evaluate whether our research goals have been met. An important detail of this chapter is the data
+set, explained in section \ref{chap_b&a:sec:data_set}. In chapter \ref{chap:related} we compare our
+work with other similar research in the domain and see how it fits in the scientific literature.
+Finally, we conclude and propose future work in chapter \ref{chap:conclusion}.
 

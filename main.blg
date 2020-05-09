@@ -1,0 +1,61 @@
+This is BibTeX, Version 0.99d (TeX Live 2020)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+A level-1 auxiliary file: 0_frontmatter/prelude.aux
+A level-1 auxiliary file: 0_frontmatter/abstract.aux
+A level-1 auxiliary file: 0_frontmatter/dedication.aux
+A level-1 auxiliary file: 0_frontmatter/acknowledgement.aux
+A level-1 auxiliary file: 0_frontmatter/glossary.aux
+A level-1 auxiliary file: 1_introduction/lib.aux
+A level-1 auxiliary file: 2_background/lib.aux
+A level-1 auxiliary file: 3_design_implementation/lib.aux
+A level-1 auxiliary file: 4_benchmarks_analysis/lib.aux
+A level-1 auxiliary file: 5_discussion_related/lib.aux
+A level-1 auxiliary file: 6_conclusion/lib.aux
+A level-1 auxiliary file: 9_appendix/appendix.aux
+The style file: Latex/Classes/PhDbiblio-url2.bst
+Database file #1: 7_references/references.bib
+Warning--empty journal in Nakamoto
+Warning--empty year in Nakamoto
+You've used 13 entries,
+            2776 wiz_defined-function locations,
+            716 strings with 7716 characters,
+and the built_in function-call counts, 5479 in all, are:
+= -- 571
+> -- 166
+< -- 3
++ -- 67
+- -- 53
+* -- 356
+:= -- 822
+add.period$ -- 41
+call.type$ -- 13
+change.case$ -- 52
+chr.to.int$ -- 0
+cite$ -- 15
+duplicate$ -- 220
+empty$ -- 514
+format.name$ -- 53
+if$ -- 1333
+int.to.chr$ -- 0
+int.to.str$ -- 13
+missing$ -- 12
+newline$ -- 68
+num.names$ -- 28
+pop$ -- 110
+preamble$ -- 1
+purify$ -- 52
+quote$ -- 0
+skip$ -- 346
+stack$ -- 0
+substring$ -- 236
+swap$ -- 86
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 50
+warning$ -- 2
+while$ -- 36
+width$ -- 15
+write$ -- 142
+(There were 2 warnings)

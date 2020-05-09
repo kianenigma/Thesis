@@ -1,83 +1,241 @@
-% this file is called up by thesis.tex
-% content in this file will be fed into the main document
-
-\chapter{Background} \label{chap:background} % top level followed by section, subsection
+\chapter{Background} \label{chap:background}
 
 
-% ----------------------- paths to graphics ------------------------
-
-% change according to folder and file names
+% ----------------------- paths to graphics ------------------------ change according to folder and
+% file names
 \ifpdf
     \graphicspath{{7/figures/PNG/}{7/figures/PDF/}{7/figures/}}
 \else
     \graphicspath{{7/figures/EPS/}{7/figures/}}
 \fi
-
-
 % ----------------------- contents from here ------------------------
-% 
+%
 
-\dots
+\begin{chapquote}{David Chum et. al. - 1990}
+``The use of credit cards today is an act of faith on the p a t of all concerned. Each party is
+vulnerable to fraud by the others, and the cardholder in particular has no protection against
+surveillance.''
+\end{chapquote}
 
-This will be an in-depth chapter about blockchains and how they work
 
-\section{Blockchains And Decentralized Applications}
+In this chapter, we will dive into the background knowledge needed for the rest of this work. Two
+pillars of knowledge need to be covered, blockchains in section \ref{chap_bg:sec:blockchains} and
+concurrency, upon which our solution will be articulated, in section \ref{chap_bg:sec:concurrency}.
 
-\subsection{Blockchain in a Nutshell}
+\section{Blockchains And Decentralized Applications} \label{chap_bg:sec:blockchains}
+
+In this section, we will provide an overview about the basics of distributed system, blockchains,
+and their underlying technologies. By the end of this chapter, it is expected that an average reader
+will know enough about blockchains system to be able to follow the rest of our work in chapter
+\ref{chap:design_and_impl} an onwards.
+
+\subsection{Centralized, Decentralized and Distributed Systems}
+
+We cannot begin to describe blockchains before defining a distributed system. Blockchains, at the
+end of the day, or just another form of distributed systems. A distributed system is a system in
+which a group of nodes (each of which having an individual processor and memory) cooperate and
+coordinate for a common outcome. From the perspective of an outside user, most often this is
+transparent and all the nodes can be seen and interacted with, as if it was one cohesive system
+\cite{mastering_blockchain}.
+
+Blockchains differ in many ways from other distributed system, yet the underlying concepts resonate
+in many ways \cite{Herlihy_2019}. Like distributed system, a blockchain system is also consisted of
+many nodes, operated either bur organizations, or by normal people with their commodity computers,
+and this trait is transparent to the end user, when they want ot interact with the blockchain.
+
+Blockchains are also decentralized. This term was first introduced in a revolutionary paper in 1964
+as a middle ground between purely centralized system that have a single point of failure, and a 100%
+distributed system which is like a mesh, all nodes have links to many other nodes
+\cite{on_distributed_comm_networks_1964} \footnote{The design of Paul Baran, author of
+\cite{on_distributed_comm_networks_1964} originally was proposed, like many other internet-related
+technologies, in a military context. His paper was a solution to the US Authorities concerns about
+communication links in the after math of a nuclear attack in the midst of the cold war
+\cite{paul_baran_cold_war}.}. A decentralized system falls somewhere in between, where no single
+node's failure can have a unrecoverable damage to the system, and communication is somewhat
+distributed, some nodes might act as hops between different sub-networks.
+
+Blockchains, depending on the implementation, can resonate with either the above. Most often, from a
+networking perspective, they are much closer to the ideals of a distributed system. From an
+operational and economical perspective, they can be seen more as decentralized, where the
+operational power, i.e. the authority falls into the hands of no single entity.
+
+\todo[inline]{maybe add a picture here from the old paper or similar to it?}
+
+\subsection{From Ideas to Bitcoin: History of Blockchain}
+
+While most people associate the rise of blockchains with bitcoin, it is indeed incorrect and the
+basic ideas of blockchains was mentioned decades earlier. The first relevant research paper was
+already mentioned in the previous section. \cite{on_distributed_comm_networks_1964}, along the
+definition of decentralized system, the paper also describes many other metrics regarding how
+survivable a network is, under certain attacks.
+
+Next, \cite{Diffie_Hellman_1976} famously introduced what is know as Diffie-Hellman Key Exchange,
+which is the backbone of public key encryption. \cite{Diffie_Hellman_1976} is heavily inspired by
+the work of \cite{Merkle_1978}, which all together form the digital signature scheme which is
+heavily used in all blockchain systems \footnote{Many of these works were deemed military
+applications at the time, hence the release dates are what is referred to as the "public dates", not
+the original, potentially concealed dates.}.
+
+Moreover, even the idea of blockchain itself heavily predates bitcoin. The idea of chaining data
+together, whilst placing the some digest of the previous piece (i.e. a \textit{hash} thereof) in the
+header of the next one was first introduced in \cite{Timestamping_1991}. This, in fact, is exactly
+the underlying reason that a blockchain, as a data structure, can be seen as a append-only, tamper
+proof ledger. Any change to previous blocks will break the hash chain and cause the hash of the
+latest block to become different, making any changes to the history of the data structure
+identifiable, hence \textit{tamper-proof}.
+
+Finally, \cite{Chaum_Fiat_Naor_1990} introduced the idea of using the digital computers as a means
+of currency in 1990, as an alternative to the rise of credit carts at the time. There were a number
+of problems with this approach, including the famous double spend problem, in which an entity can
+spend one unit of cash currency numerous times. Finally, an unknown scientist, who used the name
+Satoshi Nakatomo as an alternative, released the first draft of bitcoin whitepaper, in which he
+proposed proof of work as a means of solving the double spend problem, among other details and
+improvements \cite{Nakamoto}. Soon after, the first implementation of bitcoin followed.
 
 \subsection{Basic Concepts}
 
-\subsubsection{Peer to Peer Network}
-\subsubsection{Key-Value Database}
-\subsubsection{Trie and Storage Root}
-\subsubsection{Consensus}
-\subsubsection{Hash Functions}
+Having known where the blockchain's idea originates from, and which fields of previous knowledge in
+the last half a decade it aggregates, we can now have a closer look at these technologies and
+eventually build up a clear and detailed understanding of what a blockchain is and how it works.
+
 \subsubsection{Elliptic Curve Cryptography}
-\subsubsection{Binary Encoding - Parity Scale Codec}
+
+- secp
+- edcsa vs schnorr
+
+\subsubsection{Hash Functions}
+
+- what a has function is
+- Blake
+
+\subsubsection{Peer to Peer Network}
+
+- Distributed in the network layer. Noes typically have the same role, although this is not
+absolute.
+- gossip messages/transaction/blocks.
+
+\subsubsection{Key-Value Database}
+
+- just a database
+- transaction is the way to update it.
+
 \subsubsection{Transactions and Signatures}
+
+- it needs to be accountable.
+
+\subsubsection{Blocks}
+
+- bundle of transaction + header + chained by a hash to the previous one.
+
+\subsubsection{Trie and Storage Root}
+
+\subsubsection{Consensus and Block Authoring}
+
 \subsubsection{Transaction Queue}
 
-\subsubsection{Blocks and Block Authoring}
+\subsubsection{Binary Encoding - Parity Scale Codec}
+
 
 \subsection{Putting it All Together: Decentralized State Transition Logic}
 
+\subsubsection{Disclaimer: The Context of Technology}
+
+Mention that some of this technology might vary from chain to chain, and that we do our best to stay
+neutral. When having to decide, we adhere to Substrate's standards, since we will be using the same
+underlying libraries as it does, and since it is the best blockchain framework of the time that
+allows us to experiment outside the scope.
+
 \section{Speeding up a Blockchain: A Broad Perspective} \label{chap_bg:sec:ways_to_speedup}
 
-Blockchains are arguably among the most sophisticated peer-to-peer software deployed to date. They provide a trust-less environment in which different types of applications can be deployed. The early chains mostly adopted the application of being a digital currency, also known as \textit{cryptocurrency}. Bitcoin \cite{Nakamoto} was the pioneering cryptocurrency, announced in 2009. Nonetheless, soon thereafter, other chains were designed and released that could function in a more generic way. Ethereum \cite{etherwhite}, was the first of such chains that was programmable via the notion of smart-contracts, small scripts that were stored on-chain and executed upon receiving particular transactions. In the broad term, regardless of the application, the blockchain can be seen as a distributed application which can be executed by the means of submitting a \textit{transaction} to any of the nodes in its peer-to-peer network.
+Blockchains are arguably among the most sophisticated peer-to-peer software deployed to date. They
+provide a trust-less environment in which different types of applications can be deployed. The early
+chains mostly adopted the application of being a digital currency, also known as
+\textit{cryptocurrency}. Bitcoin \cite{Nakamoto} was the pioneering cryptocurrency, announced in
+2009. Nonetheless, soon thereafter, other chains were designed and released that could function in a
+more generic way. Ethereum \cite{etherwhite}, was the first of such chains that was programmable via
+the notion of smart-contracts, small scripts that were stored on-chain and executed upon receiving
+particular transactions. In the broad term, regardless of the application, the blockchain can be
+seen as a distributed application which can be executed by the means of submitting a
+\textit{transaction} to any of the nodes in its peer-to-peer network.
 
-The blockchain industry brought a great deal of hype with it. This, to some extent caused many of the underlying technologies that power blockchains to grow at a fast pace. Most notably, many peer to peer technologies have observed a significant advent rate\footnote{A simple query in google trends for terms such as "bitcoin", "blockchain" and "peer-to-peer" can show a direct correlation between the rise of bitcoin and the rest of the keywords}. Nonetheless, one area is still lacking behind, which is their relatively poor \textit{performance}. Some blockchain networks that are active today cannot exceed an overall throughput of more than a few dozens of transactions per second on average. This concern is the basis of this thesis. 
+The blockchain industry brought a great deal of hype with it. This, to some extent caused many of
+the underlying technologies that power blockchains to grow at a fast pace. Most notably, many peer
+to peer technologies have observed a significant advent rate\footnote{A simple query in google
+trends for terms such as "bitcoin", "blockchain" and "peer-to-peer" can show a direct correlation
+between the rise of bitcoin and the rest of the keywords}. Nonetheless, one area is still lacking
+behind, which is their relatively poor \textit{performance}. Some blockchain networks that are
+active today cannot exceed an overall throughput of more than a few dozens of transactions per
+second on average. This concern is the basis of this thesis.
 
-In the next section, we will briefly survey some of the ways through which the throughput of a blockchain can be improved, and delineate which approach we will be focusing on for the rest of this thesis. Moreover, we will extract our exact research question from this brief survey. Note that we will not explain some blockchain concepts in-depth at this point and leave that for chapter \ref{chap:background}.
+In the next section, we will briefly survey some of the ways through which the throughput of a
+blockchain can be improved, and delineate which approach we will be focusing on for the rest of this
+thesis. Moreover, we will extract our exact research question from this brief survey. Note that we
+will not explain some blockchain concepts in-depth at this point and leave that for chapter
+\ref{chap:background}.
 
 
-As mentioned, blockchains can be seen, in a very broad way, and from a transaction processing point of view, as a \textit{decentralized transaction processing network}. The throughput of a blockchain network, in transaction's per second, is a function of numerous components and can be analysed from different points of view. While in this work we focus mainly on one aspect, it is helpful to enumerate all viewpoints and see how they each affect the overall performance.
+As mentioned, blockchains can be seen, in a very broad way, and from a transaction processing point
+of view, as a \textit{decentralized transaction processing network}. The throughput of a blockchain
+network, in transaction's per second, is a function of numerous components and can be analysed from
+different points of view. While in this work we focus mainly on one aspect, it is helpful to
+enumerate all viewpoints and see how they each affect the overall performance.
 
 \subsection{Consensus and Block Authoring}
 
-The consensus algorithm is the means by which the nodes in the network align their viewpoints on the state of the world, and come to agreement about it. Similarly, the nodes in the network must also decide when and who will have permission to alter the state, i.e. take the role of \textit{author}. Two common consensus protocols are Proof-Of-\textbf{Work} (henceforth denoted as POW) and Proof-Of-\textbf{Stake} (henceforth denoted as POS). They use the computation power (\textit{work}) and a number of bonded tokens (\textit{stake}) as their guarantees that the author was indeed eligible for authoring a block. Without getting into further details about each protocols, what we care about is the fact that each of these consensus protocols has an \textit{inherently} different performance \cite{survey_on_all}. POW, as the names suggests, requires the author to prove their legitimacy by providing a proof that they have solved a particular hashing puzzle. This is slow by nature, and wastes a lot of computation power on each node that wants to produce blocks, which in turn can have a negative impact on the transaction throughput. Making this process faster requires the network to agree on an easier POW puzzle that can in turn make the system less secure \cite{security_of_bitcoin}. More precisely, the difficulty of the puzzle dictates the average time any node needs to spend to be able to produce a block, which dictates the final throughput. 
+The consensus algorithm is the means by which the nodes in the network align their viewpoints on the
+state of the world, and come to agreement about it. Similarly, the nodes in the network must also
+decide when and who will have permission to alter the state, i.e. take the role of \textit{author}.
+Two common consensus protocols are Proof-Of-\textbf{Work} (henceforth denoted as POW) and
+Proof-Of-\textbf{Stake} (henceforth denoted as POS). They use the computation power (\textit{work})
+and a number of bonded tokens (\textit{stake}) as their guarantees that the author was indeed
+eligible for authoring a block. Without getting into further details about each protocols, what we
+care about is the fact that each of these consensus protocols has an \textit{inherently} different
+performance \cite{survey_on_all}. POW, as the names suggests, requires the author to prove their
+legitimacy by providing a proof that they have solved a particular hashing puzzle. This is slow by
+nature, and wastes a lot of computation power on each node that wants to produce blocks, which in
+turn can have a negative impact on the transaction throughput. Making this process faster requires
+the network to agree on an easier POW puzzle that can in turn make the system less secure
+\cite{security_of_bitcoin}. More precisely, the difficulty of the puzzle dictates the average time
+any node needs to spend to be able to produce a block, which dictates the final throughput.
 
-To the contrary, POS does not need this this fruitless puzzle solving, which is beneficial in terms of computation resources. Moreover, since the chance of any node being the author is determined by their stake. Thus, a smaller block-time is not insecure by itself. 
+To the contrary, POS does not need this this fruitless puzzle solving, which is beneficial in terms
+of computation resources. Moreover, since the chance of any node being the author is determined by
+their stake. Thus, a smaller block-time is not insecure by itself.
 
-All in all, one general approach towards increasing the throughput of a blockchain is to \textit{re-think the consensus and block authoring mechanisms} that dictate when blocks are added to the chain, and by whom, with what frequency. It is crucially important to note that any approach in this domain falls somewhere in the spectrum of centralized-decentralized, where most often approaches that are more centralized will be more capable of delivering better performance, yet they do not have any of the security and immutability guarantees of a blockchain. 
+All in all, one general approach towards increasing the throughput of a blockchain is to
+\textit{re-think the consensus and block authoring mechanisms} that dictate when blocks are added to
+the chain, and by whom, with what frequency. It is crucially important to note that any approach in
+this domain falls somewhere in the spectrum of centralized-decentralized, where most often
+approaches that are more centralized will be more capable of delivering better performance, yet they
+do not have any of the security and immutability guarantees of a blockchain.
 
-In this work transcend from this point of view and will look at a different component of a blockchain system which is completely independent of the underlying consensus. The main reason for this is that this is entirely different domain of research compared to our proposed approach, concurrency.
+In this work transcend from this point of view and will look at a different component of a
+blockchain system which is completely independent of the underlying consensus. The main reason for
+this is that this is entirely different domain of research compared to our proposed approach,
+concurrency.
 
 \subsection{Chain Topology}
 
-Another approach is changing the nature of the chain topology. A classical blockchain is theoretically limited due to the fact that only one entity can append to the block at each time. This property will bring extra security and make the chain state easier to reason about (i.e. there is only one cannon chain). A radical approach is to question this property and allow different blocks to be mined at the same time. Consequently, this turn a blockchain from a literal \textit{chain of blocks} into a \textit{graph of nodes}. Hence, most often such technologies are referred to Directed Acyclic Graphs, \textbf{DAG} in short, solutions. 
+Another approach is changing the nature of the chain topology. A classical blockchain is
+theoretically limited due to the fact that only one entity can append to the block at each time.
+This property will bring extra security and make the chain state easier to reason about (i.e. there
+is only one cannon chain). A radical approach is to question this property and allow different
+blocks to be mined at the same time. Consequently, this turn a blockchain from a literal
+\textit{chain of blocks} into a \textit{graph of nodes}. Hence, most often such technologies are
+referred to Directed Acyclic Graphs, \textbf{DAG} in short, solutions.
 
-Such approaches will bring even more radical changes to the original defisoi
+Such approaches will bring even more radical changes to the original
 
 \subsection{Sharding}
 
 \subsection{Networking}
 
-Further factors can exist, but not for a general purpose blockchain, hence we 
+Further factors can exist, but not for a general purpose blockchain, hence we
 
 \subsection{Summary: Any push forward toward better performance is added value} \label{chap_bg:subsec:summary_speedup}
 
 
-\section{Concurrency}
+\section{Concurrency} \label{chap_bg:sec:concurrency}
 
 \subsection{Locking, RW-Locks and more.}
 \subsection{Software Transactional Memory}
