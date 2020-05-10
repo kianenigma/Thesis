@@ -67,6 +67,18 @@
 \newblock {\bf Bitcoin: A Peer-to-Peer Electronic Cash System}.
 \newblock page~9.
 
+\bibitem{Brumley_Tuveri_2011_remote_timing_ecdsa}
+{\sc Billy~Bob Brumley and Nicola Tuveri}.
+\newblock \href{https://eprint.iacr.org/2011/232}{{\em Remote Timing Attacks
+  are Still Practical}}.
+\newblock Number 232. 2011.
+
+\bibitem{HMAC_Bellare_Canetti_Krawczyk_1996}
+{\sc Mihir Bellare, Ran Canetti, and Hugo Krawczyk}.
+\newblock {\bf Keying Hash Functions for Message Authentication}.
+\newblock In {\sc Neal Koblitz}, editor, {\em Advances in Cryptology — CRYPTO
+  ’96}, Lecture Notes in Computer Science, page 1–15. Springer, 1996.
+
 \bibitem{etherwhite}
 {\sc Vitalik Buterin}.
 \newblock \href{https://github.com/ethereum/wiki/wiki/White-Paper}{{\bf

@@ -17,45 +17,47 @@ The style file: Latex/Classes/PhDbiblio-url2.bst
 Database file #1: 7_references/references.bib
 Warning--empty journal in Nakamoto
 Warning--empty year in Nakamoto
-You've used 13 entries,
+Warning--there's a number but no series in Brumley_Tuveri_2011_remote_timing_ecdsa
+Warning--empty publisher in Brumley_Tuveri_2011_remote_timing_ecdsa
+You've used 15 entries,
             2776 wiz_defined-function locations,
-            716 strings with 7716 characters,
-and the built_in function-call counts, 5479 in all, are:
-= -- 571
-> -- 166
-< -- 3
-+ -- 67
-- -- 53
-* -- 356
-:= -- 822
-add.period$ -- 41
-call.type$ -- 13
-change.case$ -- 52
+            732 strings with 8162 characters,
+and the built_in function-call counts, 6454 in all, are:
+= -- 677
+> -- 201
+< -- 5
++ -- 80
+- -- 64
+* -- 412
+:= -- 961
+add.period$ -- 49
+call.type$ -- 15
+change.case$ -- 61
 chr.to.int$ -- 0
-cite$ -- 15
-duplicate$ -- 220
-empty$ -- 514
-format.name$ -- 53
-if$ -- 1333
+cite$ -- 19
+duplicate$ -- 265
+empty$ -- 600
+format.name$ -- 64
+if$ -- 1580
 int.to.chr$ -- 0
-int.to.str$ -- 13
-missing$ -- 12
-newline$ -- 68
-num.names$ -- 28
-pop$ -- 110
+int.to.str$ -- 15
+missing$ -- 15
+newline$ -- 78
+num.names$ -- 34
+pop$ -- 131
 preamble$ -- 1
-purify$ -- 52
+purify$ -- 61
 quote$ -- 0
-skip$ -- 346
+skip$ -- 411
 stack$ -- 0
-substring$ -- 236
-swap$ -- 86
-text.length$ -- 3
+substring$ -- 258
+swap$ -- 108
+text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 50
-warning$ -- 2
-while$ -- 36
-width$ -- 15
-write$ -- 142
-(There were 2 warnings)
+type$ -- 56
+warning$ -- 4
+while$ -- 42
+width$ -- 17
+write$ -- 165
+(There were 4 warnings)

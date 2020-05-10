@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.5.9)  9 MAY 2020 13:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.5.9)  10 MAY 2020 14:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -686,12 +686,12 @@ Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 ) ABD: EveryShipout initializing macros
-<0_frontmatter/figures/vu-griffioen.pdf, id=199, 597.23125pt x 845.1575pt>
+<0_frontmatter/figures/vu-griffioen.pdf, id=208, 597.23125pt x 845.1575pt>
 File: 0_frontmatter/figures/vu-griffioen.pdf Graphic file (type pdf)
 <use 0_frontmatter/figures/vu-griffioen.pdf>
 Package pdftex.def Info: 0_frontmatter/figures/vu-griffioen.pdf  used on input line 80.
 (pdftex.def)             Requested size: 50.25821pt x 71.13188pt.
-<0_frontmatter/figures/uva_logo.jpg, id=200, 481.8pt x 481.8pt>
+<0_frontmatter/figures/uva_logo.jpg, id=209, 481.8pt x 481.8pt>
 File: 0_frontmatter/figures/uva_logo.jpg Graphic file (type jpg)
 <use 0_frontmatter/figures/uva_logo.jpg>
 Package pdftex.def Info: 0_frontmatter/figures/uva_logo.jpg  used on input line 82.
@@ -750,7 +750,7 @@ l.190 \tableofcontents
 ] (/Users/kianenigma/Desktop/VU/Thesis/main.tocpdfTeX warning (ext4): destination with the same identifier (name{page.iii}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.29 ...ance is added value}{10}{subsection.2.2.5}
+l.29 ...ine {2.2.3}Sharding}{16}{subsection.2.2.3}
                                                   % [3])
 \tf@toc=\write6
 \openout6 = `main.toc'.
@@ -808,81 +808,85 @@ Package hyperref Info: bookmark level for unknown todo defaults to 0 on input li
 
 ]
  2.
-[5] [6] [7] [8] [9]) [10]
+[5] [6] [7] [8] [9] [10]
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 238.
+ (/usr/local/texlive/2020basic/texmf-dist/tex/latex/base/t1cmtt.fd
+File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+) [11] [12] [13] [14] [15]) [16]
 \openout2 = `3_design_implementation/lib.aux'.
 
  (/Users/kianenigma/Desktop/VU/Thesis/3_design_implementation/lib.tex
  3.
-) [11
+) [17
 
 
 
 ]
 \openout2 = `4_benchmarks_analysis/lib.aux'.
 
- (/Users/kianenigma/Desktop/VU/Thesis/4_benchmarks_analysis/lib.tex [12
+ (/Users/kianenigma/Desktop/VU/Thesis/4_benchmarks_analysis/lib.tex [18
 
 
 
 ]
  4.
-) [13]
+) [19]
 \openout2 = `5_discussion_related/lib.aux'.
 
- (/Users/kianenigma/Desktop/VU/Thesis/5_discussion_related/lib.tex [14
+ (/Users/kianenigma/Desktop/VU/Thesis/5_discussion_related/lib.tex [20
 
 
 
 ]
  5.
-) [15]
+) [21]
 \openout2 = `6_conclusion/lib.aux'.
 
- (/Users/kianenigma/Desktop/VU/Thesis/6_conclusion/lib.tex [16
+ (/Users/kianenigma/Desktop/VU/Thesis/6_conclusion/lib.tex [22
 
 
 
 ]
  6.
-) [17]
+) [23]
 \openout2 = `9_appendix/appendix.aux'.
 
- (/Users/kianenigma/Desktop/VU/Thesis/9_appendix/appendix.tex [18
+ (/Users/kianenigma/Desktop/VU/Thesis/9_appendix/appendix.tex [24
 
 
 
-]) [19] (/Users/kianenigma/Desktop/VU/Thesis/main.bbl (/Users/kianenigma/Desktop/VU/Thesis/main.brf)
+]) [25] (/Users/kianenigma/Desktop/VU/Thesis/main.bbl (/Users/kianenigma/Desktop/VU/Thesis/main.brf)
 \tf@brf=\write9
 \openout9 = `main.brf'.
 
- [20
+ [26
 
 
-] [21]) [22]
+] [27]) [28]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 302.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 302.
  (/Users/kianenigma/Desktop/VU/Thesis/main.aux (/Users/kianenigma/Desktop/VU/Thesis/0_frontmatter/prelude.aux) (/Users/kianenigma/Desktop/VU/Thesis/0_frontmatter/abstract.aux) (/Users/kianenigma/Desktop/VU/Thesis/0_frontmatter/dedication.aux) (/Users/kianenigma/Desktop/VU/Thesis/0_frontmatter/acknowledgement.aux) (/Users/kianenigma/Desktop/VU/Thesis/0_frontmatter/glossary.aux) (/Users/kianenigma/Desktop/VU/Thesis/1_introduction/lib.aux) (/Users/kianenigma/Desktop/VU/Thesis/2_background/lib.aux) (/Users/kianenigma/Desktop/VU/Thesis/3_design_implementation/lib.aux) (/Users/kianenigma/Desktop/VU/Thesis/4_benchmarks_analysis/lib.aux) (/Users/kianenigma/Desktop/VU/Thesis/5_discussion_related/lib.aux) (/Users/kianenigma/Desktop/VU/Thesis/6_conclusion/lib.aux) (/Users/kianenigma/Desktop/VU/Thesis/9_appendix/appendix.aux))
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 302.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 302.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 09E1336ED9E9E860C747EEDD16ABFBF3;3726.
+(rerunfilecheck)             Checksum: 551399CC746B2EC98C9E4453D9016DB0;3923.
 Package rerunfilecheck Info: File `main.brf' has not changed.
-(rerunfilecheck)             Checksum: 02E0D6641BA9D8F88AC85741ABAE63EF;1062.
+(rerunfilecheck)             Checksum: 8ADE2F468DA5483DCCC4FC44A3ECDC59;1239.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 302.
  ) 
 Here is how much of TeX's memory you used:
- 20002 strings out of 482056
- 375886 string characters out of 5937676
- 620525 words of memory out of 5000000
- 35021 multiletter control sequences out of 15000+600000
- 554648 words of font info for 79 fonts, out of 8000000 for 9000
+ 20031 strings out of 482056
+ 376723 string characters out of 5937676
+ 620150 words of memory out of 5000000
+ 35025 multiletter control sequences out of 15000+600000
+ 556765 words of font info for 83 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 68i,12n,82p,980b,802s stack positions out of 5000i,500n,10000p,200000b,80000s
- </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1095.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0900.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx0600.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0600.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbi1095.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0800.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx2488.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1095.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx2074.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.600pk>
-Output written on /Users/kianenigma/Desktop/VU/Thesis/main.pdf (36 pages, 269895 bytes).
+ 68i,12n,82p,980b,880s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1095.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx0900.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti0900.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1095.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0900.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx0600.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0600.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbi1095.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0800.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx2488.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1095.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx2074.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600pk> </Users/kianenigma/Library/texlive/2020basic/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.600pk></usr/local/texlive/2020basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2020basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb>
+Output written on /Users/kianenigma/Desktop/VU/Thesis/main.pdf (42 pages, 315222 bytes).
 PDF statistics:
- 1152 PDF objects out of 1200 (max. 8388607)
- 535 compressed objects within 6 object streams
- 107 named destinations out of 1000 (max. 500000)
- 407 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1281 PDF objects out of 1440 (max. 8388607)
+ 616 compressed objects within 7 object streams
+ 125 named destinations out of 1000 (max. 500000)
+ 423 words of extra memory for PDF output out of 10000 (max. 10000000)
 

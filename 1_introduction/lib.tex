@@ -38,17 +38,18 @@ Blockchains are indeed an interesting topic in 2020. Some people skeptically see
 controversial, or merely a "hyped hoax", and doubt that they will ever deliver much real value to
 the world. On the other hand, many believe that it is a revolutionary technology that will shape our
 future societies, much like the internet and how it has impacted many aspect of how we live in the
-last few decades \cite{will_blockchain_be_big_deal}.
+last few decades \cite{will_blockchain_be_big_deal}. \todo[inline]{make this reverse: first say the
+positive side and then negative.}
 
 In a very broad term, a blockchain is a tamper-proof, append-only ledger that is being maintained in
 a decentralized fashion, and can only be updated once everyone agrees upon that change as a bundle
 of transactions. This bundle of transactions is called a \textbf{block}. Once this block is agreed
 upon, it is appended (aka. \textit{chained}) to the ledger, hence the term block-\textit{chain}.
-Moreover, the ledger itself is public and openly accessible to everyone. This means that everyone
-can verify and check the ledger and the transaction and block history, should they need to do it. At
-the same time asymmetric cryptography is the core identity indicator that one needs to interact with
-the chain, meaning that your personal identity can stay private in principle, if that is desired
-based on the circumstance.
+Moreover, the ledger itself is public and openly accessible to anyone. This means that everyone can
+verify and check the final state of the ledger and all the transactions and blocks in its past that
+lead to this particular ledger state, to verify everything. At the same time asymmetric cryptography
+is the core identity indicator that one needs to interact with the chain, meaning that your personal
+identity can stay private in principle, if that is desired based on the circumstance.
 
 In some sense, blockchains are revolutionary because they remove the need for \textit{trust}, and
 release it from the control of one entity (i.e. a single bank or institute), by encoding it as a
@@ -69,7 +70,8 @@ ledger, requires synchronization, serialization, or generally other procedures t
 reduce the throughput at which the chain can process transactions. This, to some extent, contributes
 to the skepticism mentioned in at the beginning of this chapter. For example, Bitcoin, one of the
 famous deployed blockchains to date, consumes a lot of resources to operate, and cannot exceed a
-transaction throughput of more than half a dozen transactions per second \cite{security_of_bitcoin}.
+transaction throughput of more than half a dozen transactions per second, yet at the same time it
+consumes a \textit{lot} of computation power to operate correctly \cite{security_of_bitcoin}.
 
 Hence, we see it as in important goal to investigate the possibilities through which a blockchain
 system can be enhanced to perform \textit{faster}, and more \textit{efficiently}.
@@ -91,13 +93,14 @@ approaches could have their own merit and value, and how they differ with one an
      \item What approaches exist to deploy concurrency methods in the realm of blockchains, when
      seen as a generic decentralized transaction processing systems?
      \item How deficient and reasonable are each these approaches, given that different blockchains
-     can have radically different transaction types and concurrency requirements.
+	 can have radically different transaction types and concurrency requirements.
+	 \item \todo[inline]{potentially more, write and rephrase as you proceed.}
  \end{enumerate}
 
 \section{Rest of this work}
 
 The first half of this work leads the way toward our proposed approach to solving the aforementioned
-research question. \todo{should I say in this work or this thesis or our work or our thesis?}. In
+research question. \todo[inline]{should I say in this work or this thesis or our work or our thesis?}. In
 chapter \ref{chap:background}, we dive deep into the two pillars of background knowledge that we
 need to answer the above questions: blockchains and concurrency. First, we will clarify what exactly
 a blockchain is in section. Then, having known this, we can have a 100-feet view into a blockchain
