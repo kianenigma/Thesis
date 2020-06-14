@@ -67,6 +67,13 @@
 \newblock {\bf Bitcoin: A Peer-to-Peer Electronic Cash System}.
 \newblock page~9.
 
+\bibitem{pow_Dwork_Naor_1993}
+{\sc Cynthia Dwork and Moni Naor}.
+\newblock {\bf Pricing via Processing or Combatting Junk Mail}.
+\newblock In {\sc Ernest~F. Brickell}, editor, {\em Advances in Cryptology —
+  CRYPTO’ 92}, Lecture Notes in Computer Science, page 139–147. Springer,
+  1993.
+
 \bibitem{Brumley_Tuveri_2011_remote_timing_ecdsa}
 {\sc Billy~Bob Brumley and Nicola Tuveri}.
 \newblock \href{https://eprint.iacr.org/2011/232}{{\em Remote Timing Attacks
@@ -79,12 +86,46 @@
 \newblock In {\sc Neal Koblitz}, editor, {\em Advances in Cryptology — CRYPTO
   ’96}, Lecture Notes in Computer Science, page 1–15. Springer, 1996.
 
-\bibitem{etherwhite}
-{\sc Vitalik Buterin}.
-\newblock \href{https://github.com/ethereum/wiki/wiki/White-Paper}{{\bf
-  Ethereum: A next-generation smart contract and decentralized application
-  platform}}, 2014.
-\newblock Accessed: 2020-05-03.
+\bibitem{quic}
+{\sc Gaetano Carlucci, Luca De~Cicco, and Saverio Mascolo}.
+\newblock \href{https://doi.org/10.1145/2695664.2695706}{{\bf HTTP over UDP: an
+  experimental investigation of QUIC}}.
+\newblock In {\em Proceedings of the 30th Annual ACM Symposium on Applied
+  Computing}, SAC ’15, page 609–614. Association for Computing Machinery,
+  Apr 2015.
+
+\bibitem{Lamport_Shostak_Pease_1982}
+{\sc Leslie Lamport, Robert Shostak, and Marshall Pease}.
+\newblock {\bf The Byzantine Generals Problem}.
+\newblock {\em ACM Transactions on Programming Languages and Systems}, {\bf
+  4}(3):382–401, Jul 1982.
+
+\bibitem{btc_carbon}
+{\sc Christian Stoll, Lena Klaaßen, and Ulrich Gallersdörfer}.
+\newblock {\bf The Carbon Footprint of Bitcoin}.
+\newblock {\em Joule}, {\bf 3}(7):1647–1661, Jul 2019.
+
+\bibitem{survey_consensus_Wang_Hoang_Hu_Xiong2019}
+{\sc Wenbo Wang, Dinh~Thai Hoang, Peizhao Hu, Zehui Xiong, Dusit Niyato, Ping
+  Wang, Yonggang Wen, and Dong~In Kim}.
+\newblock {\bf A Survey on Consensus Mechanisms and Mining Strategy Management
+  in Blockchain Networks}.
+\newblock {\em IEEE Access}, {\bf 7}:22328–22370, 2019.
+
+\bibitem{dao_hack}
+{\sc Paul Vigna}.
+\newblock
+  \href{https://blogs.wsj.com/moneybeat/2016/08/01/the-great-digital-currency-debate-new-ethereum-vs-ethereum-classic/}{{\bf
+  The Great Digital-Currency Debate: ‘New’ Ethereum Vs. Ethereum
+  ‘Classic’}}, Aug 2016.
+
+\bibitem{Merkle_1988_tree}
+{\sc Ralph~C. Merkle}.
+\newblock {\bf A Digital Signature Based on a Conventional Encryption
+  Function}.
+\newblock In {\sc Carl Pomerance}, editor, {\em Advances in Cryptology —
+  CRYPTO ’87}, Lecture Notes in Computer Science, page 369–378. Springer,
+  1988.
 
 \bibitem{survey_on_all}
 {\sc Alessio Meneghetti, Tommaso Parise, Massimiliano Sala, and Daniele
@@ -93,5 +134,33 @@
   parallelization of blockchain-based smart contracts}}.
 \newblock {\em arXiv:1904.00731 [cs]}, Feb 2019.
 \newblock arXiv: 1904.00731.
+
+\bibitem{Dodis_Yampolskiy_2005_VRF}
+{\sc Yevgeniy Dodis and Aleksandr Yampolskiy}.
+\newblock {\bf A Verifiable Random Function with Short Proofs and Keys}.
+\newblock In {\sc Serge Vaudenay}, editor, {\em Public Key Cryptography - PKC
+  2005}, Lecture Notes in Computer Science, page 416–431. Springer, 2005.
+
+\bibitem{Forestier_Vodenicarevic_Laversanne_Finot_2019_block_qlique}
+{\sc Sébastien Forestier, Damir Vodenicarevic, and Adrien Laversanne-Finot}.
+\newblock \href{http://arxiv.org/abs/1803.09029}{{\bf Blockclique: scaling
+  blockchains through transaction sharding in a multithreaded block graph}}.
+\newblock {\em arXiv:1803.09029 [cs]}, Sep 2019.
+\newblock arXiv: 1803.09029.
+
+\bibitem{Al_Bassam_Sonnino_Bano_Hrycyszyn_Danezis_2017_chainspace}
+{\sc Mustafa Al-Bassam, Alberto Sonnino, Shehar Bano, Dave Hrycyszyn, and
+  George Danezis}.
+\newblock \href{http://arxiv.org/abs/1708.03778}{{\bf Chainspace: A Sharded
+  Smart Contracts Platform}}.
+\newblock {\em arXiv:1708.03778 [cs]}, Aug 2017.
+\newblock arXiv: 1708.03778.
+
+\bibitem{Shrey_Singh_Sathya_Yogesh_2019_diep_trans}
+{\sc Baheti Shrey, Anjana~Parwat Singh, Peri Sathya, and Simmhan Yogesh}.
+\newblock \href{http://arxiv.org/abs/1906.11721}{{\bf DiPETrans: A Framework
+  for Distributed Parallel Execution of Transactions of Blocks in Blockchain}}.
+\newblock {\em arXiv:1906.11721 [cs]}, Jun 2019.
+\newblock arXiv: 1906.11721.
 
 \end{thebibliography}

@@ -23,6 +23,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{array}
 \usepackage{pdfpages}
+\usepackage{amsthm}
 
 % for inspirational quotes
 \makeatletter
@@ -37,6 +38,14 @@
 
 % command for todo
 \newcommand\mustdo[1]{\textcolor{red}{#1}}
+
+% For definitions
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
 
 % and this is a more sophisticated version of the same
 %

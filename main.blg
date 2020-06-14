@@ -19,45 +19,45 @@ Warning--empty journal in Nakamoto
 Warning--empty year in Nakamoto
 Warning--there's a number but no series in Brumley_Tuveri_2011_remote_timing_ecdsa
 Warning--empty publisher in Brumley_Tuveri_2011_remote_timing_ecdsa
-You've used 15 entries,
+You've used 25 entries,
             2776 wiz_defined-function locations,
-            732 strings with 8162 characters,
-and the built_in function-call counts, 6454 in all, are:
-= -- 677
-> -- 201
-< -- 5
-+ -- 80
-- -- 64
-* -- 412
-:= -- 961
-add.period$ -- 49
-call.type$ -- 15
-change.case$ -- 61
+            814 strings with 10777 characters,
+and the built_in function-call counts, 11845 in all, are:
+= -- 1260
+> -- 412
+< -- 9
++ -- 167
+- -- 135
+* -- 758
+:= -- 1730
+add.period$ -- 85
+call.type$ -- 25
+change.case$ -- 115
 chr.to.int$ -- 0
-cite$ -- 19
-duplicate$ -- 265
-empty$ -- 600
-format.name$ -- 64
-if$ -- 1580
+cite$ -- 29
+duplicate$ -- 497
+empty$ -- 1040
+format.name$ -- 135
+if$ -- 2898
 int.to.chr$ -- 0
-int.to.str$ -- 15
-missing$ -- 15
-newline$ -- 78
-num.names$ -- 34
-pop$ -- 131
+int.to.str$ -- 25
+missing$ -- 25
+newline$ -- 130
+num.names$ -- 60
+pop$ -- 220
 preamble$ -- 1
-purify$ -- 61
+purify$ -- 115
 quote$ -- 0
-skip$ -- 411
+skip$ -- 769
 stack$ -- 0
-substring$ -- 258
-swap$ -- 108
-text.length$ -- 5
+substring$ -- 485
+swap$ -- 228
+text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 56
+type$ -- 96
 warning$ -- 4
-while$ -- 42
-width$ -- 17
-write$ -- 165
+while$ -- 72
+width$ -- 27
+write$ -- 284
 (There were 4 warnings)
