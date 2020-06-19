@@ -6,6 +6,11 @@
 \newblock {\em Journal of Applied Corporate Finance}, {\bf 31}(4):98–104,
   2019.
 
+\bibitem{Goldreich_Oren_1994_ZK}
+{\sc Oded Goldreich and Yair Oren}.
+\newblock {\bf Definitions and properties of zero-knowledge proof systems}.
+\newblock {\em Journal of Cryptology}, {\bf 7}(1):1–32, Dec 1994.
+
 \bibitem{security_of_bitcoin}
 {\sc Arthur Gervais, Ghassan~O. Karame, Karl Wüst, Vasileios Glykantzis,
   Hubert Ritzdorf, and Srdjan Capkun}.

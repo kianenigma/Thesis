@@ -21,7 +21,8 @@ aspect of how we live in the last few decades \cite{will_blockchain_be_big_deal}
 highly sophisticated and inter-disciplinary software artifacts, achieving high levels of
 decentralization and security, which was deemed impossible so far. To the contrary, some people
 skeptically see them as controversial, or merely a "hyped hoax", and doubt that they will ever
-deliver much real value to the world. Nonetheless, through the rest of this chapter and this work overall, we provide ample reasoning to justify why we think otherwise. 
+deliver much real value to the world. Nonetheless, through the rest of this chapter and this work
+overall, we provide ample reasoning to justify why we think otherwise.
 
 In a very broad term, a blockchain is a tamper-proof, append-only ledger that is being maintained in
 a decentralized fashion, and can only be updated once everyone agrees upon that change as a bundle
@@ -30,8 +31,10 @@ upon, it is appended (aka. \textit{chained}) to the ledger, hence the term block
 Moreover, the ledger itself is public and openly accessible to anyone. This means that everyone can
 verify and check the final state of the ledger, and all the transactions and blocks in its past that
 lead to this particular ledger state, to verify everything. At the same time asymmetric cryptography
-is the core identity indicator that one needs to interact with the chain, meaning that one's personal
-identity can stay private in principle, if that is desired based on the circumstances. For example, one can share the proof of owning some data, without actually sharing the data itself, typically known as zero knowledge proofs \cite{Goldreich_Oren_1994_ZK}.
+is the core identity indicator that one needs to interact with the chain, meaning that one's
+personal identity can stay private in principle, if that is desired based on the circumstances. For
+example, one can share the proof of owning some data, without actually sharing the data itself,
+typically known as zero knowledge proofs \cite{Goldreich_Oren_1994_ZK}.
 
 In some sense, blockchains are revolutionary because they remove the need for \textit{trust}, and
 release it from the control of one entity (i.e. a single bank or institute), by encoding it as a
@@ -45,35 +48,43 @@ decentralized manner, in which everyone's privacy is respected, whilst at the sa
 still check the veracity of the ledger, and the software itself. In other words, no single entity
 should be able to have any control over the system.
 
-Now, all of these great properties do not come cheap. Blockchains are extremely complicated
-pieces of software, and they require a great deal of expertise to be written correctly. Moreover,
-many of the machinery used to create this \textit{decentralized} and \textit{public} append-only
-ledger requires synchronization, serialization, or generally other procedures that are likely to decrease the throughput at which the chain can process transactions. This, to some extent, contributes
-to the skepticism about blockchains feasibility. For example, Bitcoin, one of the
-famous deployed blockchains to date, consumes a lot of resources to operate, and cannot exceed a
-transaction throughput of more than half a dozen transactions per second, yet at the same time it
-consumes a \textit{lot} of computation power to operate correctly \cite{security_of_bitcoin}.
+Now, all of these great properties do not come cheap. Blockchains are extremely complicated pieces
+of software, and they require a great deal of expertise to be written correctly. Moreover, many of
+the machinery used to create this \textit{decentralized} and \textit{public} append-only ledger
+requires synchronization, serialization, or generally other procedures that are likely to decrease
+the throughput at which the chain can process transactions. This, to some extent, contributes to the
+skepticism about blockchains' feasibility. For example, Bitcoin, one of the famous deployed
+blockchains to date, consumes a lot of resources to operate, and cannot exceed a transaction
+throughput of more than half a dozen transactions per second \cite{security_of_bitcoin}.
 
-Hence, we see it as an important goal to investigate the possibilities through which a blockchain
+Hence, it is a reasonably useful  goal to investigate the possibilities through which a blockchain
 system can be enhanced to operate \textit{faster}, and more \textit{efficiently}.
 
 \section{Research Question} \label{chap_intro:sec:resarch_q}
 
-We've seen that blockchains are promising in their technology, and unique traits that they can deliver. Yet, they are notoriously slow. Hence, we settle on the \textit{overall} goal of improving the
-\textit{performance} and \textit{efficiency} of a blockchain system. There are numerous ways to
-achieve this goal, such as as redesigning internal protocols within the blockchain to applying concurrency. In this
-thesis, we precisely focus on the latter, enabling concurrency within transactions that are processed
-and then appended to the ledger. Moreover, we do so by leveraging, and mixing the best attributes of two different realms of concurrency, namely static analysis and runtime conflict detection \footnote{By static we mean generally anything which is known at the \textit{compile} phase, and by runtime the the \textit{execution} phase}. This approach is better compared with the other alternatives at the
-end of chapter \ref{chap:background}. We also mention in the same chapter why each of these
-approaches could have their own merit and value, and how they differ with one another.
+We've seen that blockchains are promising in their technology, and unique traits that they can
+deliver. Yet, they are notoriously slow. Hence, we decide to pursue the (initial) goal of improving
+the \textit{efficiency} of a blockchain system. There are numerous ways to
+achieve this goal, such as as redesigning internal protocols within the blockchain to applying
+concurrency. In this thesis, we precisely focus on the latter, enabling concurrency within
+transactions that are processed and then appended to the ledger. Moreover, we do so by leveraging,
+and mixing the best attributes of two different realms of concurrency, namely static analysis and
+runtime conflict detection \footnote{By static we mean generally anything which is known at the
+\textit{compile} phase, and by runtime the the \textit{execution} phase}. This approach is better
+compared with other alternatives in \ref{chap_design:sec:ways_to_speedup}. We also mention in
+the same chapter why each of these approaches could have their own merit and value, and how they
+differ with one another.
 
- All in all, we formulate the following as our research questions:
+Based on this, we formulate the following as our research questions:
 
  \begin{enumerate}
-     \item What approaches exist to achieve concurrent execution of transaction within a blockchain system?
-	 \item How could both static analysis and runtime approaches be combined together to achieve novel approach?
+     \item What approaches exist to achieve concurrent execution of transaction within a blockchain
+     system?
+	 \item How could both static analysis and runtime approaches be combined together to achieve
+	 novel approach?
 	 \item How would such an approach be evaluated against and compared to others?
  \end{enumerate}
 
-The rest of this thesis is organised as follows: \todo[inline]{write once the outline is done. This is not an important paragraph anyhow.}
+The rest of this thesis is organised as follows: \todo[inline]{write once the outline is done. This
+is not an important paragraph anyhow.}
 

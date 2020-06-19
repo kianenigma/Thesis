@@ -1,16 +1,5 @@
 \chapter{Background} \label{chap:background}
 
-
-% ----------------------- paths to graphics ------------------------ change according to folder and
-% file names
-\ifpdf
-    \graphicspath{{7/figures/PNG/}{7/figures/PDF/}{7/figures/}}
-\else
-    \graphicspath{{7/figures/EPS/}{7/figures/}}
-\fi
-% ----------------------- contents from here ------------------------
-%
-
 \begin{chapquote}{David Chum et. al. - 1990}
 ``The use of credit cards today is an act of faith on the part of all concerned. Each party is
 vulnerable to fraud by the others, and the cardholder in particular has no protection against
@@ -19,7 +8,7 @@ surveillance.''
 
 
 In this chapter, we will dive into the background knowledge needed for the rest of this work. Two
-primary pillars of knowledge need to be covered: blockchains in section
+primary pillars of knowledge need to be covered: blockchains and distributed systems in section
 \ref{chap_bg:sec:blockchains} and concurrency, upon which our solution will be articulated, in
 section \ref{chap_bg:sec:concurrency}.
 
@@ -27,8 +16,8 @@ section \ref{chap_bg:sec:concurrency}.
 
 In this section, we will provide an overview about the basics of distributed system, blockchains,
 and their underlying technologies. By the end of this chapter, it is expected that an average reader
-will know enough about blockchain systems to be able to follow the rest of our work in chapter
-\ref{chap:design_and_impl} and onwards.
+will know enough about blockchain systems to be able to follow the rest of our work and design in
+chapter \ref{chap:design} and onwards.
 
 \subsection{Centralized, Decentralized and Distributed Systems}
 
@@ -82,12 +71,12 @@ applications at the time, hence the release dates are what is referred to as the
 the original, potentially concealed dates of their discovery.}.
 
 Moreover, even the idea of blockchain itself predates Bitcoin. The idea of chaining data together,
-whilst placing some digest of the previous piece (i.e. a \textit{hash} thereof) in the header of
-the next one was first introduced in \cite{Timestamping_1991}. This, in fact, is exactly the
-underlying reason that a blockchain, as a data structure, can be seen as a append-only, tamper proof
-ledger. Any change to previous blocks will break the hash chain and cause the hash of the latest
-block to become different, making any changes to the history of the data structure identifiable,
-hence \textit{tamper-proof}.
+whilst placing some digest of the previous piece (i.e. a \textit{hash} thereof) in the header of the
+next one was first introduced in \cite{Timestamping_1991}. This, in fact, is exactly the underlying
+reason that a blockchain, as a data structure, can be seen as a append-only, tamper proof ledger.
+Any change to previous blocks will break the hash chain and cause the hash of the latest block to
+become different, making any changes to the history of the data structure identifiable, hence
+\textit{tamper-proof}.
 
 Finally, \cite{Chaum_Fiat_Naor_1990} introduced the idea of using the digital computers as a means
 of currency in 1990, as an alternative to the rise of credit carts at the time. There were a number
@@ -119,8 +108,8 @@ most modern distributed systems work with another mechanism that is the more nov
 Diffie-Hellman, namely Elliptic Curve Cryptography, ECC for short. Elliptic Curves offer the same
 properties as Diffie-Hellman, with similar security measures, whilst being faster to compute and
 needing smaller key sizes. A key exchange, in short, allows for \textbf{asymmetric cryptography},
-the variant of cryptography that need not any secrete medium to exchange initial keys, hence
-it is truly applicable to distributed systems. In asymmetric cryptography, a key \textit{pair} is
+the variant of cryptography that need not any secrete medium to exchange initial keys, hence it is
+truly applicable to distributed systems. In asymmetric cryptography, a key \textit{pair} is
 generated at each entity. A \textbf{public} key, which can be, as the name suggests, publicly shared
 with anyone, and a \textbf{private} key that must be kept secret. Any data signed with the private
 key can be verified using the public key. This allows for integrity checks, and allows anyone to
@@ -177,11 +166,11 @@ can lead to the same hash. This is called a \textit{collision} and the probabili
 hash function should be sufficiently low for it to be of value. Moreover, a hash function must be a
 \textit{one way} function, meaning that it cannot be reversed in a feasible way. Given some hash
 output, you cannot know the input that lead to that hash. Hash functions that have this property are
-typically called \textit{Cryptographic} hash functions. Cryptographic hash functions
-are commonly used next to asymmetric cryptography, for authentication and integrity checks, where
-the sender can sign only a hash of a message and send it over the network, such as the common
-\textbf{M}essage \textbf{A}uthentication \textbf{C}ode, pattern
-\cite{HMAC_Bellare_Canetti_Krawczyk_1996}, MAC for short.
+typically called \textit{Cryptographic} hash functions. Cryptographic hash functions are commonly
+used next to asymmetric cryptography, for authentication and integrity checks, where the sender can
+sign only a hash of a message and send it over the network, such as the common \textbf{M}essage
+\textbf{A}uthentication \textbf{C}ode, pattern \cite{HMAC_Bellare_Canetti_Krawczyk_1996}, MAC for
+short.
 
 \subsubsection{Peer to Peer Network} \label{chap_bg:subsec:p2p}
 
@@ -298,8 +287,8 @@ tokens. Alice checks that Eve has enough tokens to make this spend, update Eve's
 time to Bob, it will also succeed, if Alice and Bob have not yet had time to gossip their local
 transactions to one another.
 
-To solve this, blockchains agree on a contract: The state can \textbf{only} be updated via appending a new
-block to the known chain of blocks, not one single transaction at a time. This allows to
+To solve this, blockchains agree on a contract: The state can \textbf{only} be updated via appending
+a new block to the known chain of blocks, not one single transaction at a time. This allows to
 compensate for some potential gossip delays to some extend, and is explained in more detail in the
 next section.
 
@@ -367,8 +356,8 @@ context, the terms "block author" and "validator" are commonly use for the entit
 candidate block, and all the other nodes that validate it respectively.
 
 \begin{definition} \label{def:auhtor_validator}
-	Block \textbf{Author}: the network entity that proposes a new candidate block. All other nodes who will
-	receive this block and ensure its veracity are referred to as \textbf{Validators}.
+	Block \textbf{Author}: the network entity that proposes a new candidate block. All other nodes
+	who will receive this block and ensure its veracity are referred to as \textbf{Validators}.
 \end{definition}
 
 In a Proof of Work scheme, the next author is basically whoever manages to solve the Proof of Work
@@ -430,12 +419,17 @@ permissionless blockchain is only one variant. Usually blockchains are categoriz
 	\caption{Types of blockchain based on consensus.}
 	\label{table:blockchain_types}
 	\begin{tabular}{lllll}
-													& \multicolumn{3}{c}{\textbf{Blockchain Type}} &  \\
-													& Public & Consortium          & Private       &  \\ \cline{1-4}
-	\multicolumn{1}{l|}{\textbf{Permissionless?}}   & Yes    & No                  & No            &  \\
-	\multicolumn{1}{l|}{\textbf{Read?}}             & Anyone & Depends             & Invite Only   &  \\
-	\multicolumn{1}{l|}{\textbf{Write?}}            & Anyone & Trusted Authorities & Invite Only   &  \\
-	\multicolumn{1}{l|}{\textbf{Owner}}             & Nobody & Multiple Entities   & Single Entity &  \\
+													& \multicolumn{3}{c}{\textbf{Blockchain Type}} &
+													\\
+													& Public & Consortium          & Private       &
+	\\ \cline{1-4} \multicolumn{1}{l|}{\textbf{Permissionless?}}   & Yes    & No                  &
+	No            &  \\
+	\multicolumn{1}{l|}{\textbf{Read?}}             & Anyone & Depends             & Invite Only   &
+	\\
+	\multicolumn{1}{l|}{\textbf{Write?}}            & Anyone & Trusted Authorities & Invite Only   &
+	\\
+	\multicolumn{1}{l|}{\textbf{Owner}}             & Nobody & Multiple Entities   & Single Entity &
+	\\
 	\multicolumn{1}{l|}{\textbf{Transaction Speed}} & Slow   & Fast                & Fast          &
 	\end{tabular}
 \end{table}
@@ -478,8 +472,8 @@ blockchain network decide to make a particular change in the history, and they a
 can simply fork from the original chain and make their new chain. This new chain will have some
 common prefix with the original one, but will diverge at some point. A vert famous example of this
 is the Ethereum Classic fork from Ethereum network \cite{dao_hack}. After a hack due to a software
-bug, a lot of funds (as Eth tokens) got frozen in the main Ethereum network. A group of
-network participants decided to revert the hack. This was not widely accepted in the Ethereum
+bug, a lot of funds (as Eth tokens) got frozen in the main Ethereum network. A group of network
+participants decided to revert the hack. This was not widely accepted in the Ethereum
 ecosystem\footnote{After all, it defies all the \textit{immutability} properties of a blockchain.}
 and thus, a fork happened, giving birth to the \textit{Ethereum Classic} network.
 
@@ -535,7 +529,8 @@ present in a block, aside from transaction.
 
 \begin{itemize}
 	\item Parent hash: As mentioned, this is the signature of the blockchain prefix.
-	\item Block number: A numeric representation of the block count, also known as blockchain \textit{height}.
+	\item Block number: A numeric representation of the block count, also known as blockchain
+	\textit{height}.
 	\item State root: Finally, it is common for a block to also name the state root that should be
 	computed, if the transaction inside the block body are executed. This allow each node that
 	executes the transactions to check if they have come to the same state root as the block author
@@ -553,12 +548,12 @@ blockchain that is responsible for \textit{updating the state}. To be more speci
 any blockchain can be simplified as a simple function that takes a transaction as input, has access
 to read the state, and as output generates a set of new key-value pairs that need to be updated in
 the state (or the runtime itself can update the state directly, depending on the design of the
-system). This abstraction will be further used in chapter \ref{chap:design_and_impl}.
+system). This abstraction will be further used in chapter \ref{chap:design}.
 
 \subsubsection{Transaction Pool} \label{chap_bg:subsec:tx_pool}
 
-By defining the transaction pool, we will distinguish transactions that are \textit{included} in
-any block, and those that are not. As mentioned, a blockchain node might constantly receive
+By defining the transaction pool, we will distinguish transactions that are \textit{included} in any
+block, and those that are not. As mentioned, a blockchain node might constantly receive
 transactions, either directly from end-users, or from other nodes as their role in some sort of
 gossip protocol. These transactions are all pending, and their existence does \textit{not} imply
 anything about the state of the blockchain. Only when, by some means of consensus, everyone agrees
@@ -585,8 +580,8 @@ contrary, state-dependent checks usually need to be performed when a transaction
 very important. If a transaction is asserting to transfer some tokens from Alice to Bob, the state
 dependent check is to make sure Alice has enough tokens. In principle, it is wrong to check Alice's
 account balance at the time of inserting it into the pool, since we \textit{do not know} when this
-transaction is going to be included. What matters is that \textit{at the block in which this transaction is
-being included}, Alice must have enough tokens.
+transaction is going to be included. What matters is that \textit{at the block in which this
+transaction is being included}, Alice must have enough tokens.
 
 That being said, an implementation could optimise the read from state in some particular way to
 allow more checks to happen in the transaction pool layer (one if which explained in the next
@@ -632,14 +627,15 @@ First, we enumerate some of the lenses through which we have seen blockchains:
 
 We can put all of this together into one frame by representing blockchains as \textbf{state
 machines}. This concept resonates well with our notion of state database as well. A blockchain is a
-\textit{decentralized} state machine. It is a state machine because the state-root hash at the end of
-each block is one potential state, and blocks allow for transition between states. Due to forks, one
-might have to revert to a previous state. It is decentralized because there is no single entity that
-can enforce transition from one state to another one. In fact, any participant can propose
+\textit{decentralized} state machine. It is a state machine because the state-root hash at the end
+of each block is one potential state, and blocks allow for transition between states. Due to forks,
+one might have to revert to a previous state. It is decentralized because there is no single entity
+that can enforce transition from one state to another one. In fact, any participant can propose
 transitions by authoring a block candidate, but it will only ever be considered canon if it is
-agreed upon by everyone, through the consensus mechanism. Moreover, each participant will contain a copy of
-the state. If a single node crashes, goes offline, or decides to misbehave, the integrity of the
-system will be held, as long as there are enough honest participants.
+agreed upon by everyone, through the consensus mechanism. Moreover, each participant will contain a
+copy of the state. If a single node crashes, goes offline, or decides to misbehave, the integrity of
+the system will be held, as long as there are enough honest participants.
+
 
 \subsection{Disclaimer: A Note About The Context of Technology}
 
@@ -651,10 +647,10 @@ details that we named here and they might not be 100\% compatible with project $
 have even admitted throughout the text that some of our examples are not even exactly similar to
 Bitcoin (such as the state model as opposed to UTXO model).
 
-This is entirely predictable to happen, as blockchain is a rapidly evolving field of
-science and technology at the moment. Different project diverge from one another, even in radical
-concepts, and experiments with new patterns. Nonetheless, we make the following assertions about our
-assumptions in this work:
+This is entirely predictable to happen, as blockchain is a rapidly evolving field of science and
+technology at the moment. Different project diverge from one another, even in radical concepts, and
+experiments with new patterns. Nonetheless, we make the following assertions about our assumptions
+in this work:
 
 \begin{itemize}
 	\item Whenever we build up a simple example (mostly with Alice and Bob) in this work, we do not
@@ -672,135 +668,6 @@ To summarize, in this chapter, we have explained only what we have deemed to be 
 details of blockchains, and we noted whenever a detail could potentially be different based on
 implementation. This approach will persist throughout the rest of this work as well.
 
-\section{Interlude: Speeding up a Blockchain - A Brief Overview} \label{chap_bg:sec:ways_to_speedup}
-
-\todo{}{This and 2.4 should go into their own chap.}
-\todo{}{actually answer to a research question.}
-
-Having known the basic knowledge of blockchains, now we can argue more about the research question
-of our interest, improving the performance. In this section, we will briefly survey some of the ways
-through which the throughput of a blockchain can be improved, and delineate which approach we will
-be focusing on, for the rest of this work.
-
-As mentioned, blockchains can be seen, in a very broad way, and from a transaction processing point
-of view, as a \textit{decentralized state machine that transitions by the means of transactions}.
-The throughput of a blockchain network, in transactions per second, is a function of numerous
-components and can be analysed from different points of view. While in this work we focus mainly on
-one aspect, it is helpful to enumerate all viewpoints and see how they each affect the overall
-performance.
-
-\subsection{Consensus and Block Authoring}
-
-As mentioned, the consensus protocol is the means of ensuring that all nodes will have a persistent
-view of the state, and it can heavily contribute to the throughput of the system. Two common
-consensus protocols are Proof of \textbf{Work} and Proof of \textbf{Stake}. They use the computation
-power (\textit{work}) and a number of bonded tokens (\textit{stake}) as their guarantees
-that an entity has authority to perform some operation, such as authoring a block. Without getting
-into further details about each protocols, what we care about is the fact that each of these
-consensus protocols has an \textit{inherently} different performance \cite{survey_on_all}. Proof of work, as
-the names suggests, requires the author to prove their legitimacy by providing a proof that they
-have solved a particular hashing puzzle. This is slow by nature, and wastes a lot of computation
-power on each node that wants to produce blocks, which in turn can have a negative impact on the
-transaction throughput. Making this process faster requires the network to agree on an easier
-puzzle that can in turn make the system less secure \cite{security_of_bitcoin}. More precisely, the
-difficulty of the puzzle dictates the average time any node needs to spend to be able to produce a
-block, which dictates the final throughput.
-
-To the contrary, Proof of Stake does not need this this fruitless puzzle solving, which is
-beneficial in terms of computation resources. Moreover, since the chance of any node being the
-author is determined by their stake. Thus, a smaller block-time is not insecure by itself.Even more
-recent, we're seeing blockchains turn into verifiable random
-function \cite{Dodis_Yampolskiy_2005_VRF}\footnote{VRF for short.} for block authoring and deploy a
-traditional byzantine fault tolerance voting scheme on top of it to ensure finality. This further
-decouples block production and finality, allowing production to proceed faster and and with even
-less drag from the rest of the consensus.
-
-All in all, one general approach towards increasing the throughput of a blockchain is to
-\textit{re-think the consensus and block authoring mechanisms} that dictate when blocks are added to
-the chain, and by whom, with what frequency. It is crucially important to note that any approach in
-this domain falls somewhere in the spectrum of centralized-decentralized, where most often
-approaches that are more centralized will be more capable of delivering better performance, yet they
-do not have any of the security and immutability guarantees of a blockchain. An example of this was
-provided in table \ref{table:blockchain_types} and private blockchain.
-
-In this work transcend from this point of view and will look at a different component of a
-blockchain system which is completely independent of the underlying consensus. The main reason for
-this is that this is entirely different domain of research compared to our proposed approach,
-concurrency.
-
-\subsubsection{Sharding}
-
-An interesting consensus-related optimisation that is gaining a lot of relevance in the recent year
-is a technique obtained from the database industry called sharding. Shards are slices of data in the
-database jargon that are maintained in different nodes. In a blockchain system, shards refer to
-sub-chains are are maintained by sub-networks of the whole system. In essence, instead of keeping
-all the nodes in the entire system at synchrony at all time, sharded blockchains consist of multiple
-smaller networks, each maintaining their own cannon chain. Albeit, most of the time these chains all
-have the same prefix and only differ in the most recent blocks. At fixed intervals, sub-networks
-come to agreement and synchronize their shards with one another. In some sense sharding allows
-smaller sub-networks to progress faster. Much work has been done in this field
-\cite{Forestier_Vodenicarevic_Laversanne_Finot_2019_block_qlique,
-Al_Bassam_Sonnino_Bano_Hrycyszyn_Danezis_2017_chainspace,
-Shrey_Singh_Sathya_Yogesh_2019_diep_trans}. Yet, for the same reason as mentioned above, we will
-consider consensus related approaches to be irrelevant.
-
-\subsection{Chain Topology}
-
-Another approach is changing the nature of the chain itself. A classic blockchain is
-theoretically limited due to the fact that only one entity can append a block to the chain at each time.
-This property will bring extra security and make the chain state easier to reason about (i.e. there
-is only one cannon chain). A radical approach is to question this property and allow different
-blocks to be created at the same time. Consequently, this turn a blockchain from a literal
-\textit{chain of blocks} into a \textit{graph}. Hence, most often such technologies are
-referred to Directed Acyclic Graphs, \textbf{DAG} in short, solutions.
-
-Such approaches will bring even more radical changes to the original idea of blockchain. While being
-very promising for some fields of \textit{Internet of Things} and micro payments, we will not
-consider DAGs in this work and adhere to the definitions provided in the previous sections as our
-baseline of what a blockchain is.
-
-\subsection{Deploying Concurrency}
-
-Finally, we can focus on the transaction processing view of the blockchain, and try and deploy
-concurrency on top of it, leaving the other aspects such as consensus unchanged and unknown. This,
-in principle, is very important, as it allows our approach to be deployed on many chains, since it
-is independent of many consensus and network details. We have already explained how a block author
-proposes a new block, and how all validators must re-execute the transactions to ensure validity in
-the previous chapters. Hence, a block's lifecycle can be enumerated into two different phases:
-
-\begin{itemize}
-	\item Block generation: done by one block author.
-	\item Block validation: done by all the nodes in the network.
-\end{itemize}
-
-By default, both of these phases must happen in a \textbf{sequential} manner, to ensure consistency.
-In other words, to ensure that the validators will come to the same state root as the one proposed
-by the block author.
-
-Our work specifically focuses on this aspect of of the blockchain systems and proposes a novel
-approach to achieve concurrency within each block's execution, both in the authoring phase and in
-the validation phase, thereby increasing the performance.
-
-\subsection{Analysis of the approaches and their merits} \label{chap_bg:subsec:summary_speedup}
-
-Indeed, it is questionable how much performance gain will concurrency bring to the overall
-performance. To counter this doubt, we argue that the aim of this work is to foremost improve the
-\textit{efficiency} of the transaction processing power of the blockchain. It is true that in a specific
-chain, the network or consensus might be the main bottleneck of the throughput, and concurrency
-cannot improve that by much. For example, most performance gains within concurrency might be within
-milliseconds, while the block authoring delay is tens of seconds in some chain. Nonetheless, in any
-case, most modern hardware have built in abilities to run more code in parallel, which translates to
-adopting more concurrency on the application layer.
-
-Hence, we argue that our method is \textit{universal}, and independent of the underlying chain
-specifications, as long as it adheres to our basic definitions in this chapter, such as having a
-state root, and authors and validators per block. And, despite its degree of impact, concurrency can
-applied to any chain. For some chains it might be a dominant factor and drastically improve the
-\textit{throughput}, whilst in others it might only contribute to the \textit{efficiency} of the
-system and allow the blockchain to better use the hardware that is provided to it\footnote{It is
-worth noting that having optimal hardware cost and usage is an important factor in the blockchain
-industry, as many chains are ran people who are making profit out of running validators an miners.}.
-
 
 \section{Concurrency} \label{chap_bg:sec:concurrency}
 
@@ -808,6 +675,3 @@ industry, as many chains are ran people who are making profit out of running val
 \subsection{Software Transactional Memory}
 \subsection{Static Analysis}
 \subsection{Transposition Driven Scheduling}
-
-\section{Concurrency within A Blockchain Author and Validator}
-This is where I should name specific design needs.
