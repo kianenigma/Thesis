@@ -18,15 +18,18 @@ requirements.
 
 }
 
-\todo[inline]{At this point I should really define what is my metric. Thrhoughput? efficiency? what?
+\todo[inline]{At this point I should really define what is my metric. Throughput? efficiency? what?
 
 
 I am currently way more in favour of only using throughput (tx/sec).}
 
+In this section we will build up all the details and arguments needed to introduce our system design. We will start with an interlude, broadly enumerating different ways to make blockchains \textcolor{red}{faster}, at the end of which we point out concurrency as our method of choice.
+
+
 \section{Prelude: Speeding up a Blockchain - A Brief Overview}
 \label{chap_design:sec:ways_to_speedup}
 
-In this section, we briefly survey some of the ways through which the throughput of a blockchain can
+In this section, we briefly survey some of the ways through which the \textcolor{red}{throughput} of a blockchain can
 be improved, and delineate which approach we focus on, for the rest of this work.
 
 As mentioned, blockchains can be seen, in a very broad way, and from a transaction processing point
@@ -34,7 +37,7 @@ of view, as a \textit{decentralized state machine that transitions by means of t
 throughput of a blockchain network, measured in transactions per second, is a function of numerous
 components and can be analysed from different points of view \footnote{and this categorization is by
 no means exhaustive.}. While in this work we focus mainly on one aspect, it is helpful to enumerate
-different viewpoints and see how each of them affect the overall performance.
+different viewpoints and see how each of them affect the overall throughput.
 
 \subsection{Consensus and Block Authoring}
 
@@ -146,8 +149,8 @@ making profit out of running validators and miners.}.
 
 \section{Concurrency Within Block Production and Validation}
 
-This is where I will talk more about different approaches done by others within th realm of
-concurrency. I will argue that there are two main appraoches, runtime and static and how each one
+This is where I will talk more about different approaches done by others within the realm of
+concurrency. I will argue that there are two main approaches, runtime and static and how each one
 totally misses the benefits of the other one.
 
 This section will answer research question 1.

@@ -21,7 +21,7 @@ aspects of how we live in the last few decades \cite{will_blockchain_be_big_deal
 highly sophisticated and inter-disciplinary software artifacts, achieving high levels of
 decentralization and security, which was deemed impossible so far. To the contrary, some people
 skeptically see them as controversial, or merely a "hyped hoax", and doubt that they will ever
-deliver much real value to the world. Nonetheless, through the rest of this chapter and this work
+deliver much \textit{real} value to the world. Nonetheless, through the rest of this chapter and this work
 overall, we provide ample reasoning to justify why we think otherwise.
 
 In very broad terms, a blockchain is a tamper-proof, append-only ledger that is being maintained in
@@ -37,7 +37,7 @@ example, one can share the proof of owning some data, without actually sharing t
 typically known as zero knowledge proofs \cite{Goldreich_Oren_1994_ZK}.
 
 In some sense, blockchains are revolutionary because they remove the need for \textit{trust}, and
-release it from the control of one entity (i.e. a single bank or institute), by encoding it as a
+release it from the control of one entity (e.g. a single bank, an institute, or simply Google), by encoding it as a
 self-sovereign decentralized software. Our institutions are built upon the idea that they manage
 people's assets, matters and belongings, and they ensure veracity, because we trust in them. In
 short, they have \textbf{authority}. Of course, this model could work well in principle, but it
@@ -52,18 +52,17 @@ Now, all of these great properties do not come cheap. Blockchains are extremely 
 of software, and they require a great deal of expertise to be written correctly. Moreover, many of
 the machinery used to create this \textit{decentralized} and \textit{public} append-only ledger
 requires synchronization, serialization, or generally other procedures that are likely to decrease
-the throughput at which the chain can process transactions. This, to some extent, contributes to the
+the \textcolor{red}{throughput} at which the chain can process transactions. This, to some extent, contributes to the
 skepticism about blockchains' feasibility. For example, Bitcoin, one of the famous deployed
 blockchains to date, consumes a lot of resources to operate, and cannot execute more than around half a dozen transactions per second \cite{security_of_bitcoin}.
 
 Therefore, it is a useful goal to investigate the possibilities through which a blockchain
-system can be enhanced to operate \textit{faster}, and more \textit{efficiently}.
+system can be enhanced to operate \textcolor{red}{\textit{faster}}, and more \textcolor{red}{\textit{efficiently}}.
 
 \section{Research Questions} \label{chap_intro:sec:resarch_q}
 
-We have seen that blockchains are promising in their technology, and unique traits that they can
-deliver. Yet, they are notoriously slow. Therefore, we  pursue the (initial) goal of improving
-the \textit{efficiency} of a blockchain system. There are numerous ways to
+We have seen that blockchains are a promising technology, and deliver unique traits. Yet, they are notoriously slow. Therefore, we  pursue the (initial) goal of improving
+the \textcolor{red}{\textit{efficiency}} of a blockchain system. There are numerous ways to
 achieve this goal, ranging from redesigning internal protocols within the blockchain to applying
 concurrency. In this thesis, we precisely focus on the latter, enabling concurrency within
 transactions that are processed and then appended to the ledger. Moreover, we do so by leveraging,
@@ -80,7 +79,7 @@ Based on this, we formulate the following as our research questions:
      \item [RQ1] What approaches exist to achieve concurrent execution of transactions within a blockchain
      system?
 	 \item [RQ2] How could both static analysis and runtime approaches be combined together to achieve a new approach with minimum overhead and measurable benefits?  
-	 \item [RQ3] How would such an approach be evaluated against and compared to others?
+	 \item [RQ3] How would such an approach be evaluated against, and compared with others?
  \end{enumerate}
 
 \section{Thesis outline}
