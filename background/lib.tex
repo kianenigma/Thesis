@@ -16,8 +16,8 @@ section \ref{chap_bg:sec:concurrency}.
 
 In this section, we provide an overview about the basics of distributed system, blockchains, and
 their underlying technologies. By the end of this chapter, it is expected that an average reader
-will know enough about blockchain systems to be able to follow the rest of our work and design in
-chapter \ref{chap:design} and onwards.
+will know enough about blockchain systems to be able to follow the rest of our work and approach in
+chapter \ref{chap:approach} and onwards.
 
 \subsection{Centralized, Decentralized and Distributed Systems}
 
@@ -106,7 +106,7 @@ symmetric key (used for encrypting data) without ever sharing it over the networ
 may refer to \cite{diffieNewDirectionsCryptography1976} for more information about the details of
 how this novel mechanism works.}. Indeed, while the underlying principles are the same, for better
 performance, most modern distributed systems work with another mechanism that is the more novel
-variant of Diffie-Hellman, namely Elliptic Curve Cryptography, ECC for short. Elliptic Curves offer
+variant of Diffie-Hellman, namely Elliptic Curve Cryptography (ECC). Elliptic Curves offer
 the same properties as Diffie-Hellman, with similar security measures, whilst being faster to
 compute and needing smaller key sizes. A key exchange, in short, allows for \textbf{asymmetric
 cryptography}, the variant of cryptography that need not any secrete medium to exchange initial
@@ -173,7 +173,7 @@ this property are typically called \textit{cryptographic} hash functions. Crypto
 functions are commonly used next to asymmetric cryptography, for authentication and integrity
 checks, where the sender can sign only a hash of a message and send it over the network, such as the
 common \textbf{M}essage \textbf{A}uthentication \textbf{C}ode, pattern
-\cite{bellareKeyingHashFunctions1996}, MAC for short.
+\cite{bellareKeyingHashFunctions1996} (MAC).
 
 \subsubsection{Peer to Peer Network} \label{chap_bg:subsec:p2p}
 
@@ -367,10 +367,17 @@ block, and all the other nodes that validate it, respectively.
 
 \todo[inline]{ The footnote about dictator can be a chapter quote.}
 
-\begin{definition} \label{def:auhtor_validator} Block \textbf{Author}: the network entity that
-	proposes a new candidate block. All other nodes who  receive this block and ensure its veracity
-	are referred to as \textbf{validators}.
+\begin{definition} \label{def:auhtor_validator}
+
+	\textit{Authoring and Validating}.
+
+	\textbf{Author}: the network entity that proposes a new candidate block. This task is
+	called block \textit{authoring}.
+
+	\textbf{Validator}: All other nodes who  receive this block and ensure its veracity. This act of
+	ensuring veracity is called \textit{validating} or \textit{importing} a block.
 \end{definition}
+
 
 In a Proof of Work scheme, the next author is basically whoever manages to solve the Proof of Work
 puzzle faster.
@@ -418,8 +425,9 @@ permissionless blockchain is only one variant. Usually blockchains are categoriz
 	can be simplified to a round-robin block authoring. Albeit, such chains are questionable because
 	they don't really solve the main problem of making systems trustless. Such chains are called
 	Proof of Authority, meaning that a node can author a block by by the virtue of being a member of
-	a fixed set of authorities. And from the perspective of the end-user, one must still
-	\textit{trust} in the honesty and good will of these authorities.
+	a fixed set of authorities \cite{deangelisPBFTVsProofofauthority2018}. And from the perspective
+	of the end-user, one must still \textit{trust} in the honesty and good will of these
+	authorities.
 	\item \textbf{Private} blockchains: these blockchains use the same technology to establish trust
 	between organizations, and are not open to public. A common example would be a chain that
 	maintains government records between different ministries.
@@ -458,7 +466,7 @@ it behaves correctly.
 Due to all of this complexity, consensus is a very cutting-edge field of research in the blockchain
 ecosystem. Moreover, in table \ref{table:blockchain_types} we can already have a glance at how the
 consensus is also a major factor in the throughput of the blockchain, which is our focus in this
-work. This correlation is later explained in \ref{chap_design:sec:ways_to_speedup}.
+work. This correlation is later explained in \ref{chap_approach:sec:ways_to_speedup}.
 
 \subsubsection{Forks: A Glitch in The Consensus Protocol}
 
@@ -564,7 +572,7 @@ blockchain that is responsible for \textit{updating the state}. To be more speci
 any blockchain can be simplified as a simple function that takes a transaction as input, has access
 to read the state, and as output generates a set of new key-value pairs that need to be updated in
 the state (or the runtime itself can update the state directly, depending on the design of the
-system). This abstraction will be further used in chapter \ref{chap:design}.
+system). This abstraction will be further used in chapter \ref{chap:approach}.
 
 \subsubsection{Transaction Pool} \label{chap_bg:subsec:tx_pool}
 
@@ -605,7 +613,7 @@ section, \ref{chap_bg:subsec:nonce}). Although, it should be noted that transact
 not yet \textit{accountable}, since they are not executed. In other words, a user does not pay any
 fees to have their transaction live in the pool. But, they do pay to have their transaction included
 in the chain. Therefor, if the pool spends too much time on validation, this can easily turn into a
-\textbf{Denial of Service} attack, DoS for short.
+\textbf{Denial of Service} attack (DoS).
 
 \subsubsection{Account Nonce} \label{chap_bg:subsec:nonce}
 
@@ -688,27 +696,34 @@ In this section we introduce some relevant concepts from the field of concurrenc
 crux of our idea is to deploy concurrency in a blockchains system to gain throughput.
 
 Concurrency is the ability of a software artifact to execute units of its logic out of order,
-without causing the outcome be invalid. We will link this directly to our example of interest: A
-node in a blockchain system has a process which is responsible for executing blocks. By default
-this process is purely sequential: All of the transactions in the block are executed in sequence.
-Deploying concurrency \textit{should} allow this process to divide the transactions within the
-block into an arbitrary number of smaller groups, each of which can be executed asynchronously and
-and out of order, without causing an invalid outcome.
+without causing the outcome to be invalid. We will link this directly to our example of interest: A
+node in a blockchain system has a process which is responsible for executing blocks. By default this
+process is purely sequential: All of the transactions in the block are executed in sequence.
+Deploying concurrency \textit{should} allow this process to divide the transactions within the block
+into a number of smaller groups, each of which can then be executed out of order (concurrently),
+without causing an invalid outcome.
 
-The outcome of interest, of course, is only the aforementioned \textbf{state database}. Nodes in the
-network receives blocks and apply them to a common state. The only acceptable outcome is for all of
-them to come up to the same state after applying the block. As mentioned, this comparison is done by
-the means of state root.
+The outcome of interest, of course, is only the aforementioned \textbf{state database} after all of
+the transactions of the block are applied. Nodes in the network receives blocks and apply them to a
+common state. The only acceptable outcome is for all of them to come up to the same state after
+applying the block\footnote{Note that this is only the case of block validation (block
+\textit{import}). There is also the task of block authoring which is actually more complicated, but
+irrelevant to the discussion of this section -- see \ref{def:auhtor_validator}.}. As mentioned, this
+comparison is done by the means of state root.
 
-\begin{definition} \textbf{Valid Block}:
+\todo[inline]{Do a pass and remove all of this as-mentioned crap.}.
+\todo[inline]{Make the stype off all defenitions similar.}.
+
+\begin{definition}
+	\textit{Valid Block}:
+
+
 	A block is valid only if its execution is deterministic among all of the nodes in the network,
-	and leads to the same state root $S^{'}$ if applied on top of a fixed state $S$.
-
-	Another
+	and leads to the same state root $S^{'}$, if applied on top of a fixed state $S$.
 \end{definition}
 
 This is in fact the property that ensures that the state is, in principle, optional to keep
-around, because it is deterministically recreatable from the chain of blocks.
+around, because it is deterministically reproducible from the chain of blocks.
 
 Thus, the \textbf{need for determinism is absolute} in a blockchain's runtime environment. Moreover the
 previous remark sheds some light into why blockchains are designed to work sequentially by default:
@@ -718,62 +733,74 @@ With this, we can reduce the problem to a single node's hardware. Assume a node 
 execute a block and it has the entire state loaded in memory. If a single thread executes the
 transactions within the block, it is trivial to show that the outcome is deterministic. On the other
 hand, one can easily see that if multiple threads try to execute the transactions concurrently and
-access the state as they move forward, the result is unworthy and moot. The challenge is to allow
-these threads to cooperate and achieve an effective concurrency, while still maintaining
-determinism. Therefor, we have translated out blockchain scenario in a typical shared state
-concurrency problem\footnote{With the remark that the determinism requirement is somewhat special to
-our use case and some system might not require it.}. In such a setup, multiple threads are competing
-for access to some shared data (the state) and the runtime environment need to resolve the race
-conditions between the threads.
+access the state as they move forward, the result is moot. The challenge is to allow these threads
+to cooperate and achieve an effective concurrency, while still maintaining determinism. Therefor, we
+have translated our blockchain scenario to a typical shared-state concurrency problem\footnote{With
+the remark that the determinism requirement is somewhat special to our use case and some systems
+might not require it.}. In such a setup, multiple threads are competing for access to some shared
+data (the state) and the runtime environment need to resolve the race conditions between the
+threads.
 
 In the next sections we will look at practical ways to use \textit{concurrency over a shared state},
 while still generating valid results. A mechanism that provides this is called \textit{concurrency
 control}.
 
+\todo[inline]{I could elaborate more on the def. of concurrency control but meh this is enough.}.
+
 \subsection{Locking: Pessimistic Concurrency Control} \label{chap_bg:subsec:lock}
 
-Locks are among the simples and most intuitive ways to handle concurrency. A lock is an abstract
-notion applied to a shared object (or generally any memory region) which limits the number of
-threads that can access it at the same time in a multiprocessor system. The idea of using locks in
-database systems that want to achieve higher throughput by using multiple threads goes back to many
-decades ago \cite{kedemControllingConcurrencyUsing1979, morrisPerformanceAnalysisLocking1985}.
+Locks are a common and intuitive\footnote{Sadly, as we will see the most intuitive way is not always
+the easiest to use.} way for concurrency control. A lock is an abstract marker applied to a shared
+object (or generally any memory region) which limits the number of threads that can access it at the
+same time in a multiprocessor system. The idea of using locks in database systems that want to
+achieve higher throughput by using multiple threads goes back to many decades ago
+\cite{kedemControllingConcurrencyUsing1979, morrisPerformanceAnalysisLocking1985}.
 
 The simplest form of a lock will not distinguish between reads and writes and the only operation on
-it are \texttt{acquire} and \texttt{release}. Once a thread acquires a lock, no other thread can,
-and they have to wait for it. Once the holding thread is done with the lock (more accurately done
-with the data protected by the lock), they release the lock. Upon being released, one of the waiting
-threads acquires the lock and so on. This process can easily ensure that some data is never accessed
-by multiple threads at the same time, The processor usually ensures that these primitive operations
+it are \texttt{acquire} and \texttt{release}. To access the data protected by the lock, first the
+lock itself needs to be acquired. Once a thread acquires a lock, no other thread can, and they have
+to wait for it. Once the holding thread is done with the lock (more accurately done with the data
+protected by the lock), they release the lock. Upon being released, one of the waiting threads
+acquires the lock, and so on. This process can easily ensure that some data is never accessed by
+multiple threads at the same time. The processor usually ensures that these primitive operations
 (\texttt{acquire} and \texttt{release}) are done atomically between threads. Such locks that do not
 distinguish between read and writes are called a \texttt{Mutex}, short for mutual exclusion
 \cite{guerraouiLockUnlockThat2019}.
 
-A more elaborate variant of Mutex is read-write locks, RW locks for short. Such locks leverage the
-fact that multiple reads from the same data are most often harmless and should be allowed. Thus, RW
-locks distinguish in between them. In a RW lock, at any given time there can be only one write
-locks,but multiple concurrent read locks are allowed.
+A more elaborate variant of Mutex is read-write locks (RW locks). Such locks leverage the
+fact that multiple reads from the same data are almost always harmless and should be allowed. Thus,
+the read and write distinction. In a RW lock, at any given time there can be only one write
+locks, but multiple concurrent read locks are allowed.
 
 \begin{remark}
 	We use the Rust programming language for the implementation of this work. Rust provides some of
-	the finest compile-time memory safety guarantees among all languages. To achieve this, Rust
-	references (addresses to memory locations) have the exact same aliasing rule: multiple immutable
-	references to a data can co-exits in a scope, but only one mutable reference is allowed
-	\cite{weissOxideEssenceRust2020}.
+	the finest compile-time memory safety guarantees among all programming languages. To achieve
+	this, Rust references (addresses to memory locations) have the exact same aliasing rule:
+	multiple \textit{immutable} references to a data can co-exits in a scope, but \textit{only one}
+	\textit{mutable} reference is allowed \cite{weissOxideEssenceRust2020}.
 \end{remark}
 
-In some sense, locks are a pessimistic means of concurrency control. They assume if two threads want
-to acquire the same lock, their logic \textit{will} cause a conflict to happen. Based on the
+Locks are easy to understand, but notoriously hard to use. A programmer needs to delicately think
+about every single critical memory access and acquire and release locks from different threads to
+prevent wrong outcomes. Even worse, immature use of locks often leads to programs having deadlocks,
+the state in which all threads are waiting for a lock acquired by another thread. These issues are
+common programming errors and very hard to detect and resolve.
+
+\todo[inline]{ref for this par.}
+
+Moreover, locks are a pessimistic means of concurrency control. They assume if two threads want
+to acquire the same (write) lock, their logic \textit{will} cause a conflict to happen. Based on the
 granularity of the lock and the internal logic of each threads, this might not be the case all the
-time.
+time. This is exactly what the next section will address.
 
 \subsection{Transactional Memory: Optimistic Concurrency Control} \label{chap_bg:subsec:stm}
 
-Transactional memory is the opposite of locking when it comes to waiting. In locking, the
-threads often need to wait for one another. If a thread is writing, then all the readers and writes
-need to wait. As mentioned, this is based on the assumption that mutual acquirement of locks will
-always lead to conflicts, so it need to be prevented in any case. Transactional memory takes the
-opposite approach and assumes that mutual data accesses will not conflict by default. In other
-words, threads don't need to wait for one another, thus transactional memory is coined "lock free"
+Transactional memory is the opposite of locking when it comes to waiting. In locking, the threads
+often need to wait for one another. If a thread is writing, then all the readers and writes need to
+wait. As mentioned, this is based on the assumption that mutual acquirement of locks will always
+lead to conflicts, so it need to be prevented in any case. Transactional memory takes the opposite
+approach and assumes that mutual data accesses will \textit{not} conflict by default. In other
+words, threads don't need to wait for one another, thus transactional memory is coined "lock-free"
 \cite{knightArchitectureMostlyFunctional1986}.
 
 
@@ -781,71 +808,68 @@ In the context of transactional memory, a thread's execution is divided into sma
 called transactions. A transaction attempts to apply one or more updates to some data, without
 waiting and then \textit{commits} the changes. Before a commit, the changes by any transaction are
 not visible to any other transaction. Once a commit is about to happen, the runtime must check if
-these changes made by it are applicable, based on the previous commits. If committed successfully,
-the changes are then visible to all other transactions. Else, none of the changes become visible and
-the transaction \textit{aborts} and the changes are reverted.
-
-\begin{remark}
-	Software transactional memory, as the name suggests, is usually used in transaction systems
-	where a transaction is the unit of logic that alters the data, much like a blockchain or a
-	database. Therefore, usually the term "transaction" is favoured in the literature. In this
-	section we also use the work "transaction" for consistency, but it can generally be interchanged
-	with "thread".
-\end{remark}
+these changes are conflicting or not, based on the previous commits. If committed successfully, the
+changes are then visible to all other transactions. Else, none of the changes become visible and the
+transaction \textit{aborts} and the changes are reverted. The great advantage of this model is that
+if two transactions access the same memory region, but in a non-conflicting way\footnote{Textbook
+example: Access two different keys of a concurrent hash map.}, then there is a lot less waiting. In
+essence, there is \textit{no} waiting in the execution of transactions, at the cost of some runtime
+overhead when they want to commit.
 
 Transactional memory can exist either via a specialized hardware or, simulated in the software,
 referred to as \textit{software} transactional memory, or STM
-\cite{hammondTransactionalMemoryCoherence2004}. As the \textit{"software"} prefix denotes,
-transactional memory is typically implemented in the software and does incur a runtime overhead.
-Nonetheless its programming api is much easier and less error prone
+\cite{hammondTransactionalMemoryCoherence2004}. If implemented in the software, it does incur a
+runtime overhead. Nonetheless its programming interface is much easier and less error prone, because
+the programmer need not to manually acquire and release locks.
 \cite{herlihyTransactionalMemoryArchitectural1993}.
 
-Transactional memory is likely yo cause less conflicts, nonetheless it still allows threads to
-operate over a same data structure. This implies complications about commits, aborts, and
-coherence\footnote{The question of which changes from a local thread's transaction become visible to
-other threads and when, under which conditions. We have barely touched this issue and in itself
-deserves a thesis to be fully understood.}. A radical different approach is to try and prevent these
-complications from the get go, by disallowing the shared data to exist, which is described in the
-next section.
+Transactional memory is likely to lesson the waiting time and conflicts. Nonetheless, it still
+allows threads to operate over a same data structure. This implies complications about commits,
+aborts, and coherence\footnote{The question of which changes from a local thread's transaction
+become visible to other threads and when, and under which conditions. We have barely touched this
+issue and in itself deserves a thesis to be fully understood.}. A radical different approach is to
+try and prevent these complications from the get go, by disallowing the \textit{shared} data to
+exist, which is described in the next section.
 
 \subsubsection{Note About Determinism}
 
 It is very important to note that both locking and transactional memory are non-deterministic. This
-means that executing the same transactions multiple time may or may not lead to the same output. It
-is easy to demonstrate why: Imagine two threads will soon attempt to compete for a lock, and each
-will try and write a different value to a protected memory address. Based on the fairness rules of
-the underlying operating system and sheer randomness of which thread executes the acquire faster,
-either of them could be the first one. While the output of the program in both cases is
-\textit{correct}, it is not deterministic.
+means that executing the same workload multiple time may or may not lead to the same output. It is
+easy to demonstrate why: Imagine two threads will soon attempt to compete for a lock, and each will
+try and write a different value to a protected memory address. Based on the fairness rules of the
+underlying operating system, either of them could be the first one. While the output of the program
+in both cases is \textit{correct}, it is \textit{not deterministic}.
 
 The same can be said about transactional memory. If two transaction have both altered the same data
 in a conflicting way, one of them is doomed to fail upon trying to commit, and it just the matter of
 which will do it first. Again, both outputs are correct, yet the program is not deterministic.
 
 \begin{remark}
-	A read can at this point link this insight into our requirement of a block being validated: From
-	the perspective of a block author, it does not matter what the outcome of a block is (i.e. which
-	transactions are within it, which succeed and which fail). The first and foremost importance is
-	for all validators to execute the same outcome (i.e. come to the same state root), once having
-	received the block later. This is in stark contrast with the non-determinism nature of locking.
+	A reader can at this point link our use of words "correct" and "determinism" to
+	\ref{chap_bg:subsec:consensus_authorship} and block authoring specifically: From the perspective
+	of a block author, it does not matter what the outcome of a block is (i.e. which transactions
+	are within it, which succeed and which fail). All such blocks are probably \textit{correct}. The
+	first and foremost importance is for all validators to \textit{deterministically} execute the
+	same outcome (i.e. come to the same state root), once having received the block later. This is
+	in stark contrast with the non-determinism nature of locking.
 \end{remark}
 
 
 \subsection{Sharing vs. Communicating}\label{chap_bg:subsec:sharing_communication}
 
 There is a great quote from the documentation of the Go programming language that greatly explains
-the point of this section: "Don't communicate by sharing memory; share memory by communicating. (R.
-Pike)" \cite{ShareMemoryCommunicating}. This introduces a radical new approach to concurrency, in
-which threads are either stateless or pure functions (TODO: ref), where their state is private. All
+the point of this section: "Don't communicate by sharing memory; share memory by communicating."
+\cite{ShareMemoryCommunicating}. This introduces a radical new approach to concurrency, in which
+threads are either stateless or pure functions (TODO: ref), where their state is private. All
 synchronization is then achieved by the means of message passing. Instead, threads don't need to
-share any common state or data. If threads need to all manipulate the same data, they can send
+share any common state or data. If threads need to manipulate the same data, they can send
 references to the data to one another. In many cases, this pattern is advantageous compared to
-locking both in terms of concurrency degree and the programming ease.
+locking both in terms of concurrency degree and the programming ease (TODO again cite).
 
 Nonetheless, we know that our use case is exactly the need for some executor threads to have a
 shared state while executing the blockchain transactions. Therefor, we won't directly apply this
-paradigm, but we inspire from it and take the possibility of message passing into account. We will
-revisit this possibility in chapter \ref{chap:design}.
+paradigm, but we inspire from it and take the possibility of message passing into account. We
+revisit this possibility in chapter \ref{chap:approach}.
 
 \subsection{Static Analysis}
 
@@ -854,12 +878,17 @@ by assuming that conflicts are rare. This could bring about two downsides: Rever
 conflict happens, and the general runtime overhead that the system need to tolerate for all the
 extra machinery needed for transactional memory\footnote{Which is even more if it is being emulated
 in the software.}. An interesting approach to counter these limitation is static analysis. Static is
-referred to any action that is done at compile time, contrary to runtime. The goal of these static
-analyses is to somehow improve the concurrency degree. In the case of transactional memory, this
-could be achieved by using static analysis to aborts\cite{diasEfficientCorrectTransactional}.
-Similarly, other studies have tried to use static analysis to improve the usage of locking by
-automatically inserting the lock commands into the program's source code at compile time
-\cite{cheremInferringLocksAtomic2007}. This can greatly ease the user experience of programmers
-using locks and reduce the chance of human errors possibility\footnote{Needless to say, concurrent programming
-is dauntingly hard, specially if only primitive tools such as locks can be used. One of the main
-purposes of STM is the move this burden of the shoulders of programmer.}.
+referred to any action that is done at compile time, contrary to runtime. The goal of static
+analysis is to somehow improve the concurrency degree, by leveraging only compile-time information.
+In the case of transactional memory, this could be achieved by using static analysis to predict and
+reduce aborts\cite{diasEfficientCorrectTransactional}. Similarly, other studies have tried to use
+static analysis to improve the usage of locking by automatically inserting the lock commands into
+the program's source code at compile time \cite{cheremInferringLocksAtomic2007}. This can greatly
+ease the user experience of programmers using locks and reduce the chance of human errors
+possibility.
+
+Similar to message passing, we inspire from the underlying concept of static analysis in our design
+later in chapter \ref{chap:approach}.
+
+This brings our brief introduction to concurrency to an end. Next, we will use this entire chapter
+to formulate our approach to concurrency.

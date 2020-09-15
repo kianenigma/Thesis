@@ -16,6 +16,38 @@
   primaryClass = {cs}
 }
 
+@article{anjanaSTMEfficientConcurrent2019,
+  title = {[{{STM}}] {{Efficient Concurrent Execution}} of {{Smart Contracts}} in {{Blockchains}} Using {{Object}}-Based {{Transactional Memory}}},
+  author = {Anjana, Parwat Singh and Kumari, Sweta and Peri, Sathya and Somani, Archit},
+  year = {2019},
+  month = aug,
+  abstract = {Several popular blockchains such as Ethereum executes complex transactions in blocks through user-defined scripts known as smart contracts. Normally, a block of the chain consists of multiple Smart Contract Transactions (SCTs) which are added by a miner. To append a correct block into the blockchain, miner executes these SCTs sequentially and store the final state in the block. The remaining peers on receiving this block act as validators. The validators again sequentially re-execute the SCTs of the block as a part of the consensus protocol. If the validators agree with the final state of the block as recorded by the miner, then the block is said to be validated and is added to the blockchain. In Ethereum and other blockchains that support cryptocurrencies, a miner gets an incentive every time such a valid block is successfully added to the blockchain.},
+  archivePrefix = {arXiv},
+  eprint = {1904.00358},
+  eprinttype = {arxiv},
+  file = {/Users/kianenigma/Documents/Zotero/storage/JEFDZEVL/Anjana et al. - 2019 - Efficient Concurrent Execution of Smart Contracts .pdf},
+  journal = {ArXiv190400358 Cs},
+  keywords = {Computer Science - Distributed; Parallel; and Cluster Computing},
+  language = {en},
+  primaryClass = {cs}
+}
+
+@article{anjanaSTMEfficientFramework2019,
+  title = {[{{STM}}] {{An Efficient Framework}} for {{Optimistic Concurrent Execution}} of {{Smart Contracts}}},
+  author = {Anjana, Parwat Singh and Kumari, Sweta and Peri, Sathya and Rathor, Sachin and Somani, Archit},
+  year = {2019},
+  month = jan,
+  abstract = {Blockchain platforms such as Ethereum and several others execute complex transactions in blocks through userdefined scripts known as smart contracts. Normally, a block of the chain consists of multiple transactions of smart contracts which are added by a miner. To append a correct block into the blockchain, miners execute these transactions of smart contracts sequentially. Later the validators serially re-execute the smart contract transactions of the block. If the validators agree with the final state of the block as recorded by the miner, then the block is said to be validated. It is then added to the blockchain using a consensus protocol. In Ethereum and other blockchains that support cryptocurrencies, a miner gets an incentive every time such a valid block successfully added to the blockchain.},
+  archivePrefix = {arXiv},
+  eprint = {1809.01326},
+  eprinttype = {arxiv},
+  file = {/Users/kianenigma/Documents/Zotero/storage/8MX9L7LC/Anjana et al. - 2019 - An Efficient Framework for Optimistic Concurrent E.pdf},
+  journal = {ArXiv180901326 Cs},
+  keywords = {Computer Science - Distributed; Parallel; and Cluster Computing},
+  language = {en},
+  primaryClass = {cs}
+}
+
 @book{antonopoulosMasteringEthereumBuilding2019,
   title = {Mastering {{Ethereum}}: Building Smart Contracts and {{DApps}}},
   shorttitle = {Mastering {{Ethereum}}},
@@ -62,6 +94,22 @@
   number = {1}
 }
 
+@article{bartolettiStaticTrueConcurrent2019,
+  title = {[{{Static}}] {{A}} True Concurrent Model of Smart Contracts Executions},
+  author = {Bartoletti, Massimo and Galletta, Letterio and Murgia, Maurizio},
+  year = {2019},
+  month = may,
+  abstract = {One of the key features of modern blockchain platforms is the possibility of executing smart contracts, i.e. computer programs that transfer digital assets between users, according to pre-agreed rules. Crucially, the execution of smart contracts must be correct even in the presence of (a minority of) adversaries in the peer-to-peer network that maintains the blockchain. To enforce this property without a trusted authority, the nodes follow a consensus protocol, which determines which node can extend the blockchain at each moment. To this aim, nodes first collect a set of transactions from the network, representing the actions on the smart contracts required by users. Then, to compute the new state of the smart contracts, they put these transactions in sequence (in an arbitrary order), and execute them serially. Once this block of transactions is appended to the blockchain, the other nodes of the network validate it, by reexecuting the transactions in the same order. The serial execution of transactions does not take advantage of the multi-core architecture of modern processors, so contributing to limit the throughput of blockchains. In this paper we devise a static analysis technique for parallelizing the execution of transactions, in a formal setting based on Ethereum, the most widespread platform for smart contracts.},
+  archivePrefix = {arXiv},
+  eprint = {1905.04366},
+  eprinttype = {arxiv},
+  file = {/Users/kianenigma/Documents/Zotero/storage/T7DEFCTW/Bartoletti et al. - 2019 - A true concurrent model of smart contracts executi.pdf},
+  journal = {ArXiv190504366 Cs},
+  keywords = {Computer Science - Programming Languages,Statistical Analysis},
+  language = {en},
+  primaryClass = {cs}
+}
+
 @book{bashirMASTERINGBLOCKCHAINDistributed2018,
   title = {{{MASTERING BLOCKCHAIN}}: Distributed Ledger Technology, Decentralization, and Smart Contracts Explained, 2nd Edition;Distributed Ledger.},
   shorttitle = {{{MASTERING BLOCKCHAIN}}},
@@ -99,6 +147,21 @@
   file = {/Users/kianenigma/Documents/Zotero/storage/2TFTRZXJ/Brumley and Tuveri - 2011 - Remote Timing Attacks are Still Practical.pdf;/Users/kianenigma/Documents/Zotero/storage/ZLE86VHF/232.html},
   keywords = {elliptic curve cryptography,lattice attacks.,public-key cryptography,side-channel attacks,timing attacks},
   number = {232}
+}
+
+@article{buterinCasperFriendlyFinality2019,
+  title = {Casper the {{Friendly Finality Gadget}}},
+  author = {Buterin, Vitalik and Griffith, Virgil},
+  year = {2019},
+  month = jan,
+  abstract = {We introduce Casper, a proof of stake-based finality system which overlays an existing proof of work blockchain. Casper is a partial consensus mechanism combining proof of stake algorithm research and Byzantine fault tolerant consensus theory. We introduce our system, prove some desirable features, and show defenses against long range revisions and catastrophic crashes. The Casper overlay provides almost any proof of work chain with additional protections against block reversions.},
+  archivePrefix = {arXiv},
+  eprint = {1710.09437},
+  eprinttype = {arxiv},
+  file = {/Users/kianenigma/Documents/Zotero/storage/UJXGPEUU/Buterin_Griffith_2019_Casper the Friendly Finality Gadget.pdf;/Users/kianenigma/Documents/Zotero/storage/MRB8PIFI/1710.html},
+  journal = {ArXiv171009437 Cs},
+  keywords = {Computer Science - Cryptography and Security},
+  primaryClass = {cs}
 }
 
 @inproceedings{carlucciHTTPUDPExperimental2015,
@@ -147,6 +210,32 @@
   language = {en-US}
 }
 
+@misc{darrylRCast21Currency2019,
+  title = {{{RCast}} 21: {{The Currency}} of {{Concurrency}}},
+  shorttitle = {{{RCast}} 21},
+  author = {{darryl}},
+  year = {2019},
+  month = mar,
+  abstract = {In this RCast, Greg Meredith is joined by Isaac DeFrain and Christian Williams to discuss why concurrency is necessary in blockchain\textemdash and beyond.},
+  file = {/Users/kianenigma/Documents/Zotero/storage/IMQFHZFH/rcast-21-the-currency-of-concurrency.html},
+  journal = {RChain Blog},
+  language = {en-US}
+}
+
+@inproceedings{deangelisPBFTVsProofofauthority2018,
+  title = {{{PBFT}} vs Proof-of-Authority: Applying the {{CAP}} Theorem to Permissioned Blockchain},
+  shorttitle = {{{PBFT}} vs Proof-of-Authority},
+  booktitle = {Italian {{Conference}} on {{Cyber Security}} (06/02/18)},
+  author = {De Angelis, Stefano and Aniello, Leonardo and Baldoni, Roberto and Lombardi, Federico and Margheri, Andrea and Sassone, Vladimiro},
+  year = {2018},
+  month = jan,
+  abstract = {Permissioned blockchains are arising as a solution to federate companies prompting accountable interactions. A variety of consensus algorithms for such blockchains have been proposed, each of which has different benefits and drawbacks. Proof-of-Authority (PoA) is a new family of Byzantine fault-tolerant (BFT) consensus algorithms largely used in practice to ensure better performance than traditional Practical Byzantine Fault Tolerance (PBFT). However, the lack of adequate analysis of PoA hinders any cautious evaluation of their effectiveness in real-world permissioned blockchains deployed over the Internet, hence on an eventually synchronous network experimenting Byzantine nodes.{$<$}br/{$>$}In this paper, we analyse two of the main PoA algorithms, named Aura and Clique, both in terms of provided guarantees and performances. First, we derive their functioning including how messages are exchanged, then we weight, by relying on the CAP theorem, consistency, availability and partition tolerance guarantees. We also report a qualitative latency analysis based on message rounds. The analysis advocates that PoA for per- missioned blockchains, deployed over the Internet with Byzantine nodes, do not provide adequate consistency guarantees for scenarios where data integrity is essential. We claim that PBFT can fit better such scenarios, despite a limited loss in terms of performance.},
+  collaborator = {De Angelis, Stefano and Aniello, Leonardo and Baldoni, Roberto and Lombardi, Federico and Margheri, Andrea and Sassone, Vladimiro},
+  copyright = {accepted\_manuscript},
+  file = {/Users/kianenigma/Documents/Zotero/storage/EMQUTS9L/415083.html},
+  language = {en}
+}
+
 @inproceedings{demersEpidemicAlgorithmsReplicated1987,
   title = {Epidemic Algorithms for Replicated Database Maintenance},
   booktitle = {Proceedings of the Sixth Annual {{ACM Symposium}} on {{Principles}} of Distributed Computing},
@@ -167,6 +256,22 @@
   author = {Dias, Ricardo J. and Louren{\c c}o, Jo{\~a}o M. and Pregui{\c c}a, Nuno M.},
   abstract = {The use of the Snapshot Isolation (SI) level in Transactional Memory (TM) eliminates the need of tracking memory read accesses, reducing the run-time overhead and fastening the commit phase. By detecting only write-write conflicts, SI allows many memory transactions to succeed that would otherwise abort if serialized. This higher commit rate comes at the expense of introducing anomalous behaviors by allowing some real conflicting transactions to commit. We aim at improving the performance of TM systems by running programs under SI, while guaranteeing a serializable semantics. This is achieved by static analysis of TM programs using Separation Logic to detect possible anomalies when running under SI. To guarantee correct behavior, the program code can be automatically modified to avoid these anomalies. Our approach can have an important impact on the performance of single multi-core node TM systems, and also of distributed TM systems by considerable reducing the required network traffic. 1},
   file = {/Users/kianenigma/Documents/Zotero/storage/HCGIJ423/Dias et al_Efficient and Correct Transactional Memory Programs Combining Snapshot.pdf;/Users/kianenigma/Documents/Zotero/storage/8KB3ZPQY/summary.html}
+}
+
+@article{dickersonSmartLocksAddingConcurrency2017,
+  title = {[{{SmartLocks}}] {{Adding Concurrency}} to {{Smart Contracts}}},
+  author = {Dickerson, Thomas and Gazzillo, Paul and Herlihy, Maurice and Koskinen, Eric},
+  year = {2017},
+  month = feb,
+  abstract = {Modern cryptocurrency systems, such as Ethereum, permit complex financial transactions through scripts called smart contracts. These smart contracts are executed many, many times, always without real concurrency. First, all smart contracts are serially executed by miners before appending them to the blockchain. Later, those contracts are serially re-executed by validators to verify that the smart contracts were executed correctly by miners.},
+  archivePrefix = {arXiv},
+  eprint = {1702.04467},
+  eprinttype = {arxiv},
+  file = {/Users/kianenigma/Documents/Zotero/storage/EBS7L7ZZ/Dickerson et al. - 2017 - Adding Concurrency to Smart Contracts.pdf},
+  journal = {ArXiv170204467 Cs},
+  keywords = {Computer Science - Distributed; Parallel; and Cluster Computing},
+  language = {en},
+  primaryClass = {cs}
 }
 
 @article{diffieNewDirectionsCryptography1976,
@@ -225,6 +330,16 @@
   title = {The {{Effects}} of {{Concurrency Control}} on {{Database Management System Performance}},},
   file = {/Users/kianenigma/Documents/Zotero/storage/4GNJEIA8/ADA103141.html},
   howpublished = {https://apps.dtic.mil/sti/citations/ADA103141}
+}
+
+@book{EnablingConcurrencySmart2018,
+  title = {Enabling {{Concurrency}} on {{Smart Contracts Using Multiversion Ordering}}},
+  year = {2018},
+  publisher = {{Springer Berlin Heidelberg}},
+  address = {{New York, NY}},
+  file = {/Users/kianenigma/Documents/Zotero/storage/XHIUNM5D/2018 - Web and big data.pdf},
+  isbn = {978-3-319-96892-6},
+  language = {en}
 }
 
 @misc{EthereumWiki,
@@ -466,6 +581,21 @@
   number = {4}
 }
 
+@article{mIOTANextGenerationBlock2018,
+  title = {{{IOTA}}-{{Next Generation Block}} Chain},
+  author = {M, Divya and Biradar, Nagaveni B.},
+  year = {2018},
+  month = apr,
+  volume = {7},
+  pages = {23823--23826},
+  issn = {2319-7242},
+  copyright = {Copyright (c) 2018 International Journal of Engineering and Computer Science},
+  file = {/Users/kianenigma/Documents/Zotero/storage/NC6FTFJD/M_Biradar_2018_IOTA-Next Generation Block chain.pdf;/Users/kianenigma/Documents/Zotero/storage/GMNZX7PU/4007.html},
+  journal = {Int. J. Eng. Comput. Sci.},
+  language = {en},
+  number = {04}
+}
+
 @misc{monicaPaulBaranOrigins,
   title = {Paul {{Baran}} and the {{Origins}} of the {{Internet}}},
   author = {Monica, 1776 Main Street Santa and {California 90401-3208}},
@@ -501,6 +631,51 @@
   language = {en}
 }
 
+@article{pangOCCConcurrencyProtocol2019,
+  title = {[{{OCC}}] {{Concurrency Protocol Aiming}} at {{High Performance}} of {{Execution}} and {{Replay}} for {{Smart Contracts}}},
+  author = {Pang, Shuaifeng and Qi, Xiaodong and Zhang, Zhao and Jin, Cheqing and Zhou, Aoying},
+  year = {2019},
+  month = may,
+  abstract = {Although the emergence of the programmable smart contract makes blockchain systems easily embrace a wider range of industrial areas, how to execute smart contracts efficiently becomes a big challenge nowadays. Due to the existence of Byzantine nodes, the mechanism of executing smart contracts is quite different from that in database systems, so that existing successful concurrency control protocols in database systems cannot be employed directly. Moreover, even though smart contract execution follows a two-phase style, i.e, the miner node executes a batch of smart contracts in the first phase and the validators replay them in the second phase, existing parallel solutions only focus on the optimization in the first phase, but not including the second phase.},
+  archivePrefix = {arXiv},
+  eprint = {1905.07169},
+  eprinttype = {arxiv},
+  file = {/Users/kianenigma/Documents/Zotero/storage/HNDVEQIK/Pang et al. - 2019 - Concurrency Protocol Aiming at High Performance of.pdf},
+  journal = {ArXiv190507169 Cs},
+  keywords = {Computer Science - Databases,Computer Science - Distributed; Parallel; and Cluster Computing},
+  language = {en},
+  primaryClass = {cs}
+}
+
+@article{perezBrokenMetreAttacking2020,
+  title = {Broken {{Metre}}: {{Attacking Resource Metering}} in {{EVM}}},
+  shorttitle = {Broken {{Metre}}},
+  author = {Perez, Daniel and Livshits, Benjamin},
+  year = {2020},
+  month = mar,
+  abstract = {Blockchain systems, such as Ethereum, use an approach called "metering" to assign a cost to smart contract execution, an approach which is designed to incentivise miners to operate the network and protect it against DoS attacks. In the past, the imperfections of Ethereum metering allowed several DoS attacks which were countered through modification of the metering mechanism. This paper presents a new DoS attack on Ethereum which systematically exploits its metering mechanism. We first replay and analyse several months of transactions, during which we discover a number of discrepancies in the metering model, such as significant inconsistencies in the pricing of the instructions. We further demonstrate that there is very little correlation between the execution cost and the utilised resources, such as CPU and memory. Based on these observations, we present a new type of DoS attack we call Resource Exhaustion Attack, which uses these imperfections to generate low-throughput contracts. To do this, we design a genetic algorithm that generates contracts with a throughput on average 200 times slower than typical contracts. We then show that all major Ethereum client implementations are vulnerable and, if running on commodity hardware, would be unable to stay in sync with the network when under attack. We argue that such an attack could be financially attractive not only for Ethereum competitors and speculators, but also for Ethereum miners. Finally, we discuss short-term and potential long-term fixes against such attacks. Our attack has been responsibly disclosed to the Ethereum Foundation and awarded a bug bounty reward of 5,000 USD.},
+  archivePrefix = {arXiv},
+  eprint = {1909.07220},
+  eprinttype = {arxiv},
+  file = {/Users/kianenigma/Documents/Zotero/storage/22NZR47G/Perez_Livshits_2020_Broken Metre.pdf;/Users/kianenigma/Documents/Zotero/storage/928RJB82/1909.html},
+  journal = {ArXiv190907220 Cs},
+  keywords = {Computer Science - Cryptography and Security},
+  primaryClass = {cs}
+}
+
+@inproceedings{pervezComparativeAnalysisDAGBased2018,
+  title = {A {{Comparative Analysis}} of {{DAG}}-{{Based Blockchain Architectures}}},
+  booktitle = {2018 12th {{International Conference}} on {{Open Source Systems}} and {{Technologies}} ({{ICOSST}})},
+  author = {Pervez, Huma and Muneeb, Muhammad and Irfan, Muhammad Usama and Haq, Irfan Ul},
+  year = {2018},
+  month = dec,
+  pages = {27--34},
+  doi = {10.1109/ICOSST.2018.8632193},
+  abstract = {Blockchain is a shared distributed ledger that promises tamper-proof secure transactions over the highly available and resilient network involving multiple participants. Directed Acyclic Graph (DAG) has revolutionized the blockchain technology. Owing to its optimized validation mechanism, high scalability, efficient provenance, support for IoT and multiparty involvement, DAG is rapidly over-shadowing traditional blockchain architecture. In this paper, we present a comparative analysis of most popular DAG based blockchain architectures including Nxt, IOTA, Orumesh, DagCoin,Byteball, Nano and XDAG. The comparison is based on the functional data structures for maintaining the ledger, consensus algorithms, transaction validation, ledger size, scalability and popularity. Extracting the best features various DAG based blockchains, we move on to outline the best of all worlds DAG-based blockchain architecture.},
+  file = {/Users/kianenigma/Documents/Zotero/storage/MVY7IBXL/8632193.html},
+  keywords = {Blockchain,Byteball,Computer architecture,consensus algorithms,cryptography,Cryptography,DAG-based blockchain architectures,DagCoin,data structures,Directed acyclic graph,Directed Acyclic Graph,directed graphs,distributed databases,Distributed databases,feature extraction,functional data structures,IOTA,ledger size,Nano,Nxt,optimized validation mechanism,Orumesh,Peer-to-peer computing,Scalability,shared distributed ledger,tamper-proof secure transactions,transaction processing,transaction validation,XDAG}
+}
+
 @article{pirrongWillBlockchainBe2019,
   title = {Will {{Blockchain Be}} a {{Big Deal}}? {{Reasons}} for {{Caution}}},
   shorttitle = {Will {{Blockchain Be}} a {{Big Deal}}?},
@@ -517,6 +692,21 @@
   journal = {J. Appl. Corp. Finance},
   language = {en},
   number = {4}
+}
+
+@article{saraphYOLOEmpiricalStudy2019,
+  title = {[{{YOLO}}] {{An Empirical Study}} of {{Speculative Concurrency}} in {{Ethereum Smart Contracts}}},
+  author = {Saraph, Vikram and Herlihy, Maurice},
+  year = {2019},
+  month = jan,
+  abstract = {We use historical data to estimate the potential benefit of speculative techniques for executing Ethereum smart contracts in parallel. We replay transaction traces of sampled blocks from the Ethereum blockchain over time, using a simple speculative execution engine. In this engine, miners attempt to execute all transactions in a block in parallel, rolling back those that cause data conflicts. Aborted transactions are then executed sequentially. Validators execute the same schedule as miners. We find that our speculative technique yields estimated speed-ups starting at about 8-fold in 2016, declining to about 2-fold at the end of 2017, where speed-up is measured using either gas costs or instruction counts. We also observe that a small set of contracts are responsible for many data conflicts resulting from speculative concurrent execution.},
+  archivePrefix = {arXiv},
+  eprint = {1901.01376},
+  eprinttype = {arxiv},
+  file = {/Users/kianenigma/Documents/Zotero/storage/W4JW62EV/Saraph and Herlihy - 2019 - An Empirical Study of Speculative Concurrency in E.pdf;/Users/kianenigma/Documents/Zotero/storage/RD687X93/1901.html},
+  journal = {ArXiv190101376 Cs},
+  keywords = {Computer Science - Distributed; Parallel; and Cluster Computing},
+  primaryClass = {cs}
 }
 
 @misc{ShareMemoryCommunicating,
@@ -553,6 +743,22 @@
   number = {1159}
 }
 
+@inproceedings{stewartPosterGRANDPAFinality2019,
+  title = {Poster: {{GRANDPA Finality Gadget}}},
+  shorttitle = {Poster},
+  booktitle = {Proceedings of the 2019 {{ACM SIGSAC Conference}} on {{Computer}} and {{Communications Security}}},
+  author = {Stewart, Alistair},
+  year = {2019},
+  month = nov,
+  pages = {2649--2651},
+  publisher = {{Association for Computing Machinery}},
+  address = {{New York, NY, USA}},
+  doi = {10.1145/3319535.3363278},
+  abstract = {We present GRANDPA, a finality gadget, that is a protocol that can be used to provide provable finality for a blockchain. It works in addition to a block production mechanism and a chain selection rule, that on their own would only provide eventual consensus. The design of GRANDPA aims at separating these two protocols as cleanly as possible and obtain formal guarantees for the finality gadget. GRANDPA attempts to finalise the prefix of the chain that \$2/3\$ of voters agree on, whether that is one or thousands blocks. It has been implemented by Parity Technologies and deployed on large testnets for the Polkadot protocol. We also present properties GRANDPA achieves and review GRANDPA's advantages in flexibility over comparable protocols.},
+  isbn = {978-1-4503-6747-9},
+  series = {{{CCS}} '19}
+}
+
 @article{stollCarbonFootprintBitcoin2019,
   title = {The {{Carbon Footprint}} of {{Bitcoin}}},
   author = {Stoll, Christian and Klaa{\ss}en, Lena and Gallersd{\"o}rfer, Ulrich},
@@ -582,6 +788,19 @@
   abstract = {Go is a new programming language developed by Google. Although it is still young compared to other programming languages, it already has modern and powerful features inherited from existing programming languages, and some of these are similar to Java. Go is designed for quick time development. Concurrency is the one of the main its features. In this paper, we analyze the performance of Go, and compare it with Java from two aspects: compile time and concurrency. There are many studies about the performance analysis and comparison of programming languages, but only a few publications investigate Go. Some of Go performance evaluation are based on the experimental release of Go. To analyze concurrency features, we implement simple matrix multiplication programs in both Go and Java. Java implementation uses Java Thread, and Go implementation uses Gor-outine and Channel. From the experiment, Go derived better performance than Java in both compile time and concurrency. Moreover, Go code shows the ease of concurrent programming. Go is still young, but we are convinced that Go will become the mainstream.},
   file = {/Users/kianenigma/Documents/Zotero/storage/PGZV4BPC/6920368.html},
   keywords = {Benchmark testing,Channel,compile time,concurrency,Concurrency,concurrency control,concurrency features,Concurrent computing,Educational institutions,Evaluation,Go,Go code,Google,Goroutine,Java,Java thread,Message systems,Performance,performance analysis,program compilers,Programming,programming language}
+}
+
+@article{turnerPolymorphicPiCalculusTheory1996,
+  title = {The {{Polymorphic Pi}}-{{Calculus}}: {{Theory}} and {{Implementation}}},
+  shorttitle = {The {{Polymorphic Pi}}-{{Calculus}}},
+  author = {Turner, David},
+  year = {1996},
+  month = jul,
+  publisher = {{University of Edinburgh. College of Science and Engineering. School of Informatics.}},
+  abstract = {We investigate whether the Pi-calculus is able to serve as a good foundation for the design and implementation of a strongly-typed concurrent programming language. The first half of the dissertation examines whether the Pi-calculus supports a simple type system which is flexible enough to provide a suitable foundation for the type system of a concurrent programming language. The second half of the dissertation considers how to implement the Pi-calculus efficiently, starting with an abstract machine for Pi-calculus and finally presenting a compilation of Pi-calculus to C.    We start the dissertation by presenting a simple, structural type system for Pi-calculus, and then, after proving the soundness of our type system, show how to infer principal types for Pi-terms. This simple type system can be extended to include useful type-theoretic constructions such as recursive types and higher-order polymorphism. Higher-order polymorphism is important, since it gives us the ability to implement abstract datatypes in a type-safe manner, thereby providing a greater degree of modularity for Pi-calculus programs.    The functional computational paradigm plays an important part in many programming languages. It is well-known that the Pi-calculus can encode functional computation. We go further and show that the type structure of lambda-terms is preserved by such encodings, in the sense that we can relate the type of a lambda-term to the type of its encoding in the Pi-calculus. This means that a Pi-calculus programming language can genuinely support typed functional programming as a special case.    An efficient implementation of Pi-calculus is necessary if we wish to consider Pi-calculus as an operational foundation for concurrent programming. We first give a simple abstract machine for Pi-calculus and prove it correct. We then show how this abstract machine inspires a simple, but efficient, compilation of Pi-calculus to C (which now forms the basis of the Pict programming language implementation).},
+  annotation = {Accepted: 2004-03-03T11:58:32Z},
+  file = {/Users/kianenigma/Documents/Zotero/storage/HC5FMEGA/Turner_1996_The Polymorphic Pi-Calculus.pdf;/Users/kianenigma/Documents/Zotero/storage/2BXGKNB7/395.html},
+  language = {en}
 }
 
 @misc{vignaGreatDigitalCurrencyDebate2016,

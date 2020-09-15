@@ -1,1 +1,12 @@
 .DS_Store
+*.log
+*.lof
+*.fls
+*.bbl
+*.aux
+*.blg
+*.out
+*.dvi
+*.lot
+*.toc
+*.fdb_*
