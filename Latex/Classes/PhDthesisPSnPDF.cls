@@ -55,6 +55,33 @@
 \usepackage[nottoc]{tocbibind} % correct page numbers for bib in TOC, nottoc suppresses an entry for TOC itself
 %\usepackage{nextpage}
 
+% For code highlight
+\usepackage{listings, listings-rust}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+	frame=tb,
+	language=Rust,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=2,
+	% title=\lstname
+}
+
 %:-------------------------- Glossary/Abbrev./Symbols -----------------------
 
 \usepackage[intoc]{nomencl} % load nomencl extension; include in TOC
@@ -84,7 +111,7 @@
 %:-------------------------- PDF/PS setup -----------------------
 
 %if you use a macTeX 2008 or later, use the ifpdf package
-\usepackage{ifpdf} 
+\usepackage{ifpdf}
 
 %if you use an older version, uncomment these lines:
 %\newif \ifpdf
@@ -101,13 +128,13 @@
 \ifpdf
 %-->
 %--> Google.com search "hyperref options"
-%--> 
+%-->
 %--> http://www.ai.mit.edu/lab/sysadmin/latex/documentation/latex/hyperref/manual.pdf
-%--> http://www.chemie.unibas.ch/~vogtp/LaTeX2PDFLaTeX.pdf 
+%--> http://www.chemie.unibas.ch/~vogtp/LaTeX2PDFLaTeX.pdf
 %--> http://www.uni-giessen.de/partosch/eurotex99/ oberdiek/print/sli4a4col.pdf
 %--> http://me.in-berlin.de/~miwie/tex-refs/html/latex-packages.html
 %-->
-    \usepackage[ pdftex, plainpages = false, pdfpagelabels, 
+    \usepackage[ pdftex, plainpages = false, pdfpagelabels,
                  pdfpagelayout = useoutlines,
                  bookmarks,
                  bookmarksopen = true,
@@ -122,14 +149,14 @@
                  anchorcolor = green,
                  hyperindex = true,
                  hyperfigures
-                 ]{hyperref} 
+                 ]{hyperref}
 
     \DeclareGraphicsExtensions{.png, .jpg, .jpeg, .pdf, .gif} %GIF doesn't work??
     \usepackage[pdftex]{graphicx}
     \pdfcompresslevel=9
     \graphicspath{{0_frontmatter/figures/PNG/}{0_frontmatter/figures/PDF/}{0_frontmatter/figures/}}
 \else
-    \usepackage[ dvips, 
+    \usepackage[ dvips,
                  bookmarks,
                  bookmarksopen = true,
                  bookmarksnumbered = true,
@@ -242,7 +269,7 @@
 % Stating the city of birth for title page where needed; uncommented for use
 %\def\cityofbirth#1{\gdef\@cityofbirth{#1}}
 
-% These macros define an environment for front matter that is always 
+% These macros define an environment for front matter that is always
 % single column even in a double-column document.
 
 \newenvironment{alwayssingle}{%
@@ -262,8 +289,8 @@
 {\large \vspace*{35mm} {{\@crest} \par} \vspace*{25mm}}
     {{\Large \@author} \par}
 %	\vspace*{1ex}
-%	{{\@cityofbirth} \par}    
-{\large 
+%	{{\@cityofbirth} \par}
+{\large
 	\vspace*{1ex}
     {{\@collegeordept} \par}
 	\vspace*{1ex}
@@ -303,7 +330,7 @@
 
 % ACKNOWLEDGEMENTS
 %
-% The acknowledgements environment puts a large, bold, centered 
+% The acknowledgements environment puts a large, bold, centered
 % "Acknowledgements" label at the top of the page. The acknowledgements
 % themselves appear in a quote environment, i.e. tabbed in at both sides, and
 % on its own page.
@@ -319,8 +346,8 @@
 \begin{quote}}
 {\end{quote}\end{alwayssingle}}
 
-% The acknowledgementslong environment puts a large, bold, centered 
-% "Acknowledgements" label at the top of the page. The acknowledgement itself 
+% The acknowledgementslong environment puts a large, bold, centered
+% "Acknowledgements" label at the top of the page. The acknowledgement itself
 % does not appears in a quote environment so you can get more in.
 
 \newenvironment{acknowledgementslong}
@@ -404,6 +431,6 @@
 %	\setcounter{page}{1}
 %	\renewcommand{\thepage}{\roman{page}}
 %} % close romanpage env't
- 
+
 {\newpage\renewcommand{\thepage}{\arabic{page}}\setcounter{page}{1}}
 
