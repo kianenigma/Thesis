@@ -706,7 +706,7 @@ In this section, we bring \ref{subsec:baseline_alg} and \ref{subsec:applying_sta
 picture, and explain the entire system design. We tackle this by presenting an all in one picture of
 the system design and explaining all the components, connecting all the dots as we move forward.
 
-\figuremacro{figures/design.png}{Overal System Design}
+\figuremacro{figures/design.png}{Overall System Design}
 
 Figure \ref{figure:figures/design.png} includes enumerated labels on each system component, and we
 use these labels to explain each component.
@@ -729,8 +729,12 @@ use these labels to explain each component.
 	\item \textbf{4} shows the local queue of each thread. This is where the transactions that the
 	master thread designates to each thread live, until they are executed. Needless to say, this
 	queue is also ordered.
-
+	\item \textbf{5} shows the orphan queue, where the master thread maintains an ordered queue of transactions that are essentially rejected by the workers and need to be executed in a second sequential phase. Once all the workers are done accessing the state, the master thread will exclusively start usin the state (essentially with ignoring all the taint values) and execute all the orphan transactions sequentially. 
+	\item \textbf{6} importantly depicts the transaction distributor component of the master thread. This component is invoked prior to the process of authoring to tag all the transactions that are ready to be executed in the transaction queue. This effectively determines which thread gets to execute which transactions. 
+	\item \textbf{7} is the transaction queue, where an ordered subset of the transaction pool is verified and awaiting to be delegated to worker threads. 
 \end{itemize}
+
+With this overall blueprint of the system's design, we move forward to the next chapter, where we will bring this concept one step closer to reality by covering some of the implementation details.
 
 
 
