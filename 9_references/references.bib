@@ -94,6 +94,23 @@
   number = {1}
 }
 
+@inproceedings{barnatFastDynamicallySizedConcurrent2015,
+  title = {Fast, {{Dynamically}}-{{Sized Concurrent Hash Table}}},
+  booktitle = {Model {{Checking Software}}},
+  author = {Barnat, J. and Ro{\v c}kai, P. and {\v S}till, V. and Weiser, J.},
+  editor = {Fischer, Bernd and Geldenhuys, Jaco},
+  year = {2015},
+  pages = {49--65},
+  publisher = {{Springer International Publishing}},
+  address = {{Cham}},
+  doi = {10.1007/978-3-319-23404-5_5},
+  abstract = {We present a new design and a C++ implementation of a high-performance, cache-efficient hash table suitable for use in implementation of parallel programs in shared memory. Among the main design criteria were the ability to efficiently use variable-length keys, dynamic table resizing to accommodate data sets of unpredictable size and fully concurrent read-write access.We show that the design is correct with respect to data races, both through a high-level argument, as well as by using a model checker to prove crucial safety properties of the actual implementation. Finally, we provide a number of benchmarks showing the performance characteristics of the C++ implementation, in comparison with both sequential-access and concurrent-access designs.},
+  isbn = {978-3-319-23404-5},
+  keywords = {Cache Line,Data Race,Hash Table,Memory Overhead,Model Checker},
+  language = {en},
+  series = {Lecture {{Notes}} in {{Computer Science}}}
+}
+
 @article{bartolettiStaticTrueConcurrent2019,
   title = {[{{Static}}] {{A}} True Concurrent Model of Smart Contracts Executions},
   author = {Bartoletti, Massimo and Galletta, Letterio and Murgia, Maurizio},
@@ -222,6 +239,12 @@
   abstract = {Atomic sections are a recent and popular idiom to support the development of concurrent programs. Updates performed within an atomic section should not be visible to other threads until the atomic section has been executed entirely. Traditionally, atomic sections are supported through the use of optimistic concurrency, either using a transactional memory hardware, or an \ldots},
   file = {/Users/kianenigma/Documents/Zotero/storage/8SNKUUPI/Cherem et al_2007_Inferring Locks for Atomic Sections.pdf;/Users/kianenigma/Documents/Zotero/storage/TNLG3RTQ/inferring-locks-for-atomic-sections.html},
   language = {en-US}
+}
+
+@misc{CS242Programming,
+  title = {{{CS}} 242: {{Programming Languages}}, {{Fall}} 2019},
+  file = {/Users/kianenigma/Documents/Zotero/storage/BD8I3LD2/f19.html},
+  howpublished = {http://cs242.stanford.edu/f19/}
 }
 
 @misc{darrylRCast21Currency2019,
@@ -503,6 +526,22 @@
   number = {2}
 }
 
+@article{jungRustBeltSecuringFoundations2017,
+  title = {{{RustBelt}}: Securing the Foundations of the Rust Programming Language},
+  shorttitle = {{{RustBelt}}},
+  author = {Jung, Ralf and Jourdan, Jacques-Henri and Krebbers, Robbert and Dreyer, Derek},
+  year = {2017},
+  month = dec,
+  volume = {2},
+  pages = {66:1--66:34},
+  doi = {10.1145/3158154},
+  abstract = {Rust is a new systems programming language that promises to overcome the seemingly fundamental tradeoff between high-level safety guarantees and low-level control over resource management. Unfortunately, none of Rust's safety claims have been formally proven, and there is good reason to question whether they actually hold. Specifically, Rust employs a strong, ownership-based type system, but then extends the expressive power of this core type system through libraries that internally use unsafe features. In this paper, we give the first formal (and machine-checked) safety proof for a language representing a realistic subset of Rust. Our proof is extensible in the sense that, for each new Rust library that uses unsafe features, we can say what verification condition it must satisfy in order for it to be deemed a safe extension to the language. We have carried out this verification for some of the most important libraries that are used throughout the Rust ecosystem.},
+  file = {/Users/kianenigma/Documents/Zotero/storage/K4AMQLY7/Jung et al_2017_RustBelt.pdf},
+  journal = {Proc. ACM Program. Lang.},
+  keywords = {concurrency,logical relations,Rust,separation logic,type systems},
+  number = {POPL}
+}
+
 @inproceedings{kedemControllingConcurrencyUsing1979,
   title = {Controlling Concurrency Using Locking Protocols},
   booktitle = {20th {{Annual Symposium}} on {{Foundations}} of {{Computer Science}} (Sfcs 1979)},
@@ -515,6 +554,19 @@
   abstract = {This paper is concerned with the problem of developing locking protocols for ensuring the consistency of database systems that are accessed concurrently by a number of independent transactions. It is assumed that the database is modelled by a directed acyclic graph whose vertices correspond to the database entities, and whose arcs correspond to certain locking restrictions. Several locking protocols are presented. The weak protocol is shown to ensure consistency and deadlock-freedom only for databases that are organized as trees. For the databases that are organized as directed acyclic graphs, the strong protocol is presented. Discussion of SHARED and EXCLUSIVE locks is also included.},
   file = {/Users/kianenigma/Documents/Zotero/storage/WRPBJF8N/4568022.html},
   keywords = {Access protocols,Concurrency control,Concurrent computing,Control systems,Database systems,Programming profession,Resumes,System recovery,Transaction databases,Tree graphs}
+}
+
+@book{klabnikRustProgrammingLanguage2019,
+  title = {The {{Rust Programming Language}} ({{Covers Rust}} 2018)},
+  author = {Klabnik, Steve and Nichols, Carol},
+  year = {2019},
+  month = sep,
+  publisher = {{No Starch Press}},
+  abstract = {The official book on the Rust programming language, written by the Rust development team at the Mozilla Foundation, fully updated for Rust 2018.The Rust Programming Language is the official book on Rust: an open source systems programming language that helps you write faster, more reliable software. Rust offers control over low-level details (such as memory usage) in combination with high-level ergonomics, eliminating the hassle traditionally associated with low-level languages.The authors of The Rust Programming Language, members of the Rust Core Team, share their knowledge and experience to show you how to take full advantage of Rust's features--from installation to creating robust and scalable programs. You'll begin with basics like creating functions, choosing data types, and binding variables and then move on to more advanced concepts, such as: \textbullet{} Ownership and borrowing, lifetimes, and traits \textbullet{} Using Rust's memory safety guarantees to build fast, safe programs \textbullet{} Testing, error handling, and effective refactoring \textbullet{} Generics, smart pointers, multithreading, trait objects, and advanced pattern matching \textbullet{} Using Cargo, Rust's built-in package manager, to build, test, and document your code and manage dependencies \textbullet{} How best to use Rust's advanced compiler with compiler-led programming techniquesYou'll find plenty of code examples throughout the book, as well as three chapters dedicated to building complete projects to test your learning: a number guessing game, a Rust implementation of a command line tool, and a multithreaded server.New to this edition: An extended section on Rust macros, an expanded chapter on modules, and appendixes on Rust development tools and editions.},
+  googlebooks = {qAOhDwAAQBAJ},
+  isbn = {978-1-71850-045-7},
+  keywords = {Computers / Programming / Open Source,Computers / Programming Languages / General},
+  language = {en}
 }
 
 @inproceedings{knightArchitectureMostlyFunctional1986,
@@ -645,6 +697,23 @@
   language = {en}
 }
 
+@article{nuutilaFindingStronglyConnected1994,
+  title = {On Finding the Strongly Connected Components in a Directed Graph},
+  author = {Nuutila, Esko and {Soisalon-Soininen}, Eljas},
+  year = {1994},
+  month = jan,
+  volume = {49},
+  pages = {9--14},
+  issn = {0020-0190},
+  doi = {10.1016/0020-0190(94)90047-7},
+  abstract = {We present two improved versions of Tarjan's algorithm for the detection of strongly connected components in a directed graph. Our new algorithms handle sparse graphs and graphs with many trivial components (containing only one node) more economically than Tarjan's original algorithm. As an application we present an efficient transitive closure algorithm.},
+  file = {/Users/kianenigma/Documents/Zotero/storage/D6JU9SNI/0020019094900477.html},
+  journal = {Information Processing Letters},
+  keywords = {Design of algorithms,Strongly connected components,Tarjan's algorithm,Transitive closure},
+  language = {en},
+  number = {1}
+}
+
 @article{pangOCCConcurrencyProtocol2019,
   title = {[{{OCC}}] {{Concurrency Protocol Aiming}} at {{High Performance}} of {{Execution}} and {{Replay}} for {{Smart Contracts}}},
   author = {Pang, Shuaifeng and Qi, Xiaodong and Zhang, Zhao and Jin, Cheqing and Zhou, Aoying},
@@ -708,6 +777,23 @@
   number = {4}
 }
 
+@misc{RustBlockchain,
+  title = {Rust in {{Blockchain}}},
+  abstract = {A monthly newsletter for Rust and blockchain developers.},
+  file = {/Users/kianenigma/Documents/Zotero/storage/J2SQEHAV/rustinblockchain.org.html},
+  howpublished = {https://rustinblockchain.org/},
+  language = {en-us}
+}
+
+@misc{RustJourneyAsync,
+  title = {Rust's {{Journey}} to {{Async}}/Await},
+  abstract = {Steve Klabnik gives an overview of Rust's history, diving into the technical details of how the design has changed, and talks about the difficulties of adding a major new feature to a programming language.},
+  file = {/Users/kianenigma/Documents/Zotero/storage/9GQFALQC/rust-2019.html},
+  howpublished = {https://www.infoq.com/presentations/rust-2019/},
+  journal = {InfoQ},
+  language = {en}
+}
+
 @article{saraphYOLOEmpiricalStudy2019,
   title = {[{{YOLO}}] {{An Empirical Study}} of {{Speculative Concurrency}} in {{Ethereum Smart Contracts}}},
   author = {Saraph, Vikram and Herlihy, Maurice},
@@ -755,6 +841,12 @@
   file = {/Users/kianenigma/Documents/Zotero/storage/HBTZT9TA/Sompolinsky et al_2016_SPECTRE.pdf;/Users/kianenigma/Documents/Zotero/storage/65CRZM9F/1159.html},
   keywords = {applications,Bitcoin,cryptocurrencies,distributed algorithms},
   number = {1159}
+}
+
+@misc{StdSyncMpsc,
+  title = {Std::Sync::Mpsc - {{Rust}}},
+  file = {/Users/kianenigma/Documents/Zotero/storage/VRGRFEHU/mpsc.html},
+  howpublished = {https://doc.rust-lang.org/std/sync/mpsc/}
 }
 
 @inproceedings{stewartPosterGRANDPAFinality2019,

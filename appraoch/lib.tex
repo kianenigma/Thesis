@@ -606,7 +606,7 @@ and the validator will spawn the same number of threads, and all of the transact
 thread during authoring are re-executed by a single thread in the validation phase as well.
 
 First, consider all transactions that are executed in their initially designated thread, based on
-the aforementioned distributer function $F$. All of these transactions are assigned a tag, and have
+the aforementioned distributor function $F$. All of these transactions are assigned a tag, and have
 some partial order within the tag. The important note is, that they are also placed in their
 designated worker thread's queue with the same order, and thus executed in the same order.
 Consequently, they are, yet again, placed in the final block with the same order within the tag.
@@ -699,15 +699,16 @@ to less contention, consequently less forwarding and less orphans.
 	Why do we don't execute in the pool and all? why hints must be cheap to compute? DOS.
 \end{remark}
 
-\subsection{System Design}
+\subsection{System Architecture}
 
 \todo[inline]{We have essentially answered RQ2 by the end of this chapter.}
 
 In this section, we bring \ref{subsec:baseline_alg} and \ref{subsec:applying_static_hints} into one
-picture, and explain the entire system design. We tackle this by presenting an all in one picture of
-the system design and explaining all the components, connecting all the dots as we move forward.
+picture, and explain the entire system architecture. We tackle this by presenting an all in one
+picture of the system architecture and explaining all the components, connecting all the dots as we
+move forward.
 
-\figuremacro{figures/design.png}{Overall System Design}
+\figuremacro{figures/design.png}{Overall System Architecture}
 
 Figure \ref{figure:figures/design.png} includes enumerated labels on each system component, and we
 use these labels to explain each component.
@@ -719,10 +720,11 @@ use these labels to explain each component.
 	it. An access to each of the keys by a thread will succeed if the key is untainted, or is
 	tainted by the accessor thread. Else, an error is returned, noting the identifier of the thread
 	that owns the key.
-	\item \textbf{2} is an emphasis on the access of all the workers to the state to be\todo[]{unify the word lock free and wait free.}wait-free.
-	In an abstract level, there is no waiting involved in this model. Any access to a key in the
-	state will either \textit{immediately} succeed, in which case the key is tainted. Else, it is
-	\textit{immediately} rejected because of a taint error.
+	\item \textbf{2} is an emphasis on the access of all the workers to the state to be\todo[]{unify
+	the word lock free and wait free.}wait-free. In an abstract level, there is no waiting involved
+	in this model. Any access to a key in the state will either \textit{immediately} succeed, in
+	which case the key is tainted. Else, it is \textit{immediately} rejected because of a taint
+	error.
 	\item \textbf{3} shows the communication channels between the master and workers. These channels
 	allow all of the threads to communicate by the means of sending messages to one another. Most
 	often these messages are simply a transaction to be forwarded. It is worth noting that worker
@@ -730,12 +732,22 @@ use these labels to explain each component.
 	\item \textbf{4} shows the local queue of each thread. This is where the transactions that the
 	master thread designates to each thread live, until they are executed. Needless to say, this
 	queue is also ordered.
-	\item \textbf{5} shows the orphan queue, where the master thread maintains an ordered queue of transactions that are essentially rejected by the workers and need to be executed in a second sequential phase. Once all the workers are done accessing the state, the master thread will exclusively start usin the state (essentially with ignoring all the taint values) and execute all the orphan transactions sequentially. 
-	\item \textbf{6} importantly depicts the transaction distributor component of the master thread. This component is invoked prior to the process of authoring to tag all the transactions that are ready to be executed in the transaction queue. This effectively determines which thread gets to execute which transactions. 
-	\item \textbf{7} is the transaction queue, where an ordered subset of the transaction pool is verified and awaiting to be delegated to worker threads. 
+	\item \textbf{5} shows the orphan queue, where the master thread maintains an ordered queue of
+	transactions that are essentially rejected by the workers and need to be executed in a second
+	sequential phase. Once all the workers are done accessing the state, the master thread will
+	exclusively start using the state (essentially with ignoring all the taint values) and execute
+	all the orphan transactions sequentially.
+	\item \textbf{6} importantly depicts the transaction distributor component of the master thread.
+	This component is invoked prior to the process of authoring to tag all the transactions that are
+	ready to be executed in the transaction queue. This effectively determines which thread gets to
+	execute which transactions.
+	\item \textbf{7} is the transaction queue, where an ordered subset of the transaction pool is
+	verified and awaiting to be delegated to worker threads.
 \end{itemize}
 
-With this overall blueprint of the system's design, we move forward to the next chapter, where we will bring this concept one step closer to reality by covering some of the implementation details.
+With this overall blueprint of the system's architecture, we move forward to the next chapter, where
+we will bring this concept one step closer to reality by covering some of the implementation
+details.
 
 
 

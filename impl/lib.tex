@@ -1,23 +1,241 @@
 \chapter{Implementation}
 
-Just detail of the implementation.
+In this chapter we will bring the system architecture mentioned at the end of the chapter
+\ref{chap:approach} closer to a real programming environment. This chapter is by no means extensive,
+since there are many many implementation details that could be worth noting. Nonetheless, in favour
+of brevity we will minimize the details to only those that are either of:
 
-\section{A Note on Rust Standard Library}
+\begin{itemize}
+	\item Of importance with regards to the evaluation of the system.
+	\item Impose a particular practical challenge that we find interesting.
+\end{itemize}
 
-- HashMap, RwLock
-- Channels, mpsec,
-    - Enums as message types.
-- Threading model: not green.
+For the implementation we use the Rust programming language
+\cite{klabnikRustProgrammingLanguage2019}. Being backed by Mozilla, Rust has a lot to offer in the
+domain of system programming and low level application, such as a blockchain client/engine. Rust is
+a unique language, among the few rare ones in which one can claim that the leaning curve is indeed
+steep and it is \textit{not} just a matter of learning the new syntax. One of the reasons for this
+learning curve is Rust's compile-time memory management system, which means all allocations and
+de-allocations are inferred and checked at compile time. This ensures that the program is
+memory-safe, whilst having no garbage collector. Rust is, in some sense, the performance of C,
+combined abstractions and safety features of Java or C\#\cite{jungRustBeltSecuringFoundations2017}.
 
-\section{Generic Distributor}
-Explain RR and CC
+Lastly, it is worth mentioning that our choice is not merely out of interest. Rust have been heavily
+invested in, in the last few years, by big blockchains companies and in the field of
+research\cite{RustBlockchain}.
+
+\section{The Rust Standard Library}
+
+First, we will explain some of the primitive types available in the Rust's standard library that we
+use. Note that these types are merely \textit{our} choice for this implementation and similar data
+types from other libraries (or \textit{crates}, in the Rust jargon) are also acceptable.
+
+\subsection{State: HashMap and Locks} \label{chap:impl:subsec:state_and_concurrent_map}
+
+For the taintable state, we need a data type that is similar to a typical concurrent
+\texttt{HashMap}\cite{barnatFastDynamicallySizedConcurrent2015}, yet has slight differences. Rust
+doesn't even provide a concurrent HashMap in the standard library, so the only way to go is to
+implement our own custom data structure. To implement this, we use both a \texttt{HashMap} and a
+\texttt{RwLock}, both of which are provided by the standard library. The HashMap behaves just as a
+typical \texttt{HashMap} as in any programming language. The \texttt{RwLock} is a locking primitive
+with read-write distinction, where multiple \textit{read} requests can be done at the same time,
+while a \textit{write} request will block all access.
+
+Like most data types in languages that support generics, the Rust's default \texttt{HashMap} is
+generic over both the key and value type that it uses. The final \texttt{HashMap} is using opaque
+byte arrays as both the key and value type. For the keys, we do our own hashing and concatenation to
+compute the location (i.e. the final key of) any given state variable. For example, to compute the
+key of where the balance of an account is stored, we compute: \texttt{"balances:balance\_of".hash()
++ accountId.hash()} and use the final byte array as the key. As for the values, to be able to store
+values of different types in the same map, we encode all values to a binary format, thus, a byte
+array is used.
+
+\begin{lstlisting}[caption={Key and Value Types.}\label{lst:mpsc}]
+/// The key type. type Key = Vec<u8>; /// The value type. type Value = Vec<u8>;
+
+/// Final State layout. type State = HashMap<Key, Value>;
+\end{lstlisting}
+
+\subsection{Threading Model}
+
+In short, Rust's threading model is 1:1. This means that each thread will be mapped to an operating
+system thread (which sometimes directly map to hardware threads). Naturally, this means that the
+overhead of spawning new threads is not negligible, but there are no additional runtime overheads.
+This justifies using a relatively small number of threads and assigning a large number of
+transactions to each, rather than, for example, creating one transaction per thread.
+
+The main purpose of this decision is for Rust to remain a \textit{runtime-free} programming
+language\cite{RustJourneyAsync}, meaning that there is zero-to-minimal runtime in the final binary.
+The opposite of a 1:1 threading model is a N:M model, also known as \textit{green threads}. Such
+threads are lightweight, and do not map to a hardware/operating-system thread in any way. Instead,
+they are a software abstraction and are handled by a runtime. Therefore, A language that wants to
+support green threads needs some sizeable runtime machinery to be able to handle that.
+
+\subsection{Communication}
+
+For communication, we use multi-producer-single-consumer\cite{StdSyncMpsc} (\texttt{mpsc} for short)
+channels. Our choice for this type of channel is restricted by the fact that this is the only one
+available in the standard library and we preferred keeping the implementation dependency-free. This
+entails that, as opposed to the figure \ref{figure:figures/design.png} that depicted a a shape that
+resembles a \textit{unified bus} between all threads, the actual layout is rather a bit more
+complicated.
+
+The process of using Rust \texttt{mpsc} channels is such that each channel has one receiver and one
+producer handle, ands the producer handle can be freely cloned into different threads (while the
+receiver cannot be copied around -- this is ensured by the Rust's compile time checks.). With this
+approach, each thread will have a \texttt{mpsc} channel and keeps the receiving handle to itself,
+while giving a copy of the producer handle to all other threads.
+
+The following listing demonstrates this process.
+
+\begin{lstlisting}[caption={How Channles Allow Commication Between Threads (with slight simplification)}\label{lst:mpsc}]
+// In the local thread.
+let (producer, receiver) = std::mpsc::channel();
+
+// spawn a new thread. std::thread::spawn(|| {
+	// this scope is local to a new thread. let
+	local_producer = producer.clone();
+	// note the cloned handle ----^^^^^^^
+
+	local_producer.send("thread1");
+});
+
+// spawn another new thread.
+std::thread::spawn(|| {
+	// this scope is local to a new thread.
+	let another_local_producer = producer.clone();
+	// note the cloned handle -----------^^^^^^^
+
+	another_local_producer.send("thread2");
+});
+
+// check incoming messages.
+while let Ok(msg) = receiver.rcv() {
+	// do something with `msg`.
+}
+\end{lstlisting}
+
 
 \section{Example Runtime: Balances}
 
-\subsection{Storage Items}
-\subsection{Transactions}
-\subsection{trait Validation}
+Next, we demonstrate an example runtime to help the reader familiarize themselves with the context
+of the implementation and how the final outcome looks like. Our final implementation supports having
+multiple \textit{modules} within the blockchain runtime, each having their own specific business
+logic. The simplest example of such module is a balances modules that takes care of storing the
+balance of some accounts and allows transfer of tokens between them. We will now enumerate some of
+the important bits of code involved in this modules.
+
+First, there needs to be a struct to store the balance of a single account, which we named
+\texttt{AccountBalance}.
+
+\begin{lstlisting}[caption={Balance Strict}\label{lst:balance_struct}]
+/// The amount of balance that a certain account.
+#[derive(Debug, Clone, Default, Eq, PartialEq, Encode, Decode)]
+pub struct AccountBalance {
+	/// The amount that is free and allowed to be transferred out.
+	free: Balance,
+	/// The mount that is reserved, potentially because of the balance being used in other modules.
+	reserved: Balance,
+}
+\end{lstlisting}
+
+The support for reserved balances allows more sophisticated testing, further details of which are
+out side the scope of this chapter.
+
+The state layout of this modules is simple: There needs to be one mapping, with the key being an
+account identifier and the value being \texttt{AccountBalance}, as in listing
+\ref{lst:balance_struct}.
+
+\begin{lstlisting}[caption={State Layout of the Balances Module}\label{lst:balance_state}]
+decl_storage_map!(
+	// Auxillary name assigned to the storage struct.
+	BalanceOf,
+	// Auxillary name used in key hashing.
+	"balance_of",
+	// Key type.
+	AccountId,
+	// Value type.
+	AccountBalance,
+);
+\end{lstlisting}
+
+Note that the above statement is a macro (note the \texttt{!} notation), meaning that it generates a
+great amount of code at compile time. Most of this code deals with functions for generating the key
+of a specific account's balance, namely the hashing and concatenation method explained in
+\ref{chap:impl:subsec:state_and_concurrent_map}. Nonetheless, the inline documentation of the
+listing should be clear in delivering: There exists a state \textit{mapping} from \texttt{AccountId}
+to \texttt{AccountBalance}".
+
+We have already seen what \texttt{AccountBalance} is, and \texttt{AccountId} is an alias for --no
+surprise-- a public key.
+
+Finally, we can look at the only public transaction that can be executed in this module: a transfer
+of some tokens from one account to another one.
+
+\begin{lstlisting}[caption={Transfer Transaction}\label{lst:balance_tx}]
+#[access = (|origin| vec![<BalanceOf<R>>::key_for(origin), <BalanceOf<R>>::key_for(dest.clone())])]
+fn transfer(runtime, origin, dest: AccountId, value: Balance) {
+	// read the balance of the
+	origin. let mut old_balance = BalanceOf::read(runtime, origin).or_forward()?;
+
+	if let Some(remaining) = old_balance.free.checked_sub(value) {
+		// origin has enough balance
+		old_balance.free = remaining;
+
+		// new balance of the origin.
+		BalanceOf::write(runtime, origin, old_balance).unwrap()
+
+		// new balance of the destination.
+		BalanceOf::mutate(runtime, dest, |old| old.free += value).or_orphan()?;
+
+		Ok(())
+	} else {
+		Err(DispatchError::LogicError("Does not have enough funds."))}
+	}
+\end{lstlisting}
+
+The logic of this transaction should be straightforward: Read the origin's balance. If they have
+enough free balance, update the balance of the origin and destination. Else, return error.
+
+The more interesting bit is the lines 1-6, where our long promised \texttt{access} macro is being
+used in action. The interpretation of the macro is basically as follows: This transaction will (most
+likely\footnote{Recall that tha \texttt{access} macro was supposed to be a best effort guess.})
+access two state keys, the balance of the origin and the balance of the destination.
+
+\section{Generic Distributor}
+
+Another note-worthy detail of the implementation is the distributor component. Recall that the
+distributor is responsible for tagging each transaction in the transaction queue with the identifier
+of one thread. We emphasis that we leave this detail \textit{generic} in our implementation, similar
+to its position in the thesis. This means that there is no concrete implementation of a distributor
+embedded in our system. Instead, any function that satisfies a certain requirement can be plugged
+in and used as the distributor.
+
+Two examples of distributor implementation as follows:
+
+\begin{itemize}
+	\item \textbf{Round Robin}: This distributor will simply ignore the \texttt{access} macro and
+	assign transactions to threads one at a time, in some random order.
+	\item \textbf{Connected Components}\cite{nuutilaFindingStronglyConnected1994}: This graph
+	processing algorithm is the exact opposite end of the spectrum compared to Round Robin, meaning
+	that it \textit{heavily} takes the \texttt{access} macro into account.
+
+	The simplified explanation of it is as follows: All transactions provide a list of keys that
+	they might access during their execution, via the \texttt{access} macro. This distributor will
+	build a graph of transaction and state keys, where each transaction has an edge to all the keys
+	that it might access. Therefore, two transactions that are likely to access the same state key
+	will end up being \textit{connected}, because they both have an edge to the same key. The
+	connected component, as the name suggests, identifies these connected transactions. Once all
+	components are identified, they are distributed among threads as evenly as possible. In essence,
+	the connected component ensures that transactions that might conflict will end up being sent to
+	the same thread, effectively minimizing forwarded and orphaned transactions.
+\end{itemize}
 
 \section{Bonus: Taintable State}
-- Assume Rust knowledge, but you can survive.
-- Can be skipped.
+
+So far, all the mentioned details of this chapter are somewhat necessary to know in order to be able
+to comprehend the evaluation. Conversely, this last section is optional and explain some of the more
+details of the Taintable map implementation. Moreover, in this chapter we assume average Rust
+knowledge from the reader.
+
+TODO
