@@ -14,37 +14,36 @@ section \ref{chap_bg:sec:concurrency}.
 
 \section{Blockchains And Distributed Ledger Technology} \label{chap_bg:sec:blockchains}
 
-In this section, we provide an overview about the basics of distributed system, blockchains, and
+In this section, we provide an overview about the basics of distributed systems, blockchains, and
 their underlying technologies. By the end of this chapter, it is expected that an average reader
-will know enough about blockchain systems to be able to follow the rest of our work and approach in
-chapter \ref{chap:approach} and onwards.
+will know enough about blockchain systems to be able to follow the rest of our work, and understand the approach proposed in chapter \ref{chap:approach} and onwards.
 
 \subsection{Centralized, Decentralized and Distributed Systems}
 
 Any introduction to blockchain is always entangled with \textit{distributed} and
 \textit{decentralized} systems.
 
-A distributed system is a system in which a group of nodes (each having their won processor and
+A distributed system is a system in which a group of nodes (each having their own processor and
 memory) cooperate and coordinate for a common outcome. From the perspective of an outside user, most
-often this is transparent and all the nodes can be seen and interacted with, as if they were
+often this is transparent, and all the nodes can be seen and interacted with, as if they were
 \textit{one cohesive system} \cite{bashirMASTERINGBLOCKCHAINDistributed2018}.
 
-Indeed some detail differ between the two, yet the underlying concepts resonate in many ways
-\cite{herlihyBlockchainsDistributedComputing2019} and blockchains can be seen as another form of
+Indeed, some details differ between the two, yet the underlying concepts resonate in many ways
+\cite{herlihyBlockchainsDistributedComputing2019}, and blockchains can be seen as another form of
 distributed systems. Like a distributed system, a blockchain is also consisted of many nodes,
 operated either by organizations, or by normal people with their commodity computers. Similarly,
-this \textit{distribution} trait is transparent to the end user, when they want ot interact with the
-blockchain and they indeed see the system as one cohesive unit.
+this \textit{distribution} trait is transparent to the end user when they want to interact with the
+blockchain, and they indeed see the system as one cohesive unit.
 
 Blockchains are also \textbf{decentralized}. This term was first introduced in a revolutionary paper
-in 1964 as a middle ground between purely centralized system that have a single point of failure,
-and a 100\% distributed system which is like a mesh (all nodes having links to many other nodes
+in 1964 as a middle ground between purely centralized systems that have a single point of failure,
+and 100\% distributed systems, which are like a mesh (all nodes having links to many other nodes
 \cite{baranDistributedCommunicationsNetworks1964} \footnote{The design of Paul Baran, author of
 \cite{baranDistributedCommunicationsNetworks1964}, was first proposed, like many other
 internet-related technologies, in a military context. His paper was a solution to the USA's concern
 about communication links in the after-math of a nuclear attack in the midst of the cold war
 \cite{monicaPaulBaranOrigins}.}). A decentralized system falls somewhere in between, where no single
-node's failure can have a unrecoverable damage to the system, and communication is somewhat
+node's failure can irrecoverably damage the system, and communication is somewhat
 distributed, where some nodes might act as hops between different sub-networks.
 
 Blockchains, depending on the implementation, can resonate more with either of the above terms. Most
@@ -53,7 +52,7 @@ From an operational and economical perspective, they can be seen more as decentr
 operational power (i.e. the \textit{authority}) falls into the hands of no single entity, yet a
 large enough group of authorities.
 
-\figuremacro{figures/networks.png}{Types of network}{ From left, to right: Centralized, Decentralized, and Distributed.}
+\figuremacro{figures/networks.png}{Types of networks.}{ From left to right: Centralized, Decentralized, and Distributed.}
 
 \subsection{From Ideas to Bitcoin: History of Blockchain} \label{chap_bg_:subsec:hisotry}
 
@@ -61,7 +60,7 @@ While most people associate the rise of blockchains with Bitcoin, it is indeed i
 basic ideas of blockchains was mentioned decades earlier. The first relevant research paper was
 already mentioned in the previous section. Namely, in
 \cite{baranDistributedCommunicationsNetworks1964}, besides the definition of decentralized system,
-the paper also describes many other metrics regarding how secure a network is, under certain
+the paper also describes many  metrics regarding how secure a network is, under certain
 attacks.
 
 Next, \cite{diffieNewDirectionsCryptography1976} famously introduced what is know as Diffie-Hellman
@@ -73,23 +72,23 @@ these works were deemed military applications at the time, hence the release dat
 referred to as the "public dates", not the original, potentially concealed dates of their
 discovery.}.
 
-Moreover, even the idea of blockchain itself predates Bitcoin. The idea of chaining data together,
+Moreover, the idea of blockchain itself predates Bitcoin. The idea of chaining data together,
 whilst placing some digest of the previous piece (i.e. a \textit{hash} thereof) in the header of the
 next one was first introduced in \cite{haberHowTimestampDigital1991}. This, in fact, is exactly the
-underlying reason that a blockchain, as a data structure, can be seen as a append-only, tamper proof
+underlying reason that a blockchain, as a data structure, can be seen as an append-only, tamper proof
 ledger. Any change to previous blocks will break the hash chain and cause the hash of the latest
 block to become different, making any changes to the history of the data structure identifiable,
 hence \textit{tamper-proof}.
 
 Finally, \cite{chaumUntraceableElectronicCash1990} introduced the idea of using the digital
-computers as a means of currency in 1990, as an alternative to the rise of credit carts at the time.
+computers as a means of currency in 1990, as an alternative to the rise of credit cards at the time.
 There were a number of problems with this approach, including the famous double spend problem, in
-which an entity can spend one unit of currency numerous times. Finally, in 2008 an unknown scientist
+which an entity can spend one unit of currency numerous times. Finally, in 2008, an unknown scientist
 who used the name Satoshi Nakatomo released the first draft of the Bitcoin whitepaper. In his work,
 he proposed Proof of Work as a means of solving the double spend problem, among other details and
 improvements \cite{nakamotoBitcoinPeertoPeerElectronic}. Note that the idea of Proof of Work itself
 goes back, yet again, to 1993. This concept was first introduced in
-\cite{dworkPricingProcessingCombatting1993} as means of spam protection in early email services.
+\cite{dworkPricingProcessingCombatting1993}, as means of spam protection in early email services.
 
 \subsection{Preliminary Concepts} \label{chap_bg:sec:preliminary}
 
@@ -109,8 +108,8 @@ performance, most modern distributed systems work with another mechanism that is
 variant of Diffie-Hellman, namely Elliptic Curve Cryptography (ECC). Elliptic Curves offer
 the same properties as Diffie-Hellman, with similar security measures, whilst being faster to
 compute and needing smaller key sizes. A key exchange, in short, allows for \textbf{asymmetric
-cryptography}, the variant of cryptography that need not any secrete medium to exchange initial
-keys, hence it is truly applicable to distributed systems. In asymmetric cryptography, a key
+cryptography}, the variant of cryptography that need no secrete medium to exchange initial
+keys, and therefore is truly applicable to distributed systems. In asymmetric cryptography, a key
 \textit{pair} is generated at each entity. A \textbf{public} key, which can be, as the name
 suggests, publicly shared with anyone, and a \textbf{private} key that must be kept secret. Any data
 signed with the private key can be verified using the public key. This allows for integrity checks,
@@ -130,52 +129,49 @@ For example, in the context of banking, a public key can be seen as the account 
 and known to everyone, and knowing it does not grant anyone the authority to withdraw money from an
 account. The private key is the piece that gives one entity \textit{authority} over an account, much
 like your physical presence at the bank and signing a paper, in a traditional banking system. This
-is a very common patter in almost all blockchain and distributed systems: Using private keys to sign
-messages and using public keys as identities.
+is a very common pattern in almost all blockchain and distributed systems: using private keys to sign
+messages, and using public keys as identities.
 
 RSA and DSA are both non-elliptic signature schemes that are commonly known to date. ECDSA, short
 for \textbf{E}lliptic \textbf{C}ureve DSA, is the Elliptic Curve variant of the latter. Albeit,
 ECDSA is a subject of debate, due to its proven insecurities
 \cite{Brumley_Tuveri_2011_remote_timing_ecdsa}, and its performance. Hence, more recent,
 non-patented and open standard \footnote{Unlike ECDSA which is developed and patented by NIST, which
-in fact is the reason why many people doubt its security.} curves such as EdDSA are the most
+in fact is the reason why many people doubt its security.} curves, such as EdDSA, are the most
 commonly used. EdDSA, short for Edwards-curve Digital Signature Algorithm is based on the open
 standard Edward-curve and its reference, parameters and implementation are all public domain.
 
-
-All in all cryptography and specifically digital signatures play an integral role in the blockchain
-technology and allow it to operate in the desired way.
+All in all, cryptography, and specifically digital signatures, play an integral role in the blockchain
+technology, and allow it to operate in the desired way.
 
 \subsubsection{Hash Functions} \label{chap_bg:subsec:hash}
 
 Hash functions, similar to elliptic curve cryptography, are among the mathematical backbones of
 blockchains. A hash function is basically a function that takes some bits of data as input and spits
-out some bits of output in return. All hash functions have an important property: They will produce
+out some bits of output in return. All hash functions have an important property: they produce
 a \textbf{fixed sized output}, regardless of the input size. Also, a hash function ensures that
-changing anything in the input, as small as one bit, must result in an entirely different output.
+changing anything in the input, as small as one bit, does result in an entirely different output.
 
-Given this, you can assume that the hash of some piece of data can be seen as its \textbf{digest};
+Given these properties, one can assume that the hash of some piece of data can be seen as its \textbf{digest}.
 If the hash of two arbitrarily large pieces of data is the same, you can assume that their
 underlying data are indeed the same. This is quite helpful to ensure that some cloned data is not
-tampered. If we only distribute the hash of the original copy in a secure way, everyone can verify
+tampered with. If we only distribute the hash of the original copy in a secure way, everyone can verify
 that they have a correct clone, without the need to check anything else.
 
-Albeit, a secure hash function needs to provide more properties. First, the hash function need to
-ensure that no two different inputs can lead to the same hash. This is called a \textit{collision}
-and the probability of collision in a hash function should be sufficiently low for it to be of
+Albeit, a secure hash function needs to provide more properties. First, the hash function needs to
+ensure that no two different inputs can lead to the same hash. This - the situation that different inputs generate the same hash - is called a \textit{collision}, and the probability of collision in a hash function should be sufficiently low for it to be of
 value. Moreover, a hash function must be a \textit{one way} function, meaning that it cannot be
-reversed in a feasible. By feasibly we always mean: \textbf{timely}. If reversing a function takes a
-few million years, it is \textit{possible}, but not \textit{feasible}. The entire security of hash
-functions and digital signatures is based on the fact that breaking them is not feasible way
+reversed in a feasible manner. By feasible we effectively mean \textbf{timely}: if reversing a function takes a few million years, it is \textit{possible}, but not \textit{feasible}. The entire security of hash
+functions and digital signatures is based on the fact that breaking them is not feasible
 \footnote{And, yes, we are aware of quantum computing, but that is a story for another day.}. So,
-Given some hash output, you cannot know the input that lead to that hash. Hash functions that have
+given some hash output, one cannot know the input that lead to that hash. Hash functions that have
 this property are typically called \textit{cryptographic} hash functions. Cryptographic hash
-functions are commonly used next to asymmetric cryptography, for authentication and integrity
+functions are commonly used, next to asymmetric cryptography, for authentication and integrity
 checks, where the sender can sign only a hash of a message and send it over the network, such as the
 common \textbf{M}essage \textbf{A}uthentication \textbf{C}ode, pattern
 \cite{bellareKeyingHashFunctions1996} (MAC).
 
-\subsubsection{Peer to Peer Network} \label{chap_bg:subsec:p2p}
+\subsubsection{Peer to Peer Networks} \label{chap_bg:subsec:p2p}
 
 From a networking perspective, a blockchain is a purely peer to peer distributed network. A peer to
 peer network is one in which many nodes form a mesh of connections between them, and they are more
@@ -187,98 +183,97 @@ or less of the same role and privilege.
 	is the equivalent of a \textbf{centralized} system.
 \end{remark}
 
-
-Unlike a client-server model, a peer to peer network does not have a single point of failure. There
-is no notion of client and server and all of the entities have the same role, and are simply called
-a \textit{node}. Having no servers to serve some data, it is predictable to say that peer to peer
+Unlike a client-server model, a peer to peer network does not have a single point of failure: there
+is no notion of client and server, and all of the entities have the same role, being simply called
+\textit{nodes}. Having no servers to serve some data, it is predictable to say that peer to peer
 networks are \textit{collaborative}. A node can consume some resources from another node by
-requesting some data from it, whilst being the producer for another node by serving some data to it.
-This is radically different from the client-server model in which the server is always the producer
-and clients are only consumers, and effectively have no control over the data that they are being
+requesting data from it, whilst being the producer for another node by serving data to it.
+This is radically different from the traditional client-server model, in which the server is always the producer and clients are only consumers, and effectively have no control over the data that they are being
 served.
 
 Each node in a peer to peer network is constantly talking to other neighboring nodes. For this, they
 establish communication links between one another. Regardless of the transport protocol (TCP, QUIC
 \cite{carlucciHTTPUDPExperimental2015}, etc.), these connections must be secure and encrypted for
-the network to be resilient. Both elliptic curve cryptography and hashing functions explained in the
+the network to be resilient. Both elliptic curve cryptography and hashing functions , explained in the
 previous sections, provide the technology needed to achieve this.
 
-In the rest of this work, we are particularly interested in the fact that in a blockchain system,
+In the rest of this work, we are particularly interested in the fact that, in a blockchain system,
 the networking layer provides \textit{gossip} capability. The gossip protocol is an epidemic
 procedure to disseminate data to all neighboring nodes, to eventually reach the entire network. In a
 nutshell, it is an \textit{eventually consistent} protocol to ensure that some messages are being
 constantly gossiped around, until eventually everyone sees them. Blockchains use the gossip protocol
 to propagate the transactions that they receive from the end user (among many other messages). As
-mentioned, a distributed system must be seen as a cohesive system from outside, hence, a transaction
+mentioned, a distributed system must be seen as a cohesive system from outside. Thus, a transaction
 that a user submits to one node of the network should have the same chance of being appended to the
-ledger by any of the nodes in the future. Hence, the first requirement is that it must be gossiped
-around. This becomes more clear when discuss block authoring in section
+ledger by any of the nodes in the future. Consequently, the first requirement is that it must be gossiped
+around. This becomes more clear when we discuss block authoring in section
 \ref{chap_bg:subsec:consensus_authorship}.
 
 \subsubsection{Key-Value Database} \label{chap_bg:subsec:kvdb}
 
 Shifting perspective, a blockchain is akin to a database. One might argue that this is too
-simplistic, but even the brief description that we have already provided commensurate with this.
+simplistic, but even the brief description that we have already provided commensurates with this.
 Transactions can be submitted to a blockchain. These transactions are then added to a bundle, called
-a block, and it is chained with all the previous blocks, forming a chain of blocks. All nodes
-maintain their view of this chain of blocks, and basically that is what the blockchain is: A
+a block, which is then chained with all the previous blocks, forming a chain of blocks. All nodes
+maintain their view of this chain of blocks, and basically that is what the blockchain is: a
 database for storing some chain of blocks.
 
-Next to the block database, most blockchains store other data as well to facilitate more complex
+Next to the block database, most blockchains store other data as well, to facilitate more complex
 logic. For example, in Bitcoin, that logic needs to maintain a list of accounts and balances, and
 perform basic math on top of them\footnote{In reality, Bitcoin does something slightly different,
-which is known as the UTXO model, which omit to explain here for simplicity.}. To know an account's
+which is known as the UTXO model, which we omit to explain here for simplicity.}. To know an account's
 balance, it is infeasible to re-calculate it every time from the known history of previous
 transactions\footnote{Imagine an ATM re-executing all your previous transactions to know your
-current balance every time your query it.}. Hence, we need some sort of persistent database as well
-to store the auxillary data that the blockchain logic needs, the list of accounts and balances for
+current balance every time your query it.}. Thus, we need some sort of persistent database as well,
+to store the auxiliary data that the blockchain logic needs - like, the list of accounts and their balances in our
 example. This is called the \textbf{state}, and is usually implemented in the form of a key-value
 database.
 
-A key value database is a database that can be queried similar to \textit{map}. Any value inserted
-need to be linked with a \textit{key}. This value is then placed in conjunction to a key. The same
-key can be used to retrieve, update or delete the value. For example, in a Bitcoin-like system, the
+A key value database is a database that can be queried similar to \textit{map}. Any value inserted in the database
+needs to be linked with a \textit{key}. This value is then placed in conjunction to a key. The same
+key can be used to retrieve, update, or delete the value. For example, in a Bitcoin-like system, the
 keys are account identifiers (which we already mentioned are most often just public cryptographic
 keys), and the values are simply the account balances, some unsigned number.
 
-Indeed, a more complicated blockchain that does more than simple accounting will have a more
+Indeed, a more complicated blockchain, that does more than simple accounting, will have a more
 complicated state layout. Even more, chains that support the execution of arbitrary code (e.g. Smart
 Contracts \cite{EthereumWiki}), like Ethereum, allow any key-value data pair to be inserted into the
 state.
 
-One challenge for a nodes in a blockchain network is to keep a \textbf{persistent} view of the
-state. For example, Alice's view of how much money Bob owns need to be the same as everyone else's
+One challenge for nodes in a blockchain network is to keep a \textbf{persistent} view of the
+state. For example, Alice's view of how much money Bob owns needs to be the same as everyone else's
 view. But, before we dive into this aspect, let us first formalize the means of \textit{updating the
-state}, \textbf{transactions}.
+state}: the \textbf{transactions}.
 
 \subsubsection{Transactions and Signatures} \label{chap_bg:subsec:transaction_sig}
 
-So far, we mentioned only transactions to be some sort of information submitted to the system, that
+So far, we mentioned transactions to be some sort of pieces of information submitted to the system, that
 are eventually appended to the blockchain in the form of a new block. And, as mentioned, everyone
-keeps the history of all blocks, essentially having the ability to replay the history and make sur
-that an account claiming to have certain number of tokens\footnote{equivalent of a monetary unit of
+keeps the history of all blocks, essentially having the ability to replay the history and make sure
+that an account claiming to have a certain number of tokens\footnote{Tokens are the equivalent of a monetary unit of
 currency, like a coin in the jargon of digital money.} does indeed own it.
 
-But, in the previous section we introduced the concept of \textit{state}, and this is the main
-reason why transactions exists. Transactions most often cause some sort of update to happen in the
+%But, in the previous section we introduced 
+The concept of \textit{state} is the main
+reason why transactions exist. Transactions most often cause some sort of update to happen in the
 state. Moreover, transactions are accountable, meaning that they most often contain a signature of
 their entire payload, to ensure both integrity and accountability. For example, if Alice wants to
 issue a \texttt{transfer} transaction to send some tokens to Bob, the chain will only accept this
-transaction if is signed with by alice's private key. Consequently, if there is a fee associated
+transaction if is signed with by Alice's private key. Consequently, if there is a fee associated
 with this transfer, it is deducted from Alice's account. This is where the link between identifiers
 and public keys also becomes more important. Each transaction has an \textit{origin}, which is
 basically the identifier of the entity which sent that transaction. Each transaction also has a
-signature, which is basically the entire (or only sensitive parts of the) payload of the
+signature, which is basically the entire (or only the sensitive parts of the) payload of the
 transaction, signed with the private key associated with the aforementioned origin. Indeed, a
-transaction is valid only if the signature and the public key (i.e. the \textit{origin}) match.
+transaction is valid only if the signature and the public key (i.e., the \textit{origin}) match.
 
-This is a radically new usage of public key cryptography in blockchains, where you can generate a
-private key using the computational power of your machine and store some tokens linked to it on a
-network operated by many decentralized nodes, and that private key is the one and only key that can
-unlock those tokens and spend them. Albeit, while in this chapter we mostly use examples of a
+This is a radically new usage of public key cryptography in blockchains, where one can generate a
+private key using the computational power of a personal machine, and store some tokens linked to it on a
+network operated by many decentralized nodes; that private key is the one and only key that can
+unlock those tokens and spend them. Although in this chapter we mostly use examples of a
 cryptocurrency (e.g. Bitcoin), we should note that this is among the simplest forms of transactions.
 Depending on the functionality of a particular blockchain, its transactions can have specific logic
-and complexities. Nonetheless, containing a \textit{signature} and some notion of \textit{origin} is
+and complexity. Nonetheless, containing a \textit{signature} and some notion of \textit{origin} is
 very common for most use cases.
 
 Let us recap some facts from the previous sections:
@@ -290,34 +285,34 @@ Let us recap some facts from the previous sections:
 	\item Nodes need to keep a persistent view of the state.
 \end{itemize}
 
-This can easily lead to a race conditions. One ramification of this is the double spend problem:
-Imagine Eve owns 50 token. she sends one transaction to Alice, spending 40 tokens. Alice checks that
-Eve has enough tokens to make this spend, update Eve's account balance to 10, basically updating its
+This can easily lead to race conditions. One ramification of this is the double spend problem.
+Imagine Eve owns 50 token. She sends one transaction to Alice, spending 40 tokens. Alice checks that
+Eve has enough tokens to make this spend, updates Eve's account balance to 10, basically updating its
 own view of the state. Now, if Eve sends the same transaction at the same time to Bob, it will also
 succeed, if Alice and Bob have not yet had time to gossip their local transactions to one another.
 
-To solve this, blockchains agree on a contract: The state can \textbf{only} be updated via appending
+To solve this, blockchains agree on a contract: the state can \textbf{only} be updated via appending
 a new block to the known chain of blocks, not one single transaction at a time. This allows to
-compensate for some potential gossip delays to some extend, and is explained in more detail in the
+compensate for potential gossip delays to some extent, and is explained in more detail in the
 next section.
 
 \subsubsection{Blocks} \label{chap_bg:subsec:block}
 
-Blocks are nothing but a bundle of transaction, and they allow some sort of synchronization, which
+Blocks are nothing but bundles of transaction, and they allow some sort of synchronization, which
 somewhat relaxes the problem explained in the previous section. To do so, blocks allow nodes to
-agree on some particular order to apply transaction. For example, in a node, instead of trying to
-apply transactions that exist on the gossip layer in \textit{some random order}, it will wait to
+agree on some particular order to apply transactions. For example: a node, instead of trying to
+apply transactions that exist on the gossip layer in \textit{some random order}, will wait to
 receive a block from other nodes, and then apply them in the same order as stated in the block.
-transactions inside a block are ordered and applying them sequentially is fully deterministic and
+Transactions inside a block are ordered, and applying them sequentially is fully deterministic: it
 will always lead to the same same result. Moreover, in the example of the previous section, it is no
 longer possible for Eve to spend some tokens twice, because a block will eventually force some
-serialization of her transaction, meaning that whichever appears second will indeed fail, because
-the effects of the first one is already apparent and persistent in the state of any node that is
+serialization of her transactions, meaning that whichever appears second will indeed fail, because
+the effects of the first one are already apparent and persistent in the state of any node that is
 executing the block.
 
 A block also contains a small, yet very important piece of data called \textit{parent hash}. This is
-basically a hash of the entire content of the last know block of the chain. There's exactly one
-block in each chain that has no parent, the first block. This is a special case and is called the
+basically a hash of the entire content of the last know block of the chain. There is exactly one
+block in each chain that has no parent, the first block. This is a special case, and is called the
 \textit{genesis block}. This, combined with the properties of the hash function explained in
 \ref{chap_bg:subsec:hash}, bring about the tamper-proof-ness of all the blocks. In other words, the
 history of operations cannot be mutated. For example, if everyone in the network already knows that
@@ -337,7 +332,6 @@ next, we now have the problem of which block to append next. This is because, in
 haven't yet mentioned \textit{who} can propose new blocks to be appended, and \textit{when}. We have
 only assumed that we \textit{somehow} receive blocks over the network. This brings us to consensus
 and authorship of blocks, explained in the next section.
-
 
 \subsubsection{Consensus and Block Authoring} \label{chap_bg:subsec:consensus_authorship}
 
@@ -892,3 +886,4 @@ later in chapter \ref{chap:approach}.
 
 This brings our brief introduction to concurrency to an end. Next, we will use this entire chapter
 to formulate our approach to concurrency.
+https://www.overleaf.com/project/5ea596da15b938000163e656

@@ -303,6 +303,8 @@ pi-calculus\cite{turnerPolymorphicPiCalculusTheory1996}. Such approaches are als
 prefer devising an approach which does \textit{not} need to alter such fundamental assumptions about
 the programming model, in favour of easy adoption and outreach.
 
+\todo[inline]{This is basically the answer to RQ1}
+
 \subsubsection{Smart Contract vs. Runtime}
 
 Most of the mentioned references name their work as appraoches toward concurrency for \textbf{smart
@@ -351,9 +353,6 @@ useful information.
 
 \section{Our Approach: Almost Lock-Free, Delegation and Pseudo Static}
 \label{chap_desgin:sec:design}
-
-\todo[inline]{Basically https://www.notion.so/Architecture-V1-cfe987d4dd4345569b07649dcf00a85c end
-of the chapter: say that we have answered the RQ1.}
 
 In this section, we will describe our approach toward concurrency in a blockchain runtime, both in
 the authoring phase and in validation. This approach is based on three key pivotal ideas, explained
@@ -702,6 +701,8 @@ to less contention, consequently less forwarding and less orphans.
 
 \subsection{System Design}
 
+\todo[inline]{We have essentially answered RQ2 by the end of this chapter.}
+
 In this section, we bring \ref{subsec:baseline_alg} and \ref{subsec:applying_static_hints} into one
 picture, and explain the entire system design. We tackle this by presenting an all in one picture of
 the system design and explaining all the components, connecting all the dots as we move forward.
@@ -718,7 +719,7 @@ use these labels to explain each component.
 	it. An access to each of the keys by a thread will succeed if the key is untainted, or is
 	tainted by the accessor thread. Else, an error is returned, noting the identifier of the thread
 	that owns the key.
-	\item \textbf{2} is an emphasis on the access of all the workers to the state to be wait-free.
+	\item \textbf{2} is an emphasis on the access of all the workers to the state to be\todo[]{unify the word lock free and wait free.}wait-free.
 	In an abstract level, there is no waiting involved in this model. Any access to a key in the
 	state will either \textit{immediately} succeed, in which case the key is tainted. Else, it is
 	\textit{immediately} rejected because of a taint error.
