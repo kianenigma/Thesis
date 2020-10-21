@@ -1,57 +1,47 @@
-\chapter{Approaches toward Concurrency} \label{chap:approach}
+\chapter{A Novel Approaches Toward Concurrency in Blockchains} \label{chap:approach}
 
-In this chapter we will build up all the details and arguments needed to introduce our approach
-toward concurrency within blockchains. We will start with an interlude, enumerating different ways
-to make blockchains achieve a higher throughput from an end-to-end perspective, at the end of which
-we point out concurrency as our method of choice.
+In this chapter we build up all the details and arguments needed to introduce our approach toward concurrency within blockchains. We start with an interlude, enumerating different ways to improve blockchains' throughput from an end-to-end perspective, and highlight concurrency as our method of choice.
 
-\section{Prelude: Speeding up a Blockchain - An Out of The Box
+\section{Prelude: Speeding up a Blockchain - An Out-of-The-Box
 Overview}\label{chap_approach:sec:ways_to_speedup}
 
-As mentioned, blockchains can be seen, in a very broad way, as a \textit{decentralized state machine
-that transitions by means of transactions}. The throughput of a blockchain network, measured in
-transactions per second, is a function of numerous components and can be analysed from different
-points of view. While in this work we focus mainly on one aspect, it is helpful to enumerate
-different viewpoints and see how each of them affect the overall throughput \footnote{and this
+As mentioned, blockchains can be seen, in a very broad way, as \textit{decentralized state machines
+that transition by means of transactions}. The throughput of a blockchain network, measured in transactions per second, is a function of numerous components, and can be analysed from different points of view. While in this work we focus mainly on one aspect, it is helpful to enumerate different viewpoints and see how each of them affects the overall throughput \footnote{This
 categorization is by no means exhaustive. We are naming only a handful.}.
 
 \subsection{Consensus and Block Authoring}
-
-As mentioned, the consensus protocol provides the means of ensuring that all nodes have a persistent
-view of the state, and it can heavily contribute to the throughput of the system. As an example, two
-common consensus protocols are Proof of \textbf{Work} and Proof of \textbf{Stake}. They use the
-computation power (\textit{work}) and an amount of bonded tokens (\textit{stake}), respectively, as
+We discussed how he consensus protocol provides the means of ensuring that all nodes have a persistent
+view of the state (see Section~\ref{chap_bg:subsec:consensus_authorship}), and it can heavily contribute to the throughput of the system. Take, for example, two
+common consensus protocols: Proof of \textbf{Work} and Proof of \textbf{Stake}. They use the computation power (\textit{work}) and an amount of bonded tokens (\textit{stake}), respectively, as
 their guarantees that an entity has \textit{authority} to perform some operation, such as authoring
-a block. It is important to note that each of these consensus protocols has an \textit{inherently}
+a block. It is important to note that each of these consensus protocols has  \textit{inherently}
 different throughput characteristics \cite{meneghettiSurveyEfficientParallelization2019}. Proof of
-work, as the names suggests, requires the author to prove their legitimacy by providing a proof that
+work, as the names suggests, requires the author to prove their legitimacy by providing proof that
 they have solved a particular hashing puzzle. This is slow by nature, and wastes a lot of
 computation power on each node that wants to produce blocks, which in turn has a negative impact on
-the frequency of blocks, which directly impacts the transaction throughput. Speeding-up this metric
+the frequency of blocks, which directly impacts the transaction throughput. Improving the throughput of Proof of Work
 requires the network to agree on an easier puzzle, that can in turn make the system less secure
 \cite{gervaisSecurityPerformanceProof2016}.
 
-To the contrary, Proof of Stake does not need this this puzzle solving, which is beneficial in terms
+To the contrary, Proof of Stake does not need puzzle solving, which is beneficial in terms
 of computation resources. Moreover, since the chance of any node being the author is determined by
 their stake\footnote{Using some hypothetical election algorithm which is irrelevant to this work.},
-a smaller block-time is not insecure in itself. Recently, we are seeing blockchains turning into
-verifiable random functions \cite{dodisVerifiableRandomFunction2005} for block authoring, and deploy
+more frequent blocks are not insecure in itself. Recently, we are seeing blockchains turning to
+verifiable random functions \cite{dodisVerifiableRandomFunction2005} for block authoring, and deploying
 a traditional byzantine fault tolerance voting scheme on top of it to ensure finality
 \cite{buterinCasperFriendlyFinality2019, stewartPosterGRANDPAFinality2019}. This further
-\textit{decouples block production and finality}, allowing production to proceed faster and and with
+\textit{decouples block production and finality}, allowing production to proceed faster and with
 even less drag from the rest of the consensus system, namely finality.
 
 All in all, one general approach towards increasing the throughput of a blockchain is to
 \textit{re-think the consensus and block authoring mechanisms} that dictate when blocks are added to
-the chain, specifically it which frequency. It is crucially important to note that any approach in
+the chain, specifically with which frequency. It is crucially important to note that any approach in
 this domain falls somewhere in the spectrum of centralized-decentralized, where most often
 approaches that are more centralized will be more capable of delivering better throughput, yet they
 may not have some of the security and immutability guarantees of a blockchain. An example of this is
-provided in table \ref{table:blockchain_types} and where private blockchains were named as being
-always the fastest.
+provided in table \ref{table:blockchain_types}, where private blockchains were named as being always the fastest.
 
 \subsubsection{Sharding}
-
 An interesting consensus-related optimisation that is gaining a lot of relevance in recent years is
 a technique, obtained from the databases field, called \textit{sharding}. Shards are slices of data
 (in the database jargon) that are maintained on different nodes. In a blockchain system, shards
@@ -66,10 +56,10 @@ shreyDiPETransFrameworkDistributed2019}.
 
 \subsection{Chain Topology}
 
-Another approach is changing the nature of the chain itself. A classic blockchain is theoretically
+Another approach to improve the throughput is changing the nature of the chain itself. A classic blockchain is theoretically
 limited due to its shape: a chain has only one head, thus only one new block can be added at each
 point in time. This property will bring extra security, and make the chain state easier to reason
-about (i.e. there is only one cannon chain). A radical approach is to question this property and
+about (i.e. there is only one canonical chain). A radical approach is to question this property and
 allow different blocks (or individual transactions) to be created at the same time. Consequently,
 this approach turns a blockchain from a literal \textit{chain of blocks} into a \textit{graph of
 transactions} \cite{pervezComparativeAnalysisDAGBased2018}. Most often, such technologies are
@@ -78,7 +68,7 @@ project\cite{mIOTANextGenerationBlock2018}.
 
 Allowing the chain to grow from different heads (i.e. seeing it as a graph) allows true parallelism
 at the transaction layer, effectively increasing the throughput. Nonetheless, the security of such
-approaches is still an active area of research and achieving decentralization with such loose
+approaches is still an active area of research, and achieving decentralization with such loose
 authoring constraints has proven to be challenging \cite{sompolinskySPECTREFastScalable2016}.
 
 Altering chain topology will bring even more radical changes to the original idea of blockchain.
@@ -91,13 +81,13 @@ is}.
 \label{chap_approach:subsec:out_of_box_concurrency}
 
 Finally, we can focus on the transaction processing view of the blockchain, and try and deploy
-concurrency on top of it, leaving the other aspects such as consensus unchanged and, more
+concurrency on top of it, leaving the other aspects, such as consensus, unchanged and, more
 importantly, \textit{generic}. This is very important, as it allows our approach to be deployed on
 many chains, since it is independent of any chain-specific detail. Any chain will eventually come to
 a point where it must execute some transactions, be it in the form of a chain, or a DAG, with any
-consensus. Thus, concurrency is a viable as long as notion of transactions and blocks exists.
+consensus. Thus, concurrency is a viable solution as long as notion of transactions and blocks exists.
 
-Our work specifically focuses on this aspect of of blockchain systems and proposes a novel approach
+Our work specifically focuses on this aspect of blockchain systems and proposes a novel approach
 to achieve concurrency within each block's execution, both in the authoring phase and in the
 validation phase, thereby increasing the throughput.
 
