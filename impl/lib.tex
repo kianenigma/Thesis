@@ -51,9 +51,13 @@ values of different types in the same map, we encode all values to a binary form
 array is used.
 
 \begin{lstlisting}[caption={Key and Value Types.}\label{lst:mpsc}]
-/// The key type. type Key = Vec<u8>; /// The value type. type Value = Vec<u8>;
+/// The key type. 
+type Key = Vec<u8>; 
+/// The value type. 
+type Value = Vec<u8>;
 
-/// Final State layout. type State = HashMap<Key, Value>;
+/// Final State layout. 
+type State = HashMap<Key, Value>;
 \end{lstlisting}
 
 \subsection{Threading Model}
@@ -92,9 +96,10 @@ The following listing demonstrates this process.
 // In the local thread.
 let (producer, receiver) = std::mpsc::channel();
 
-// spawn a new thread. std::thread::spawn(|| {
-	// this scope is local to a new thread. let
-	local_producer = producer.clone();
+// spawn a new thread. 
+std::thread::spawn(|| {
+	// this scope is local to a new thread. 
+	let local_producer = producer.clone();
 	// note the cloned handle ----^^^^^^^
 
 	local_producer.send("thread1");
