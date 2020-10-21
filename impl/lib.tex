@@ -1,4 +1,9 @@
-\chapter{Implementation}
+\chapter{Implementation} \label{chap:impl}
+
+\begin{chapquote}{u/goofbe on reddit}
+	Rust is like a futuristic laser gun with an almost AI-like foot detector that turns the safety
+	on when it recognises your foot.
+\end{chapquote}
 
 In this chapter we will bring the system architecture mentioned at the end of the chapter
 \ref{chap:approach} closer to a real programming environment. This chapter is by no means extensive,
@@ -51,12 +56,12 @@ values of different types in the same map, we encode all values to a binary form
 array is used.
 
 \begin{lstlisting}[caption={Key and Value Types.}\label{lst:mpsc}]
-/// The key type. 
-type Key = Vec<u8>; 
-/// The value type. 
+/// The key type.
+type Key = Vec<u8>;
+/// The value type.
 type Value = Vec<u8>;
 
-/// Final State layout. 
+/// Final State layout.
 type State = HashMap<Key, Value>;
 \end{lstlisting}
 
@@ -96,9 +101,9 @@ The following listing demonstrates this process.
 // In the local thread.
 let (producer, receiver) = std::mpsc::channel();
 
-// spawn a new thread. 
+// spawn a new thread.
 std::thread::spawn(|| {
-	// this scope is local to a new thread. 
+	// this scope is local to a new thread.
 	let local_producer = producer.clone();
 	// note the cloned handle ----^^^^^^^
 
