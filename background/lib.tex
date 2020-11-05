@@ -344,7 +344,7 @@ and authorship of blocks, explained in the next section.
 
 The consensus protocol in a blockchain consists of a set of algorithms that ensure all nodes
 in the network maintain an eventually consistent view of the blockchain (both the chain itself, and
-the state). The protocol need to address problems such as network partition, software failures, and
+the state). The protocol need to address problems such as emerging network partition, software failures, and
 the Byzantine General Problem \cite{lamportByzantineGeneralsProblem1982}, the sate in which a
 portion of the nodes in the network \textit{intentionally} misbehave. For brevity, we only focus on
 one aspect of the consensus which is more relevant to our work, namely, the decision of \textit{block authoring}: deciding who can author blocks, and when.
@@ -358,7 +358,7 @@ chaos. To avoid this, block authoring is a mechanism to dictate who can author t
 block\footnote{In some sense, if blockchains are a democratic system, block authoring is a protocol
 to chose a \textit{temporary} dictator.}. This decision must be solved in a decentralized and provable
 manner. For example, in Proof of Work, each block must be hashed together with a variable such that the final hash has a certain number of leading zeros. This is hard to compute, hence the system
-is resilient against invalid block, namely those that were authored without respecting the authroing rules of the consensus protocol. Moreover, this is provable: any node that receives a candidate block can
+is resilient against invalid block, namely those that were authored without respecting the authoring rules of the consensus protocol. Moreover, this is provable: any node that receives a candidate block can
 hash it again and ensure that the block is valid with respect to Proof of Work. In this thesis, the
 terms "block author" and "validators" are use to refer to the  entity that proposes the candidate
 block, and all the other nodes that validate it, respectively.
@@ -668,7 +668,7 @@ assumptions in this work:
 	completely independent, and solely based on the relevant concepts explained.
 	\item In this entire work, we aim to see blockchains in the most \textit{generic} form that they can be seen. That is to say, we interpret blockchains exactly as we defined in \ref{chap_bg:subsec:decentralized_state_machine}: a decentralized state machine that can be
 	transitioned through means of any form of opaque transaction.
-\end{itemize}
+\end{itemize}https://www.overleaf.com/project/5ea596da15b938000163e656
 
 To summarize, we have explained in this section only what we have deemed to be the most fundamental
 concepts of blockchains, and we noted whenever a detail could potentially be implementation-specific. This approach will persist throughout the rest of this work.
