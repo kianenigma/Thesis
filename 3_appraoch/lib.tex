@@ -344,7 +344,7 @@ useful information.
 ----
 
 \section{Our Approach: Almost Lock-Free, Delegation and Pseudo Static}
-\label{chap_desgin:sec:design}
+\label{chap_desgin:sec:our_approach}
 
 In this section, we describe our approach toward concurrency in a blockchain runtime, both in
 the authoring phase and in validation. This approach is based on three key pivotal ideas, explained
@@ -716,7 +716,7 @@ use these labels to explain each component.
 	tainted by the accessor thread. Else, an error is returned, noting the identifier of the thread
 	that owns the key.
 	\item \textbf{2} is an emphasis on the access of all the workers to the state to be\todo[]{unify
-	the word lock free and wait free.}wait-free. In an abstract level, there is no waiting involved
+	the word lock free and wait free. I want wait free. LOck free sucks}wait-free. In an abstract level, there is no waiting involved
 	in this model. Any access to a key in the state either \textit{immediately} succeeds, in
 	which case the key is tainted. Else, it is \textit{immediately} rejected because of a taint
 	error.
