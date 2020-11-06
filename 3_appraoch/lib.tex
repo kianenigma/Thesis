@@ -4,50 +4,59 @@
 	Don't share memory to communicate, communicate to share memory.
 \end{chapquote}
 
-In this chapter we build up all the details and arguments needed to introduce our approach toward concurrency within blockchains. We start with an interlude, enumerating different ways to improve blockchains' throughput from an end-to-end perspective, and highlight concurrency as our method of choice.
+In this chapter we build up all the details and arguments needed to introduce our approach toward
+concurrency within blockchains. We start with an interlude, enumerating different ways to improve
+blockchains' throughput from an end-to-end perspective, and highlight concurrency as our method of
+choice.
 
 \section{Prelude: Speeding up a Blockchain - An Out-of-The-Box
 Overview}\label{chap_approach:sec:ways_to_speedup}
 
-Blockchains can be seen, in a very broad way, as \textit{decentralized state machines
-that transition by means of transactions}. The throughput of a blockchain network, measured in transactions per second, is a function of numerous components, and can be analysed from different points of view. While in this work we focus mainly on one aspect, it is helpful to enumerate different viewpoints and see how each of them affects the overall throughput \footnote{This
+Blockchains can be seen, in a very broad way, as \textit{decentralized state machines that
+transition by means of transactions}. The throughput of a blockchain network, measured in
+transactions per second, is a function of numerous components, and can be analysed from different
+points of view. While in this work we focus mainly on one aspect, it is helpful to enumerate
+different viewpoints and see how each of them affects the overall throughput \footnote{This
 categorization is by no means exhaustive. We are naming only a handful.}.
 
 \subsection{Consensus and Block Authoring}
-We discussed how he consensus protocol provides the means of ensuring that all nodes have a persistent
-view of the state (see Section~\ref{chap_bg:subsec:consensus_authorship}), and it can heavily contribute to the throughput of the system. Take, for example, two
-common consensus protocols: Proof of \textbf{Work} and Proof of \textbf{Stake}. They use the computation power (\textit{work}) and an amount of bonded tokens (\textit{stake}), respectively, as
-their guarantees that an entity has \textit{authority} to perform some operation, such as authoring
-a block. It is important to note that each of these consensus protocols has  \textit{inherently}
-different throughput characteristics \cite{meneghettiSurveyEfficientParallelization2019}. Proof of
-work, as the names suggests, requires the author to prove their legitimacy by providing proof that
-they have solved a particular hashing puzzle. This is slow by nature, and wastes a lot of
-computation power on each node that wants to produce blocks, which in turn has a negative impact on
-the frequency of blocks, which directly impacts the transaction throughput. Improving the throughput of Proof of Work
+We discussed how he consensus protocol provides the means of ensuring that all nodes have a
+persistent view of the state (see Section~\ref{chap_bg:subsec:consensus_authorship}), and it can
+heavily contribute to the throughput of the system. Take, for example, two common consensus
+protocols: Proof of \textbf{Work} and Proof of \textbf{Stake}. They use the computation power
+(\textit{work}) and an amount of bonded tokens (\textit{stake}), respectively, as their guarantees
+that an entity has \textit{authority} to perform some operation, such as authoring a block. It is
+important to note that each of these consensus protocols has  \textit{inherently} different
+throughput characteristics \cite{meneghettiSurveyEfficientParallelization2019}. Proof of work, as
+the names suggests, requires the author to prove their legitimacy by providing proof that they have
+solved a particular hashing puzzle. This is slow by nature, and wastes a lot of computation power on
+each node that wants to produce blocks, which in turn has a negative impact on the frequency of
+blocks, which directly impacts the transaction throughput. Improving the throughput of Proof of Work
 requires the network to agree on an easier puzzle, that can in turn make the system less secure
 \cite{gervaisSecurityPerformanceProof2016}.
 
-To the contrary, Proof of Stake does not need puzzle solving, which is beneficial in terms
-of computation resources. Moreover, since the chance of any node being the author is determined by
+To the contrary, Proof of Stake does not need puzzle solving, which is beneficial in terms of
+computation resources. Moreover, since the chance of any node being the author is determined by
 their stake\footnote{Using some hypothetical election algorithm which is irrelevant to this work.},
 more frequent blocks are not insecure in itself. Recently, we are seeing blockchains turning to
-verifiable random functions \cite{dodisVerifiableRandomFunction2005} for block authoring, and deploying
-a traditional byzantine fault tolerance voting scheme on top of it to ensure finality
+verifiable random functions \cite{dodisVerifiableRandomFunction2005} for block authoring, and
+deploying a traditional byzantine fault tolerance voting scheme on top of it to ensure finality
 \cite{buterinCasperFriendlyFinality2019, stewartPosterGRANDPAFinality2019}. This further
 \textit{decouples block production and finality}, allowing production to proceed faster and with
 even less drag from the rest of the consensus system, namely finality.
 
 All in all, one general approach towards increasing the throughput of a blockchain is to
 \textit{re-think the consensus and block authoring mechanisms} that dictate when blocks are added to
-the chain, specifically with which frequency. It is crucially important to note that any approach in
-this domain falls somewhere in the spectrum of centralized-decentralized, where most often
-approaches that are more centralized are more capable of delivering better throughput, yet they
-may not have some of the security and immutability guarantees of a blockchain. An example of this is
-provided in table \ref{table:blockchain_types}, where private blockchains were named as being always the fastest.
+the chain - specifically, with which frequency. It is crucially important to note that any approach
+in this domain falls somewhere in the spectrum of centralized-decentralized, where most often
+approaches that are more centralized are more capable of delivering better throughput, yet they may
+not have some of the security and immutability guarantees of a blockchain. An example of this is
+provided in table \ref{table:blockchain_types}, where private blockchains were named as being always
+the fastest.
 
 \subsubsection{Sharding}
 An interesting consensus-related optimisation that is gaining a lot of relevance in recent years is
-a technique, obtained from the databases field, called \textit{sharding}. Shards are slices of data
+a technique called \textit{sharding}, borrowed from the databases field,. Shards are slices of data
 (in the database jargon) that are maintained on different nodes. In a blockchain system, shards
 refer to sub-chains that are maintained by sub-networks of the whole system. In essence, instead of
 keeping \textit{all} the nodes in the entire system synchronized at \textit{all} times, sharded
@@ -60,15 +69,15 @@ shreyDiPETransFrameworkDistributed2019}.
 
 \subsection{Chain Topology}
 
-Another approach to improve the throughput is changing the nature of the chain itself. A classic blockchain is theoretically
-limited due to its shape: a chain has only one head, thus only one new block can be added at each
-point in time. This property brings extra security, and make the chain state easier to reason
-about (i.e. there is only one canonical chain). A radical approach is to question this property and
-allow different blocks (or individual transactions) to be created at the same time. Consequently,
-this approach turns a blockchain from a literal \textit{chain of blocks} into a \textit{graph of
-transactions} \cite{pervezComparativeAnalysisDAGBased2018}. Most often, such technologies are
-referred to Directed Acyclic Graphs (DAG) solutions. A prominent example of this is the IOTA
-project\cite{mIOTANextGenerationBlock2018}.
+Another approach to improve the throughput is changing the nature of the chain itself. A classic
+blockchain is theoretically limited due to its shape: a chain has only one head, thus only one new
+block can be added at each point in time. This property brings extra security, and make the chain
+state easier to reason about (i.e. there is only one canonical chain). A radical approach is to
+question this property and allow different blocks (or individual transactions) to be created at the
+same time. Consequently, this approach turns a blockchain from a literal \textit{chain of blocks}
+into a \textit{graph of transactions} \cite{pervezComparativeAnalysisDAGBased2018}. Most often, such
+technologies are referred to Directed Acyclic Graphs (DAG) solutions. A prominent example of this is
+the IOTA project\cite{mIOTANextGenerationBlock2018}.
 
 Allowing the chain to grow from different heads (i.e. seeing it as a graph) allows true parallelism
 at the transaction layer, effectively increasing the throughput. Nonetheless, the security of such
@@ -84,117 +93,113 @@ is}.
 \subsection{Deploying Concurrency over Transaction Processing}
 \label{chap_approach:subsec:out_of_box_concurrency}
 
-Finally, we can focus on the transaction processing view of the blockchain, and try and deploy
+Finally, we can focus on the transaction-processing view of the blockchain, and try and deploy
 concurrency on top of it, leaving the other aspects, such as consensus, unchanged and, more
-importantly, \textit{generic}. This is very important, as it allows our approach to be deployed on
-many chains, since it is independent of any chain-specific detail. Any chain will eventually come to
-a point where it must execute some transactions, be it in the form of a chain, or a DAG, with any
-consensus. Thus, concurrency is a viable solution as long as notion of transactions and blocks exists.
+importantly, \textit{generic}. This is very important, as it allows our approach (to be explained
+further in this chapter) to be deployed on many chains, because it is independent of any
+chain-specific detail. Any chain will eventually come to a point where it must execute some
+transactions, be it in the form of a chain, or a DAG, with any consensus. Thus, concurrency is a
+viable solution as long as the notions of transactions and blocks exist.
 
-Our work specifically focuses on this aspect of blockchain systems and proposes a novel approach
+Our work specifically focuses on this aspect of blockchain systems, and proposes a novel approach
 to achieve concurrency within each block's execution, both in the authoring phase and in the
 validation phase, thereby increasing the throughput.
 
 \subsection{Summary} \label{chap_bg:subsec:summary_speedup}
 
-\todo[inline]{I am not yet super happy with this section. I think I can write it in a more compact +
-confident way}.
+Each of these methods brings about an improvement in the throughput (in terms of transactions
+processed per second) of the system in their own unique way. The question of \textit{which one will
+be the dominant one} is too specific to a particular chain's assumptions, and outside the scope of
+what we are trying to tackle in this work. As an example, for some consortium chains where consensus
+is less of an issue, altering the consensus is likely to result in a significant throughput gain,
+without using any of the other methods such as sharding and concurrency.
 
-Indeed, it is questionable how much gain concurrency brings to the overall throughput. To
-counter this doubt, we argue that the aim of this work is to, foremost, \textit{improve} the
-throughput, not aiming for a specific absolute rate. It is true that in a specific chain, the
-network latency or consensus process might be the main bottleneck of the \textit{overall
-throughput}, and concurrency cannot improve that by much. For example, most performance gains within
-concurrency might be within milliseconds, while the block authoring delay is tens of seconds in some
-chain. Nonetheless, this does not mean that there is no merit to it. At any of these layers, any
-speedup is valuable and translates to more efficient use of the hardware.
-
-Therefore, we argue that our method is \textit{valuable} and \textit{applicable}, regardless of
-being the dominant factor or not. For some chains, it might be a dominant factor and drastically
-improve the throughput, whilst in others it might not be and only allow the system to better use the
-hardware that is provided to it\footnote{It is worth noting that having optimal hardware utilization
-(to reduce costs) is an important factor in the blockchain industry, as many chains are ran by
-people who are making profit out of running validators and miners.}.
+Instead, we acknowledge that each of these approaches have their own merit and could be useful in a
+certain scenario. Therefore, we put our focus on concurrency for the rest of this work. We
+concurrency as a universal improvement that can be applied to any chain. Moreover, It is worth
+noting that having optimal hardware utilization (to reduce costs) is an important factor in the
+blockchain industry, as many chains are ran by people who are making profit out of running
+validators and miners.
 
 Finally, by seeing these broad options, we can clarify our usage of the word "throughput". One might
 notice that the first two options mentioned in this section (consensus, chain topology) can increase
-the throughput at the \textit{block} level: More blocks can be added, thus more transaction
+the throughput at the \textit{block} level: more blocks can be added, thus more transaction
 throughput. This is in contrast to what concurrency can do. The concurrency explained in
 \ref{chap_approach:subsec:out_of_box_concurrency} is the matter of what happens \textit{within}
 \textit{\textbf{a}} block. Henceforth, by throughput we mean throughput of transactions that are
 being executed within a (\textit{single}) block. Similarly, by concurrent, we mean concurrent within
-the transactions of a (\textit{single}) block, not concurrency within the blocks themselves.
+the transactions of a (\textit{single}) block, not concurrency between the blocks themselves.
 
 
-\section{Concurrency Within Block Production and Validation} \label{chap_approach:sec:concurrency}
+\section{Concurrency within Block Production and Validation} \label{chap_approach:sec:concurrency}
 
-In this section, we explain in detail how a concurrent blockchain should functions. Most notably,
-we define how a concurrent author and a concurrent validator differ from their sequential
-counterparts. Note that these are the mandatory requirements that \textit{any} approach toward
-concurrency in blockchains must respect. As the reader might expect based on previous explanations,
-all of them boil down to one radical property: \textbf{determinism}.
+In this section, we explain in detail how a concurrent blockchain should function. Most notably, we
+define how a concurrent author and a concurrent validator differ from their sequential counterparts
+by defining their requirements. Note that these requirements are mandatory and \textit{any} approach
+toward concurrency in blockchains must respect them. As the reader might expect based on previous
+explanations, all of them boil down to one radical property: \textbf{determinism}.
 
 To recap, the block author is the elected entity that proposes a new block consisting of
-transactions. The block author must have already executed these transaction in some
-protocol-specific order (e.g. sequential), and note the correct state root of the block in its
-header. This block is then propagated over the network. All other nodes validate this block and if
+transactions. The block author must have already executed these transactions in some
+protocol-specific order (e.g., sequentially), and noted the correct state root of the block in its
+header. This block is then propagated over the network. All other nodes validate this block and, if
 they all come to the same state root, they append it to their local chain. An author that
 successfully creates a block gets rewarded for their work by the system.
 
 \subsection{Concurrent Author}
 
-We begin by the chronologically sensible way, block authoring. Before anything interesting can
+We begin in a chronologically sensible way, with block authoring. Before anything interesting can
 happen in a blockchain, someone has to author and propose a new block. Else, no state transition
 happens.
 
 A concurrent author has access to a pool of transactions that have been received over the network,
 most often via the gossip protocol. Form a consensus point of view, it is absolutely irrelevant to
-ensure all nodes have the same transactions in their local pool. In other words, form a consensus
+ensure all nodes have the same transactions in their local pool. In other words, from a consensus
 point of view, there is no consensus in the transaction pool layer. All that matters is that any
 node, once chosen to be the author\footnote{The decision of how the author is elected is within the
 details of the consensus protocol.}, has a pool from which it can choose transactions. Then, the
 author has a \textit{limited} amount of time to prepare the block and propagate it.
 
-A number of ambiguities arise here. We dismiss them all to be able to only focus on the
-concurrency aspect.
+A number of ambiguities arise here. We dismiss them all in the following enumeration to be able to
+only focus on the concurrency aspect.
 
 \begin{itemize}
-	\item Typically, the author need some way to \textit{prefer} a subset of the transactions pool,
+	\item Typically, the author needs some way to \textit{prefer} a subset of the transactions pool,
 	as most often all of it cannot be fit into the block. For this work, we leave this detail
 	generic and assume that each author has first filtered out its \textit{pool} into a new
 	\textit{queue} of transactions (noting that the former is \textit{unordered} and the latter is
 	\textit{ordered}) that she prefers to include in the block. In reality, a common strategy here
 	is to prioritize the transactions that will pay off the most fee, as this will benefit the block
 	author.
-	\item A block must have some chain-specific \textit{resource} limit. For simplicity,we assume
-	that each block can fit a fixed \textit{maximum} number of transactions, but it is so high that
-	the bottleneck is not the transaction limit itself, but rather the amount of \textit{time} that
-	tha author has to prepare the block. Thus, bolstering the importance of high throughput. In
-	reality, some blockchains have adopted a similar approach (cap on \textit{number} of
-	transactions), or limit the size of the block (cap on encoded \textit{byte length} of the
-	transaction). Complex chains that support arbitrary code execution even goes further and
-	limit the \textit{computation} cost of the transactions, such as Ethereum's gas
-	metering\cite{perezBrokenMetreAttacking2020}.
+	\item A block must have some chain-specific \textit{resource} limit. For simplicity, we assume
+	that each block can fit a fixed \textit{maximum} number of transactions, but this limit is so
+	high that the bottleneck is not the transaction limit itself, but rather the amount of
+	\textit{time} that that author has to prepare the block, bolstering the importance of high
+	throughput. In reality, some blockchains have adopted a similar approach (i.e., a cap on
+	\textit{number} of transactions), or have limited the size of the block (i.e., a cap on encoded
+	\textit{byte length} of the transaction). Complex chains that support arbitrary code execution
+	even go further and limit the \textit{computation} cost of the transactions - see, for example,
+	Ethereum's gas metering\cite{perezBrokenMetreAttacking2020}.
 \end{itemize}
 
-Having all these parameters fixed, we can then focus on the block building part, namely executing
+Having all these parameters fixed, we can focus on the block building part, namely executing
 each transaction and placing it in the block. A sequential author would simply execute all the
 transactions one by one (in some order of preference) up until the time limit, and calculate the new
 state root. These transactions are then structured as a block. Concatenated with a header that notes
 the state root, the block is ready to be propagated. The created block is an \textit{ordered}
-container for transactions, therefore it can be re-executed deterministically trivially by
+container for transactions, therefore it can be trivially re-executed deterministically by
 validators, as long as everyone does it sequentially.
 
 A concurrent author's goal is to execute these transactions in a concurrent way, hoping to fit
 \textit{more} of them in the same limited \textit{time}, while still allowing the validators to come
-to the same state root. This is challenging because most often concurrency is non-deterministic.
-Therefore, the author is expected to piggy-back some auxillary information to its block that allows
-validators to execute it deterministically. maintaining determinism is the first and foremost
-criteria of the concurrent author.
+to the same state root. This is challenging, because, most often, concurrency is non-deterministic.
+Therefore, the author is expected to piggy-back some auxiliary information to its block, to allow
+validators to execute it deterministically. Maintaining determinism is the first and foremost
+criterion of the concurrent author.
 
-Moreover, the secondary criteria is a net positive gain in throughput. The concurrent author prefers
-to be able to execute more transactions within a fixed time frame that she has for authoring, for
-she will then be rewarded with more transaction fees.
+Moreover, the secondary criterion is a net positive gain in throughput. The concurrent author
+prefers to be able to execute more transactions within the fixed time frame that she has for
+authoring, for she will then be rewarded with more transaction fees.
 
 \subsection{Concurrent Validator}
 
@@ -205,91 +210,97 @@ is likely to need to do more.
 
 More specifically, the concurrent validator knows that a concurrent author must have executed all or
 some of the transactions within the block concurrently. Therefore, conflicting transactions must
-have \textbf{proceeded} one another in \textit{some} way. The goal of the concurrent validator is to
-re-produce the \textit{same precedence} in an efficient manner and come to the same state root.
+have \textbf{preceded} one another in \textit{some} way. The goal of the concurrent validator is to
+reproduce the \textit{same precedence} in an efficient manner, and thus arrive to the same state
+root.
 
-For example, Assume the author uses a simple Mutex lock to perform concurrency. In this case, some
+For example, assume the author uses a simple Mutex lock to perform concurrency. In this case, some
 transactions inevitably have to wait for other transactions that accessed the same Mutex
-earlier. This implies an \textit{implicit} precedence between conflicting transactions. The author
-needs to somehow transfer these precedence information to the validator, and the validator must
-respect them in order to arrive at the same state root.
+earlier. This leads to an \textit{implicit} precedence between conflicting transactions. The author
+needs to somehow transfer the precedence information to the validator, and the validator must
+respect this order to arrive at the same state root.
 
-With this background, we briefly survey existing approaches in the literature to achieve
-concurrency, effectively seeing some a more practical perspective of the above description.
-
-\section{Existing Approaches}
+\section{Existing Approaches}\label{chap_approach:existing}
 
 In this section we look at some of the already existing approaches toward concurrency in
-blockchains. While doing so, we denote their deficiencies and build upon them to introduce our
+blockchains. These approaches are essentially a practical resemblance of what was explained in the
+previous section. While doing so, we denote their deficiencies and build upon them to introduce our
 approach.
 
-\subsection{A Closer Look}
+\subsection{Concurrency Control}
 
 % Bad title: Concurrency Control and Avoidance are better.
 
 Every tool that we named for concurrency in chapter \ref{chap:background} can essentially be used in
-blockchains as well, yet each has a specific toll on the system in order to be feasible. All
-of these approach fall within the category of \textbf{concurrency control}. We begin by
-arguably the simplest, locking.
+blockchains as well, yet each takes a specific toll on the system in order to be feasible. All of
+these approaches fall within the category of \textbf{concurrency control}. We begin with the
+simplest one: locking.
 
-A locking approach would divide the transactions into multiple threads\footnote{a 1:1 relation
+A locking approach would divide the transactions into multiple threads\footnote{A 1:1 relation
 between threads and transactions is also possible, given that the programming language supports
 green threads.}. Each transaction within the thread, when attempting to access any key in the
-state\footnote{Recall that the state is a key value database.}, has to acquire a lock for it. Once
-acquired, the transaction can access the key. This process is not deterministic.
-Therefore, the runtime need to keep track of which locks were requested by which thread, and the
-\textit{order} in which they were granted. This information is, in essence, builds a dependency
-graph. This dependency graph need to be sent to the validators as well. The validators parse the
-dependency graph and based on that spawn the required number of threads, and distribute the
-transactions within them. \cite{dickersonSmartLocksAddingConcurrency2017} is among the earliest
-works on concurrency within blockchain and adopts such an approach.
+state\footnote{Recall that the state is a key-value database.}, has to acquire a lock for it. Once
+acquired, the transaction can access the key. This process is not deterministic. Therefore, the
+runtime needs to keep track of which locks were requested by which thread, and the \textit{order} in
+which they were granted. This information builds, in essence, a dependency graph. This dependency
+graph needs to be sent to the validators as well. The validators parse the dependency graph and,
+based on that information, spawn the required number of threads, and distribute the transactions
+among them. \cite{dickersonSmartLocksAddingConcurrency2017} is among the earliest works on
+concurrency within blockchain, and adopts such an approach.
 
 The details of generating the dependency graph with minimum size, encoding it in the block in an
-efficient way and parsing it in the validator is being highly simplified here. These steps are
-critical, as they are the main overheads of this approach. The size of this graph need to be small,
+efficient way, and parsing it in the validator are being highly simplified here. These steps are
+critical, as they are the main overheads of this approach. The size of this graph needs to be small,
 as it needs to be added to the block and increases the network overhead. Moreover, the overhead of
 this extra processing must be worthwhile for the author, as otherwise it would be in contrast to the
 whole objective of deploying concurrency. There are some works that only focus on the "dependency
-graph generating and processing" aspect of the process. They assume some means exists through which
-the read and write set of each transaction can be computed (i.e. by monitoring the lock requests
-that each thread sends at runtime). On top of this, the provide efficient ways to build the
+graph generating and processing" aspect of the process. They assume some means exist through which
+the read and write set of each transaction can be computed (i.e., by monitoring the lock requests
+that each thread sends at runtime). On top of this, they provide efficient ways to build the
 dependency graph, and use it at the validator's end \cite{EnablingConcurrencySmart2018}.
 
-The next step of this progression is to utilize transactional memory. The line of research exactly
-follows the same pattern. More recent works use software transactional memory to reduce the waiting
+The next step of this progression is to utilize transactional memory. This line of research follows
+the same pattern. More recent works use software transactional memory (STM) to reduce the waiting
 time and conflict rates. Similar to the locking approach, the runtime needs to keep track of the
-dependencies and build a graph that encode this information. Different flavours of STMs are used and
-compared in this line of research, such as Read-Write STMs, Single-Version Object-based STMs, and
-Multi-Version Object-based STMs
-\cite{anjanaSTMEfficientConcurrent2019,anjanaSTMEfficientFramework2019}. Nonetheless, the underlying
-procedure stays the same: Some means of concurrency control to handle conflicts, track dependency
-and use it to encode precedence, then re-crete the same precedence in the validator.
+dependencies and build a graph that encodes this information. Different flavours of STMs are used
+and compared in this line of research, such as Read-Write STMs, Single-Version Object-based STMs,
+and Multi-Version Object-based STMs
+\cite{anjanaEfficientConcurrentExecution2019,anjanaEfficientFrameworkOptimistic2019}. Nonetheless,
+the underlying procedure stays the same: some means of concurrency control to handle conflicts,
+track dependency and use it to encode precedence, then re-create the same precedence in the
+validator.
+
+
+\subsection{Concurrency Avoidance}
 
 Next, we name an out-of-the box work that take a rather different path. Many studies in the
-blockchain literature use datasets from database industry as their reference. Such datasets might
-have unrealistically high rates of contention. \cite{saraphEmpiricalStudySpeculative2019} is an empirical
-study that tries to determine the conflict rates within Ethereum transactions, a \textit{live}, and
-arguably well adopted network. And, while doing so, it demonstrate a different, wait-free approach.
-In the concurrent simulator of this work, all transaction are executed in parallel with the
-assumption that they do not conflict. If a conflict happens and a transaction aborts, it is
-discarded, and re-executed again at later phase sequentially. This essentially clusters transactions
-into two groups: concurrent and sequential. All of the concurrent transactions are guaranteed not to
-conflict. The sequential transaction do not matter as they are executed sequentially. Aside from
-their findings about the conflict rates in different periods of time in Ethereum, they also report
-speedups in \textit{some} cases, not being too shy of the speedup amounts reported by
-\cite{dickersonSmartLocksAddingConcurrency2017}, which uses locking.
+blockchain literature use datasets from the database industry as their reference. Such datasets
+might have unrealistically high rates of contention. \cite{saraphEmpiricalStudySpeculative2019} is
+an empirical study that tries to determine the conflict rates within Ethereum transactions, a
+\textit{live}, and arguably well-adopted network. While doing so, the study demonstrates a
+different, wait-free approach. In the concurrent simulator of this work, all transaction are
+executed in parallel, with the assumption that they do not conflict. If a conflict happens and a
+transaction aborts, it is discarded, and re-executed again at later phase, sequentially. This
+essentially clusters transactions into two groups: concurrent and sequential. All of the concurrent
+transactions are guaranteed not to conflict. The sequential transaction do not matter as they are
+executed sequentially. Aside from their findings about the conflict rates in different periods of
+time in Ethereum, they also report speedups in \textit{some} cases, not being too shy of the speedup
+amounts reported by \cite{dickersonSmartLocksAddingConcurrency2017}, which uses locking.
 
 This is an inspiring finding, implying that perhaps complicated concurrency control might not be
-needed after all for many of the transactions in \textit{some} periods of time, based on the
+needed after all for many of the transactions in \textit{some} period of time, based on the
 contention of the transactions. In some sense, this work adopts a technique that we coin as
-\textbf{concurrency avoidance} instead of \textbf{concurrency control}. As a consequence, the system
-need not to deal with conflicts in any way, because they are rejected and dealt with separately in
+\textbf{concurrency avoidance}, instead of \textbf{concurrency control}. As a consequence, the system
+need not deal with conflicts in any way, because they are rejected and dealt with separately in
 the sequential phase.
+
+
+\subsection{Static Analysis}
 
 Finally, we note that there has also been \textit{some} work on pure static analysis in the field of
 blockchains, yet all of those that we have found require fundamental changes to the programmable
-language of the target chain. For example, \cite{bartolettiStaticTrueConcurrent2019} provides an
-extension to the Ethereum's smart contract language, Solidity, that allow it to be executed in a
+language of the target chain. For example, \cite{bartolettiTrueConcurrentModel2019} provides an
+extension to the Ethereum's smart contract language, Solidity, that allows it to be executed in a
 truly concurrent manner (by essentially limiting the features of the language). Similarly, RChain is
 an industrial example of a chain that has a programming model that is fundamentally
 concurrent\cite{darrylRCast21Currency2019}, namely
@@ -301,155 +312,144 @@ the programming model, in favour of easy adoption and outreach.
 
 \subsubsection{Smart Contract vs. Runtime}
 
-% This is not really in place.
+\todo[inline]{This should go elsewhere or just be an orphan remark}
 
-Most of the mentioned references name their work as appraoches toward concurrency for \textbf{smart
+Most of the surveyed related work name their work as approaches toward concurrency for \textbf{smart
 contracts}. At this point, it would be helpful to clarify that. The details of smart contract chains
-as well beyond the scope of this work. But, it is worth noting that a smart contract chain is a
-fixed chain that a fixed state transition logic that, and a part of that logic is to store codes
-(smart contracts) and execute them upon being dispatched. Moreover, since Ethereum is the prominent
-smart contract chain, all of these works present themselves with simulators that can hypothetically
-be implemented in the Ethereum node. To the contrary, we won't limit ourself to smart contracts or
-any specific chain in this work and build upon the basis that the future of blockchains do not be
-a \textit{single} chain (chain maximalism), but rather an abundance of domain specific chains
-interoperating with one another. To achieve this, one needs to think in the context of a framework
-for building blockchains, not a particular blockchain per se. Thus, we argue that our approach is
-applicable to any chain with independent runtimes, not any particular smart contract being executed
-in the runtime of another chain.
+are well beyond the scope of this work. But, it is worth noting that a smart contract chain is a
+\textit{fixed} chain that has a fixed state transition logic, and a part of that logic is to store
+codes (smart contracts) and execute them upon being dispatched. Moreover, since Ethereum is the
+prominent smart contract chain, all of these works present themselves with simulators that can
+hypothetically be implemented in the Ethereum node. To the contrary, we will not limit ourselves to
+smart contracts or any specific chain in this work; instead, we build upon the idea that the future
+of blockchains will not be a \textit{single} chain (chain maximalism), but rather an abundance of
+domain specific chains interoperating with one another. To achieve this, one needs to think in the
+context of a framework for building blockchains, not a particular blockchain per se. Thus, we argue
+that our approach is applicable to any chain with independent runtimes, therefore not being limited
+to/by any particular smart contract being executed in the runtime of another chain.
 
-\subsection{Conclusion: Finding a New Balance}
+\section{Our Approach} \label{chap_desgin:sec:our_approach}
 
-\todo[inline]{
-	Okay to say they have issues, no need to justify why we think it is a issue or how we solve it.
-}
+In this section, we describe our approach toward concurrency in a blockchain runtime, both in the
+authoring phase and in validation. First, we begin by drawing a conclusion from the surveyed studies
+in \ref{chap_approach:existing}.
 
-All of the works mentioned above report positive speedups. Yet, we argue from a different,
-analytical and critical perspective and point out some overheads associated with them that can be
-improved, or challenges that can be avoided altogether.
+\subsection{Core Idea: Finding a New Balance}
 
-Both locking and transactional memory result in a sizeable overhead while authoring. This is
-mostly hidden in some sort of runtime overhead, for example the need to keep track of locking order,
-and consequently parsing it into a dependency graph. Moreover, this inevitably increases the
-block size, because the dependency graph need to be propagated to all other nodes. Finally, the
-validator also needs to tolerate the overhead of parsing the dependency graph and making informed,
-potentially complicated decisions based upon it.
+We begin by pointing out that all of the mentioned works, regardless of their outcome, produce a
+sizable amount of overhead. We think these overheads are preventable and perhaps a different
+approach can prevent them all-together.
+
+Both locking and transactional memory result in a sizeable overhead while authoring. This is mostly
+hidden in some sort of runtime overhead, for example the need to keep track of locking order, and
+consequently parsing it into a dependency graph. Moreover, this dependency graph inevitably
+increases the block size, because the dependency graph needs to be propagated to all other nodes.
+Finally, the validator also needs to tolerate the overhead of parsing the dependency graph and
+making informed, potentially complicated decisions based upon it.
 
 These are all overheads compared to the basic sequential model. In essence, we express skepticism
 toward these complex runtime machinery to deal with conflicts, and record precedence. On the other
-hand the pure \textit{concurrency avoidance} model is likely to fail under any workload with some
+hand, the pure \textit{concurrency avoidance} model is likely to fail under any workload with some
 non-negligible degree of contention, because it basically falls back to the sequential model where
 most transactions are aborted and moved to the sequential model. Results from
-\cite{saraphYOLOEmpiricalStudy2019} show the same trend.
+\cite{saraphEmpiricalStudySpeculative2019} show the same trend.
 
-In our approach, introduced in the next section, we try to minimize these overheads by finding a new
-balance between the "concurrency control" and "concurrency avoidance" model. Moreover, we apply the
-same analogy between "runtime" against "static". While \textit{some} runtime apparatus is needed to
+To the contrary, we aim to minimize these overheads by finding a new
+balance between the "concurrency control" and "concurrency avoidance" models. Moreover, we apply the
+same analogy between "runtime" and "static". While \textit{some} runtime apparatus is needed to
 orchestrate the execution and prevent chaos, tracking all dependencies is likely to be too much.
 Similarly, while a purely static approach toward concurrency is a radical change to well-known
 programming models, we claim that \textit{some} static hints could nudge the runtime by providing
 useful information.
 
-----
+\subsection{Key Ideas: Almost Lock-Free, Delegation and Pseudo Static}
 
-\section{Our Approach: Almost Lock-Free, Delegation and Pseudo Static}
-\label{chap_desgin:sec:our_approach}
-
-In this section, we describe our approach toward concurrency in a blockchain runtime, both in
-the authoring phase and in validation. This approach is based on three key pivotal ideas, explained
+Our approach is based on three key pivotal ideas, explained
 in the next section.
-
-\subsection{Key Ideas}
-
-The key ideas of our approaches can be enumerated as follows:
 
 \subsubsection{Almost Lock-Free: "Taintable" State}\label{chapt_approach:subsubsec:taintable_state}
 
-We have already seen that locking is a common primitive to achieve shared state concurrency. In our
+We have already seen that locking is a common primitive to achieve shared-state concurrency. In our
 approach, we relax this primitive such that any access to a shared state by a thread \textbf{does
 not incur long waiting times}, but instead, it might simply fail. To do so, we link each key in the
 state database with a taint value. If a key has never been accessed before, it is untainted. Once it
-is accessed by any thread (regardless of the type of operation being read or write \todo[]{This is a
-good discussion section: we don't we distinguish them?}), it is tainted by the identifier of that
+is accessed by any thread (regardless of the type of operation being read or write), it is tainted by the identifier of that
 accessor thread. Henceforth, any access to this key by any other thread fails, returning the
-identifier of the original tainter (aka. \textit{owner}) of the key. As we shall see in the
-implementation details (see \ref{chap:impl}), this approach is \textit{almost} wait free, meaning that threads almost
-always proceed immediately with any state operation. Indeed, a thread can always freely access keys
-that it has already tainted before.
+identifier of the original tainter (aka, \textit{owner}) of the key. As we shall see in the
+implementation (see \ref{chap:impl}), this approach is \textit{almost} wait free, meaning that
+threads almost always proceed immediately with any state operation. Indeed, a thread can always
+freely access keys that it has already tainted before.
 
 \subsubsection{Concurrency Delegation}
 
-If a thread, in the process of executing a transaction, tries to access a tainted state key, then it
+If a thread, in the process of executing a transaction, tries to access a tainted state key, it
 forwards this transaction to the owner of that key. By doing so, a thread basically
-\textit{delegates} the task of executing a transaction concurrently to another thread, namely
-because it cannot meet the state-access requirements of the transactions itself, and based on the
-available error information, the recipient (i.e. the owner of the failing state key) is more likely
+\textit{delegates} the task of executing a transaction concurrently to another thread
+because it cannot meet the state-access requirements of the transactions itself; based on the
+available error information, the recipient (i.e., the owner of the failing state key) is more likely
 to be capable of doing that. This is the middle ground between \textit{concurrency avoidance} and
 \textit{concurrency control}, which we have coined \textit{concurrency delegation}.
 
-Compared to concurrency control, threads do not try to resolve contention in any sophisticated way.
-Instead, they simply delegate (aka. \textit{forward}) the transactions to whoever they think
-\textit{might} be able to execute it successfully. There is no waiting involved, and no record being
-kept about access precedence.
+Compared to concurrency control, threads in our in concurrency delegation model do not try to
+resolve contention in any sophisticated way. Instead, they simply delegate (aka, \textit{forward})
+the transactions to whoever they think \textit{might} be able to execute them successfully. There is
+no waiting involved, and no record being kept about access precedence.
 
-On the other hand, comparing this with concurrency avoidance model, just because a transaction's
-state operation has failed, it does not mean that it cannot be executed in any concurrent way.
-Instead, it might be executable by another thread who is known to be the owner of the problematic
-state key. Therefore, instead of immediately being discarded (and potentially executed sequentially
-at the end), each transaction is given a second chance to succeed in a concurrent fashion.
+On the other hand, compared with concurrency avoidance, concurrency delegation does not
+automatically assume that just because a transaction's state operation has failed, the transaction
+cannot be executed in any concurrent way. Instead, the transaction might be executable by another
+thread, who is known to be the owner of the problematic state key. Therefore, instead of immediately
+being discarded (and potentially executed sequentially at the end), each transaction is given a
+second chance to succeed in a concurrent fashion.
 
 Finally, if a transaction is already forwarded and still cannot be executed, (only) then it is
-forwarded to a sequential queue to be dealt with later. We name such transactions \textbf{orphan}.
-This implies that each transaction is at most forwarded twice: once to another potential recipient
-and lastly to the be declared as orphan.
+forwarded to a sequential queue to be dealt with later. We name such transactions \textbf{orphans}.
+This implies that each transaction is at most forwarded twice: once to another potential recipient,
+and next, when needed, to the be declared as orphan.
 
 \begin{lemma}
 	Detection of the Orphan Transaction.
 
-	Why "a failing transaction that has already been forwarded once" is considered an orphan? We
-	present an example to demonstrate this: Assume thread $T2$ receives a forwarded transaction from
+	Why is "a failing transaction that has already been forwarded once" considered an orphan? We
+	present an example to demonstrate this: assume thread $T2$ receives a forwarded transaction from
 	$T1$. Based on the the protocol of delegation, we know that this transaction must have at least
 	one key which is owned by $T2$, because $T1$ failed to access it and thus forwarded it to $T2$.
 	Moreover, if the transaction still fails, it means that it has at least one other key that is
 	owned by some other thread $T'$. This implies that $T2$ is not able to execute this
-	transactions, and any further recipient of this transaction, including $T'$, will also fail to
+	transaction, and any further recipient of this transaction, including $T'$, will also fail to
 	execute it because the transaction has at least one key owned by $T2$. Therefore, no transaction
-	ever need to be forwarded more than once. A transaction can be forwarded at most once, and
+	ever needs to be forwarded more than once. A transaction can be forwarded at most once, and
 	thereafter it is considered to be an orphan.
 \end{lemma}
 
 \subsubsection{Pseudo-Static}
 
-We predict that concurrency delegations works well when threads need to seldom forward transactions
+We predict that concurrency delegation works well when threads need to seldom forward transactions
 to one another. In other words, the transactions need to be \textit{initially} distributed between
 the threads in some educated and effective way to minimize forwarding. This is where we turn to
-pseudo-static heuristics as a form of a hint. We use the term pseudo-static because because we do
-not mean information that is necessarily available at compile time, but rather are known
-\textit{before} a particular transactions is executed. In other words, they are \textit{static with
-respect to the lifetime of a transaction} and can be inferred without the need to \textit{execute} a
-transaction, but rather by \textit{inspecting} it.
+\textit{pseudo-static heuristics} as a form of a hint. We use the term "\textit{pseudo-static}"
+because we do not mean information that is necessarily available at compile time, but is rather
+known \textit{before} a particular transactions is executed. In other words, the information is
+\textit{static with respect to the lifetime of a transaction} and can be inferred without the need
+to \textit{execute} the transaction, but rather by just \textit{inspecting} it.
 
-Our idea is based upon these key ideas. In the next section, we connect the ideas together and
+Our approach is based upon these key ideas. In the next section, we connect the ideas and
 depict how they work together in the form of a unified algorithm.
 
 \subsection{Baseline Algorithm} \label{subsec:baseline_alg}
 
-\begin{remark}
-	For ease of understanding, we assume a system with 1 main (master) thread and 4 worker threads
-	in this section. Needless to say, all of the details are applicable to systems with more or less
-	degrees of parallelism.
-\end{remark}
-
-We first look into the baseline algorithm, which is essentially the concurrency delegation
-combined model and the taintable state, without any static heuristics. We assume a single master
-thread (henceforth called "master"), and $4$ worker threads (henceforth called "worker"), each
-having the ability send messages over channels to one another. The master has access to a
-potentially infinitely large queue of (\textit{ordered}\footnote{Recall that each node has an
-unordered pool of transaction, from which they chose an ordered queue based on some arbitrary
-preference}, ready to execute) transactions. Moreover, it has an (initially) empty queue of orphan
-transactions, to which workers can forward transaction. Moreover, each worker has a local queue, to
-which the master and other workers can send transactions. The master and all workers share a
-reference to the same state database, $S$, which follows the logic of a taintable state as explained
-in \ref{chapt_approach:subsubsec:taintable_state}.
+We first look into the baseline algorithm, which essentially combines the concurrency delegation and
+the taintable state, without any static heuristics. We assume a single master thread (henceforth
+called "master"), and $4$\footnote{Needless to say, all of the arguments in this section are
+applicable to more or less number of threads as well.} worker threads (henceforth called "worker"),
+each having the ability send messages over channels to one another. The master has access to a
+potentially unbounded queue of (\textit{ordered}\footnote{Recall that each node has an unordered
+pool of transaction, from which they chose an ordered queue based on some arbitrary preference.},
+ready to execute) transactions. Moreover, it has an (initially) empty queue of orphan transactions,
+to which workers can forward transactions. Additionally, each worker has a local queue, to which the
+master and other workers can send transactions. The master and all workers share a reference to the
+same state database, $S$, which follows the logic of a taintable state as explained in
+\ref{chapt_approach:subsubsec:taintable_state}.
 
 \begin{remark}
 	As we will see, it is crucial to remember that both the transaction queue and the block are
@@ -724,10 +724,10 @@ use these labels to explain each component.
 	tainted by the accessor thread. Else, an error is returned, noting the identifier of the thread
 	that owns the key.
 	\item \textbf{2} is an emphasis on the access of all the workers to the state to be\todo[]{unify
-	the word lock free and wait free. I want wait free. LOck free sucks}wait-free. In an abstract level, there is no waiting involved
-	in this model. Any access to a key in the state either \textit{immediately} succeeds, in
-	which case the key is tainted. Else, it is \textit{immediately} rejected because of a taint
-	error.
+	the word lock free and wait free. I want wait free. LOck free sucks}wait-free. In an abstract
+	level, there is no waiting involved in this model. Any access to a key in the state either
+	\textit{immediately} succeeds, in which case the key is tainted. Else, it is
+	\textit{immediately} rejected because of a taint error.
 	\item \textbf{3} shows the communication channels between the master and workers. These channels
 	allow all of the threads to communicate by the means of sending messages to one another. Most
 	often these messages are simply a transaction to be forwarded. It is worth noting that worker
