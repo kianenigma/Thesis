@@ -1,15 +1,88 @@
 \chapter{Conclusion} \label{chap:conclusion}
 
-\ifpdf
-    \graphicspath{{7/figures/PNG/}{7/figures/PDF/}{7/figures/}}
-\else
-    \graphicspath{{7/figures/EPS/}{7/figures/}}
-\fi
+We have come a long journey to reach this stage of the work. To make the conclusion more
+comprehensible, we first briefly recap what we have done so far, and what we have observed in
+the benchmarks of chapter \ref{chap:bench_analysis}.
 
-\dots
+We began by making minimal, yet important assumptions about what a blockchain system should look
+like, whilst explaining the details thereof in chapter \ref{chap:background}. Looking back in
+hindsight, the most important assumption that we have is the key value based state implementation.
+With the state, we can analogize a runtime executing transaction to a single core in a multi-core
+cpu, trying to access state as it executes the transaction. We are then faced with a problem with a
+setup very similar to that of shared state concurrency, except the absolute need for determinism. In
+essence, this is the main blockchain-specific challenged imposed on this problem.
 
-Final words and conclusions.
+We identified the de-facto way of solving this challenge in contemporary literature to be using
+dependency graphs and piggy-backing them into the block. With further investigation, we decided to
+not proceed on continuing further down this path, rather assertion that a much simpler model can be
+sufficient, given that we utilize all of the information available.
 
-\section{Conclusion}
+In chapter \ref{chap:approach} we declared "\textit{a much simpler model}" to be the concurrency
+delegation model, where conflicting transactions can be forwarded between threads when possible, or
+forwarded otherwise. In essence, we remove the chance of non-determinism by allowing transactions to
+\textit{only} execute non-conflicting transactions. In other words: \textit{intra-thread}
+transaction can conflict as much as they want. But \textit{inter-thread} transactions within the
+threads should not. All inter-thread conflicts are deemed to be orphan and will be executed
+sequentially. The main advantageous characteristic of the delegation model is final outcome. Because
+of the absence of inter-thread conflicts, the only bit of data that needs to be added to each
+transaction is one final identifier about which thread should execute it, and the validator is
+guaranteed to be able to deterministically re-execute the block, whilst gaining potentially
+concurrency benefits.
 
-\section{Further Work}
+Furthermore, we declare "\textit{utilize all of the information available}" to some static hints on
+top of each transaction that need to be provided by the programmer. These hints, in our model, do
+not need to be accurate. Moreover, we restricted our hints to data that is cheap to know prior to
+the execution of the transaction. Basically, the dilemma is to, not solve, but rather find a way
+around the halting problem. To do so, we recommend: most often, transaction are simple units of
+logic, with specific behavior given different inputs\footnote{Blockchain transactions are expensive
+pieces codes to execute, because they need to be re-executed by hundreds, if no thousands of other
+nodes. They are not designed to execute complex arbitrary logic, and should not do anytime soon in
+the forseeable future.}.
+
+
+We then proceed by providing merely an example implementation of the abstract system that we built.
+Specifically, that is the \texttt{access} macro and the two distributors that we implemented.
+Results in chapter \ref{chap:bench_analysis} showed positive throughput gains for both distributor
+types, when executed against a synthetic balance transfer workload.
+
+% Damn this overview was nice! I am a bit impressed by myself by how good I squashed 60 pages in 6
+% paragraphs.
+
+Having reviewed almost the entirety of this work in the previous paragraphs, we can shift the
+discussion more toward the conclusions.
+
+
+\textbf{The transactions are \textit{key}}. Needless to say, the first and foremost note is that the
+type of the transactions that are being executed and the amount of inter-transaction dependencies
+between them is the first and foremost factor of success. This factor trumps the underlying system
+as well. With a workload that is almost entirely interdependent transactions, even the best of
+systems will probably fail to deliver good throughput. Moreover, with a workload with almost no
+inter-transaction dependencies, probably most system will perform well. We showed, in our
+experiments, that our system is no different with that regard. Nonetheless, the important point is
+that we managed to achieve ideal throughput gains by effectively leveraging the static hints of the
+transactions.
+
+\textbf{Simplicity}. Our work is, in some sense, a retaliatory demonstration against complicated
+concurrency control mechanism deployed (mostly in academia) on blockchains. Our main goal was not to
+trump their results and prove that our system is better per se. Rather, we showed that for certain
+workloads (that are --reasonably speculating-- not far from reality), a much simpler system will
+also be enough. Moreover, the new and simpler system is actually beneficial upon certain axis, for
+example smaller runtime and block overhead.
+
+\textbf{Generic Design}. This work is generic in two different levels. \textbf{First}, our
+\texttt{access} macro is merely one example of how the static\footnote{As before, by static we mean
+static with respect to the execution of the transaction} data that a transaction carries can be used
+to cluster them. Implementation could vary, or different means of analysis can be used. The only
+point is to remain aware that the goal is to be able to infer the state access requirements of
+transactions without executing them. \textbf{Secondly}, with or without the \textbf{access} macro,
+we leave the decision of \textit{how to use the output of static hints} to be generic in the form of
+component that we called the distributor.
+
+- Hybrid distributor.
+- Bloom Filter.
+
+
+
+\section{Future Work}
+
+- Study connected Compoenents on public chains.

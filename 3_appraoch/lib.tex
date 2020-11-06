@@ -225,6 +225,8 @@ approach.
 
 \subsection{A Closer Look}
 
+% Bad title: Concurrency Control and Avoidance are better.
+
 Every tool that we named for concurrency in chapter \ref{chap:background} can essentially be used in
 blockchains as well, yet each has a specific toll on the system in order to be feasible. All
 of these approach fall within the category of \textbf{concurrency control}. We begin by
@@ -265,7 +267,7 @@ and use it to encode precedence, then re-crete the same precedence in the valida
 
 Next, we name an out-of-the box work that take a rather different path. Many studies in the
 blockchain literature use datasets from database industry as their reference. Such datasets might
-have unrealistically high rates of contention. \cite{saraphYOLOEmpiricalStudy2019} is an empirical
+have unrealistically high rates of contention. \cite{saraphEmpiricalStudySpeculative2019} is an empirical
 study that tries to determine the conflict rates within Ethereum transactions, a \textit{live}, and
 arguably well adopted network. And, while doing so, it demonstrate a different, wait-free approach.
 In the concurrent simulator of this work, all transaction are executed in parallel with the
@@ -299,6 +301,8 @@ the programming model, in favour of easy adoption and outreach.
 
 \subsubsection{Smart Contract vs. Runtime}
 
+% This is not really in place.
+
 Most of the mentioned references name their work as appraoches toward concurrency for \textbf{smart
 contracts}. At this point, it would be helpful to clarify that. The details of smart contract chains
 as well beyond the scope of this work. But, it is worth noting that a smart contract chain is a
@@ -314,6 +318,10 @@ applicable to any chain with independent runtimes, not any particular smart cont
 in the runtime of another chain.
 
 \subsection{Conclusion: Finding a New Balance}
+
+\todo[inline]{
+	Okay to say they have issues, no need to justify why we think it is a issue or how we solve it.
+}
 
 All of the works mentioned above report positive speedups. Yet, we argue from a different,
 analytical and critical perspective and point out some overheads associated with them that can be
