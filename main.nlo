@@ -1,11 +1,14 @@
-\nomenclatureentry{aTransaction@[{Transaction}]\begingroup A test item here.\nomeqref {0}|nompageref}{x}
-\nomenclatureentry{aBlock@[{Block}]\begingroup Another test item here\nomeqref {0}|nompageref}{x}
-\nomenclatureentry{aHashing Function@[{Hashing Function}]\begingroup Another test item here\nomeqref {0}|nompageref}{x}
-\nomenclatureentry{aConsensus@[{Consensus}]\begingroup \nomeqref {0}|nompageref}{x}
-\nomenclatureentry{aBlock Mining@[{Block Mining}]\begingroup \nomeqref {0}|nompageref}{x}
-\nomenclatureentry{aBlock Authoring@[{Block Authoring}]\begingroup \nomeqref {0}|nompageref}{x}
-\nomenclatureentry{aCandidate Block@[{Candidate Block}]\begingroup \nomeqref {0}|nompageref}{x}
-\nomenclatureentry{aProof of Authority@[{Proof of Authority}]\begingroup \nomeqref {0}|nompageref}{x}
-\nomenclatureentry{aCanonical Chain, cannon chain@[{Canonical Chain, cannon chain}]\begingroup \nomeqref {0}|nompageref}{x}
-\nomenclatureentry{aElliptic Curve Cryptography@[{Elliptic Curve Cryptography}]\begingroup \nomeqref {0}|nompageref}{x}
-\nomenclatureentry{aCryptographic Hash Functions@[{Cryptographic Hash Functions}]\begingroup \nomeqref {0}|nompageref}{x}
+\nomenclatureentry{aFoo@[{Foo}]\begingroup Bar\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aTransaction@[{Transaction}]\begingroup A test item here.\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aTransaction@[{Transaction}]\begingroup A test item here.\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aBlock@[{Block}]\begingroup Another test item here\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aHashing Function@[{Hashing Function}]\begingroup Another test item here\nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aConsensus@[{Consensus}]\begingroup \nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aBlock Mining@[{Block Mining}]\begingroup \nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aBlock Authoring@[{Block Authoring}]\begingroup \nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aCandidate Block@[{Candidate Block}]\begingroup \nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aProof of Work@[{Proof of Work}]\begingroup \nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aProof of Authority@[{Proof of Authority}]\begingroup \nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aCanonical Chain, cannon chain@[{Canonical Chain, cannon chain}]\begingroup \nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aElliptic Curve Cryptography@[{Elliptic Curve Cryptography}]\begingroup \nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aCryptographic Hash Functions@[{Cryptographic Hash Functions}]\begingroup \nomeqref {0}|nompageref}{1}

@@ -12,7 +12,7 @@
 %: Style file for Latex
 % Most style definitions are in the external file PhDthesisPSnPDF.
 % In this template package, it can be found in ./Latex/Classes/
-\documentclass[twoside,11pt]{Latex/Classes/PhDthesisPSnPDF}
+\documentclass[oneside,11pt]{Latex/Classes/PhDthesisPSnPDF}
 
 
 %: Macro file for Latex
@@ -35,9 +35,6 @@
    \itshape}
   {\par\normalfont\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
 \makeatother
-
-% command for todo
-\newcommand\mustdo[1]{\textcolor{red}{#1}}
 
 % For definitions
 \theoremstyle{definition}
@@ -71,7 +68,6 @@
 %:                  TITLE PAGE: name, degree,..
 % ----------------------------------------------------------------------
 \usepackage{graphicx}
-
       \textwidth 15cm
       \textheight 22cm
       \parindent 10pt
@@ -198,7 +194,7 @@ Vrije Universiteit Amsterdam \hspace*{2cm} Universiteit van Amsterdam
 %: ----------------------- contents ------------------------
 
 \setcounter{secnumdepth}{3} % organisational level that receives a numbers
-\setcounter{tocdepth}{3}    % print table of contents for level 3
+\setcounter{tocdepth}{2}    % print table of contents for level 3
 \tableofcontents            % print the table of contents
 % levels are: 0 - chapter, 1 - section, 2 - subsection, 3 - subsection
 
@@ -206,10 +202,7 @@ Vrije Universiteit Amsterdam \hspace*{2cm} Universiteit van Amsterdam
 %: ----------------------- list of figures/tables ------------------------
 
 \listoffigures	% print list of figures
-
 \listoftables  % print list of tables
-
-
 
 
 %: ----------------------- glossary ------------------------
@@ -223,7 +216,7 @@ Vrije Universiteit Amsterdam \hspace*{2cm} Universiteit van Amsterdam
 \begin{multicols}{2}  % \begin{multicols}{#columns}[header text][space]
 \begin{footnotesize}  % scriptsize(7) < footnotesize(8) < small (9) < normal (10)
 
-\printnomenclature[1.5cm] % [] = distance between entry and description
+\printnomenclature % [1.5cm] = distance between entry and description
 \label{nom} % target name for links to glossary
 
 \end{footnotesize}
@@ -265,9 +258,9 @@ Vrije Universiteit Amsterdam \hspace*{2cm} Universiteit van Amsterdam
 
 %: ----------------------- bibliography ------------------------
 
-% The section below defines how references are listed and formatted
-% The default below is 2 columns, small font, complete author names.
-% Entries are also linked back to the page number in the text and to external URL if provided in the BibTex file.
+% The section below defines how references are listed and formatted The default below is 2 columns,
+% small font, complete author names. Entries are also linked back to the page number in the text and
+% to external URL if provided in the BibTex file.
 
 % PhDbiblio-url2 = names small caps, title bold & hyperlinked, link to page
 %\begin{multicols}{2} % \begin{multicols}{ # columns}[ header text][ space]
@@ -308,7 +301,5 @@ Vrije Universiteit Amsterdam \hspace*{2cm} Universiteit van Amsterdam
 
 %: Declaration of originality
 %\include{8_backmatter/declaration}
-
-
 
 \end{document}

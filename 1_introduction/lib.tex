@@ -1,12 +1,5 @@
 \chapter{Introduction} \label{chap:intoroduction}
 
-% the code below specifies where the figures are stored
-\ifpdf
-    \graphicspath{{1_introduction/figures/PNG/}{1_introduction/figures/PDF/}{1_introduction/figures/}}
-\else
-    \graphicspath{{1_introduction/figures/EPS/}{1_introduction/figures/}}
-\fi
-
 \begin{chapquote}{Unknown.}
 ``If Bitcoin was the calculator, Ethereum was the ENIAC\footnote{the first generation computer
 developed in 1944. It fills a 20-foot by 40-foot room and has 18,000 vacuum tubes.}. It is
@@ -14,15 +7,14 @@ expensive, slow and hard to work with. The challenge of today is to build the \t
 accessible and performant} computer.''
 \end{chapquote}
 
-
-Blockchains are indeed an interesting topic in 2020. Many believe that they are a revolutionary
-technology that will shape our future societies, much like the internet and how it has impacted many
-aspects of how we live in the last few decades \cite{pirrongWillBlockchainBe2019}. Moreover, they
-are highly sophisticated and inter-disciplinary software artifacts, achieving high levels of
-decentralization and security, which was deemed impossible so far. To the contrary, some people
-skeptically see them as controversial, or merely a "hyped hoax", and doubt that they will ever
-deliver much \textit{real} value to the world. Nonetheless, through the rest of this chapter and this work
-overall, we provide ample reasoning to justify why we think otherwise.
+Blockchains are indeed an interesting topic in recent and coming years. Many believe that they are a
+revolutionary technology that will shape our future societies, much like the internet and how it has
+impacted many aspects of how we live in the last few decades \cite{pirrongWillBlockchainBe2019}.
+Moreover, they are highly sophisticated and inter-disciplinary software artifacts, achieving high
+levels of decentralization and security, which was deemed impossible so far. To the contrary, some
+people skeptically see them as controversial, or merely a "hyped hoax", and doubt that they will
+ever deliver much \textit{real} value to the world. Nonetheless, through the rest of this chapter
+and this work overall, we provide ample reasoning to justify why we think otherwise.
 
 In very broad terms, a blockchain is a tamper-proof, append-only ledger that is being maintained in
 a decentralized fashion, and can only be updated once everyone agrees upon that change as a bundle
@@ -37,21 +29,21 @@ desired based on the circumstances. For example, one's public key is not reveali
 identity, whilst using names and email addresses does, like in many traditional systems.
 
 In some sense, blockchains are revolutionary because they remove the need for \textit{trust}, and
-release it from the control of one entity (e.g. a single bank, an institute, or simply Google), by encoding it as a
-self-sovereign decentralized software. Our institutions are built upon the idea that they manage
-people's assets, matters and belongings, and they ensure veracity, because we trust in them. In
-short, they have \textbf{authority}. Of course, this model could work well in principle, but it
-suffers from the same problem as some software do: it is a \textbf{single point of failure}. A
-corrupt authority is just as destructive as a flawed single point of failure in a software is.
-Blockchain attempts to resolve this by deploying software (i.e. itself) in a transparent and
-decentralized manner, in which everyone's privacy is respected, whilst at the same time everyone can
-still check the veracity of the ledger, and the software itself. In other words, no single entity
-should be able to have any control over the system.
+release it from the control of one entity (e.g. a single bank, an institute, or simply Google), by
+encoding it as a self-sovereign decentralized software. Our institutions are built upon the idea
+that they manage people's assets, matters and belongings, and they ensure veracity, \textit{because
+we trust in them}. In short, they have \textbf{authority}. Of course, this model could work well in
+principle, but it suffers from the same problem as some software do: it is a \textbf{single point of
+failure}. A corrupt authority is just as destructive as a flawed single point of failure in a
+software is. Blockchain attempts to resolve this by deploying software (i.e. itself) in a
+transparent and decentralized manner, in which everyone's privacy is respected, whilst at the same
+time everyone can still check the veracity of the ledger, and the software itself. In other words,
+no single entity should be able to have full control over the system.
 
 Now, all of these great properties do not come cheap. Blockchains are extremely complicated pieces
-of software, and they require a great deal of expertise to be written c. Moreover, many of the
+of software, and they require a great deal of expertise to be written. Moreover, many of the
 machinery used to create this \textit{decentralized} and \textit{public} append-only ledger requires
-synchronization, serialization, or generally other procedures that are likely to decrease the
+synchronization, serialization, or generally other procedures, that are likely to decrease the
 throughput at which the chain can process transactions. This, to some extent, contributes to the
 skepticism about blockchains' feasibility. For example, Bitcoin, one of the famous deployed
 blockchains to date, consumes a lot of resources to operate, and cannot execute more than around
@@ -64,33 +56,39 @@ transactions per some unit of time.
 \section{Research Questions} \label{chap_intro:sec:resarch_q}
 
 We have seen that blockchains are promising in their technology, and unique traits that they can
-deliver. Yet, they are notoriously slow. Therefore, we  pursue the (initial) goal of improving the
+deliver. Yet, they are notoriously slow. Therefore, we pursue the goal of improving the
 \textit{throughput} of a blockchain system. By throughput we mean the number of successful
-transactions that can be processed per some unit of time\footnote{We will elaborate on the details
-of \textit{success} and \textit{"unit of time"} in later chapters.} There are numerous ways to
+transactions that can be processed per some unit of time. There are numerous ways to
 achieve this goal, ranging from redesigning internal protocols within the blockchain to applying
 concurrency. In this thesis, we precisely focus on the latter, enabling concurrency within
 transactions that are processed and then appended to the ledger. Moreover, we do so by leveraging,
 and mixing the best attributes of two different realms of concurrency, namely static analysis and
 runtime conflict detection \footnote{By static we mean generally anything which is known at the
 \textit{compile} phase, and by runtime the the \textit{execution} phase}. This approach is better
-compared with other alternatives in section \ref{chap_approach:sec:ways_to_speedup}. We also mention
-(in the same section) why each of these approaches could have their own merit and value, and how
-they differ with one another.
+compared with other alternatives in section \ref{chap_approach:sec:ways_to_speedup}.
 
 Based on this, we formulate the following as our research questions:
-%Ana: To me, I would still like to see here a main research question, something that translate the main goal (from above) into a question. Something as simple as "How can we use concurrency to improve the throughput of blockchain systems?" 
-%Kian: Ack. 
 
  \begin{enumerate}
      \item [RQ1] What approaches exist to achieve concurrent execution of transactions within a
-     blockchain system?
+     blockchain system, and improve the throughput?
 	 \item [RQ2] How could both static analysis and runtime approaches be combined together to
 	 achieve a new approach with minimum overhead and measurable benefits?
 	 \item [RQ3] How would such an approach be evaluated against and compared to others?
  \end{enumerate}
 
-\section{Thesis outline}
-The rest of this thesis is organized as follows: \todo[inline]{write once the outline is done. This
-is not an important paragraph anyhow.}
+\section{Thesis Outline}
+The rest of this thesis is organized as follows: In chapter \ref{chap:background} we provide a
+comprehensive background on both blockchains and concurrency, the two pillars of knowledge that we
+will build upon. Chapter \ref{chap:approach} starts by defining the \textit{requirements} of a
+hypothetical system of interest. Then, some of the contemporary literature and the ways that they
+fulfill the requirements are mentioned, effectively acting as our mini "related work" section.
+Finally, we introduce our own approach and place it next to other approaches for comparison. Chapter
+\ref{chap:impl} acts as a mini detour into the implementation of our system design. In chapter
+\ref{chap:bench_analysis} we evaluate our design and implementation, finally bringing us to a
+conclusion and future work in chapter \ref{chap:conclusion}.
+
+TODO: formatting issues:
+- Remark and Theorem line width
+- Glossary
 
