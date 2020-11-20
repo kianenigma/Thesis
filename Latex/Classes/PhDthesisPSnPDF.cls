@@ -84,28 +84,13 @@
 
 %:-------------------------- Glossary/Abbrev./Symbols -----------------------
 
-\usepackage[intoc]{nomencl} % load nomencl extension; include in TOC
-%\nomrefpage % to include page numbers after abbrevations
+\usepackage[intoc, nocfg]{nomencl} % load nomencl extension; include in TOC
+\makenomenclature
+\nomrefpage % to include page numbers after abbrevations
 \renewcommand{\nomname}{Glossary} % rename nomenclature
 \renewcommand{\nomlabel}[1]{\textbf{#1}} % make abbreviations bold
-\makenomenclature % used to be \makeglossary
 \newcommand{\g}{\footnote{For all abbreviations see the glossary on page \pageref{nom}.}} % type "\g" to refer to glossary
 
-% used to be for sorting into categories:
-%\renewcommand\nomgroup[1]{%
-%  \ifthenelse{\equal{#1}{A}}{%
-%   \item[\textbf{Roman Symbols}] }{%             A - Roman
-%    \ifthenelse{\equal{#1}{G}}{%
-%     \item[\textbf{Greek Symbols}]}{%             G - Greek
-%      \ifthenelse{\equal{#1}{R}}{%
-%        \item[\textbf{Superscripts}]}{%              R - Superscripts
-%          \ifthenelse{\equal{#1}{S}}{%
-%           \item[\textbf{Subscripts}]}{{%             S - Subscripts
-%	    \ifthenelse{\equal{#1}{X}}{%
-%	     \item[\textbf{Other Symbols}]}{{%    X - Other Symbols
-%	    \ifthenelse{\equal{#1}{Z}}{%
-%	     \item[\textbf{Acronyms}]}%              Z - Acronyms
-%              			{{}}}}}}}}}}
 
 
 %:-------------------------- PDF/PS setup -----------------------

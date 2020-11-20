@@ -1,0 +1,21 @@
+
+\begin{thenomenclature} 
+\nomgroup{A}
+  \item [{$A$}]\begingroup The area of the needle point\nomeqref {0}\nompageref{1}
+  \item [{$a$}]\begingroup The number of angels per unit area\nomrefeq\nomeqref {0}\nompageref{1}
+  \item [{$N$}]\begingroup The number of angels per needle point\nomrefpage\nomeqref {0}\nompageref{1}
+  \item [{Block}]\begingroup Another test item here\nomeqref {0}\nompageref{1}
+  \item [{Block Authoring}]\begingroup \nomeqref {0}\nompageref{1}
+  \item [{Block Mining}]\begingroup \nomeqref {0}\nompageref{1}
+  \item [{Candidate Block}]\begingroup \nomeqref {0}\nompageref{1}
+  \item [{Canonical Chain, cannon chain}]\begingroup \nomeqref {0}\nompageref{1}
+  \item [{Consensus}]\begingroup \nomeqref {0}\nompageref{1}
+  \item [{Cryptographic Hash Functions}]\begingroup \nomeqref {0}\nompageref{1}
+  \item [{Elliptic Curve Cryptography}]\begingroup \nomeqref {0}\nompageref{1}
+  \item [{Foo}]\begingroup Bar\nomeqref {0}\nompageref{1}
+  \item [{Hashing Function}]\begingroup Another test item here\nomeqref {0}\nompageref{1}
+  \item [{Proof of Authority}]\begingroup \nomeqref {0}\nompageref{1}
+  \item [{Proof of Work}]\begingroup \nomeqref {0}\nompageref{1}
+  \item [{Transaction}]\begingroup A test item here.\nomeqref {0}\nompageref{1}
+
+\end{thenomenclature}

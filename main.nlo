@@ -1,14 +1,26 @@
-\nomenclatureentry{aFoo@[{Foo}]\begingroup Bar\nomeqref {0}|nompageref}{1}
-\nomenclatureentry{aTransaction@[{Transaction}]\begingroup A test item here.\nomeqref {0}|nompageref}{1}
-\nomenclatureentry{aTransaction@[{Transaction}]\begingroup A test item here.\nomeqref {0}|nompageref}{1}
-\nomenclatureentry{aBlock@[{Block}]\begingroup Another test item here\nomeqref {0}|nompageref}{1}
-\nomenclatureentry{aHashing Function@[{Hashing Function}]\begingroup Another test item here\nomeqref {0}|nompageref}{1}
-\nomenclatureentry{aConsensus@[{Consensus}]\begingroup \nomeqref {0}|nompageref}{1}
-\nomenclatureentry{aBlock Mining@[{Block Mining}]\begingroup \nomeqref {0}|nompageref}{1}
-\nomenclatureentry{aBlock Authoring@[{Block Authoring}]\begingroup \nomeqref {0}|nompageref}{1}
-\nomenclatureentry{aCandidate Block@[{Candidate Block}]\begingroup \nomeqref {0}|nompageref}{1}
-\nomenclatureentry{aProof of Work@[{Proof of Work}]\begingroup \nomeqref {0}|nompageref}{1}
-\nomenclatureentry{aProof of Authority@[{Proof of Authority}]\begingroup \nomeqref {0}|nompageref}{1}
-\nomenclatureentry{aCanonical Chain, cannon chain@[{Canonical Chain, cannon chain}]\begingroup \nomeqref {0}|nompageref}{1}
-\nomenclatureentry{aElliptic Curve Cryptography@[{Elliptic Curve Cryptography}]\begingroup \nomeqref {0}|nompageref}{1}
-\nomenclatureentry{aCryptographic Hash Functions@[{Cryptographic Hash Functions}]\begingroup \nomeqref {0}|nompageref}{1}
+\nomenclatureentry{aFoo@[{Foo}]\begingroup Bar\nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aTransaction@[{Transaction}]\begingroup A test item here.\nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aTransaction@[{Transaction}]\begingroup A test item here.\nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aBlock@[{Block}]\begingroup Another test item here\nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aHashing Function@[{Hashing Function}]\begingroup Another test item here\nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aConsensus@[{Consensus}]\begingroup \nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aBlock Mining@[{Block Mining}]\begingroup \nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aBlock Authoring@[{Block Authoring}]\begingroup \nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aCandidate Block@[{Candidate Block}]\begingroup \nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aProof of Work@[{Proof of Work}]\begingroup \nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aProof of Authority@[{Proof of Authority}]\begingroup \nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aCanonical Chain, cannon chain@[{Canonical Chain, cannon chain}]\begingroup \nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aElliptic Curve Cryptography@[{Elliptic Curve Cryptography}]\begingroup \nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aCryptographic Hash Functions@[{Cryptographic Hash Functions}]\begingroup \nomeqref {0}|nompageref}{vi}
+\nomenclatureentry{aNode@[{Node}]\begingroup A single entity in a network.\nomeqref {2.0}|nompageref}{5}
+\nomenclatureentry{aBlockchain Network@[{Blockchain Network}]\begingroup The set of entire nodes holding (a partial) copy of a particular ledger.\nomeqref {2.0}|nompageref}{5}
+\nomenclatureentry{aTransaction@[{Transaction}]\begingroup Arbitrary data provided by the outer world that can update the blockchain's state.\nomeqref {2.0}|nompageref}{12}
+\nomenclatureentry{aOrigin@[{Origin}]\begingroup The source (i.e. the sender) of a transaction. Usually Provided through public key cryptography.\nomeqref {2.0}|nompageref}{12}
+\nomenclatureentry{aBlock@[{Block}]\begingroup A bundle of transaction that can be appended to the chain.\nomeqref {2.0}|nompageref}{14}
+\nomenclatureentry{aParent Hash@[{Parent Hash}]\begingroup A hash of the previous block, mentioned in the header of all blocks.\nomeqref {2.0}|nompageref}{14}
+\nomenclatureentry{aGenesis Block@[{Genesis Block}]\begingroup The first block of each chain, and it has no parent hash.\nomeqref {2.0}|nompageref}{14}
+\nomenclatureentry{aBlock Authoring@[{Block Authoring}]\begingroup The sensitive task of preparing a new block and propagating it to the network.\nomeqref {2.0}|nompageref}{15}
+\nomenclatureentry{aCanonical Chain@[{Canonical Chain}]\begingroup The current based chain that most of the nodes agree upon (particularly in the context of a fork).\nomeqref {2.1}|nompageref}{18}
+\nomenclatureentry{aState root@[{State root}]\begingroup The hash of the entire state, when represented as a Merkle tree.\nomeqref {2.1}|nompageref}{19}
+\nomenclatureentry{aRuntime@[{Runtime}]\begingroup The portion of the blockchain's code that executes transactions.\nomeqref {2.1}|nompageref}{21}
+\nomenclatureentry{aAccount Nonce@[{Account Nonce}]\begingroup An initiger linked to each account and incremented per transaction. Used to prevent replay attacks.\nomeqref {2.1}|nompageref}{22}

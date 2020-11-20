@@ -376,7 +376,7 @@ state database with a taint value. If a key has never been accessed before, it i
 is accessed by any thread (regardless of the type of operation being read or write), it is tainted by the identifier of that
 accessor thread. Henceforth, any access to this key by any other thread fails, returning the
 identifier of the original tainter (aka, \textit{owner}) of the key. As we shall see in the
-implementation (see \ref{chap:impl}), this approach is \textit{almost} wait free, meaning that
+implementation (see \ref{chap:impl}), this approach is \textit{almost} wait-free, meaning that
 threads almost always proceed immediately with any state operation. Indeed, a thread can always
 freely access keys that it has already tainted before.
 
@@ -718,13 +718,13 @@ use these labels to explain each component.
 
 \begin{itemize}
 	\item \textbf{1} shows the taintable state. We can see that each cell is not merely a key-value
-	pair, but rather a taint value, places next to a key value pair. Some keys are not tainted
+	pair, but rather a taint value, places next to a key-value pair. Some keys are not tainted
 	(\texttt{None}), while some are already tainted by a thread because they have been accessed by
 	it. An access to each of the keys by a thread succeeds if the key is untainted, or is
 	tainted by the accessor thread. Else, an error is returned, noting the identifier of the thread
 	that owns the key.
 	\item \textbf{2} is an emphasis on the access of all the workers to the state to be\todo[]{unify
-	the word lock free and wait free. I want wait free. LOck free sucks}wait-free. In an abstract
+	the word lock free and wait-free. I want wait-free. LOck free sucks}wait-free. In an abstract
 	level, there is no waiting involved in this model. Any access to a key in the state either
 	\textit{immediately} succeeds, in which case the key is tainted. Else, it is
 	\textit{immediately} rejected because of a taint error.
