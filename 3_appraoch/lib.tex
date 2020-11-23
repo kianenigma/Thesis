@@ -343,12 +343,12 @@ in \ref{chap_approach:existing}.
 \subsection{Core Idea: Finding a New Balance}
 
 We begin by pointing out that all of the mentioned works, regardless of their outcome, produce a
-sizable amount of overhead. We think these overheads are preventable and perhaps a different
+sizable amount of overhead. We think these overheads are preventable and argue that perhaps a different
 approach can prevent them all-together.
 
 Both locking and transactional memory result in a sizeable overhead while authoring. This is mostly
 hidden in some sort of runtime overhead, for example, the need to keep track of locking order, and
-consequently parsing it into a dependency graph. Moreover, this dependency graph inevitably
+consequently to parse it into a dependency graph. Moreover, this dependency graph inevitably
 increases the block size, because the dependency graph needs to be propagated to all other nodes.
 Finally, the validator also needs to tolerate the overhead of parsing the dependency graph and
 making informed, potentially complicated decisions based upon it. These are all overheads compared
@@ -361,8 +361,8 @@ sequential model where most transactions are aborted and moved to the sequential
 \cite{saraphEmpiricalStudySpeculative2019} show the same trend.
 
 To the contrary, we aim to minimize these overheads by finding a new balance between the
-"concurrency control" and "concurrency avoidance" models. Moreover, we apply the same analogy
-between "runtime" and "static". While \textit{some} runtime apparatus is needed to orchestrate the
+"concurrency control" and "concurrency avoidance" models. Moreover, we find a new balance
+between "runtime" and "static" as well. While \textit{some} runtime apparatus is needed to orchestrate the
 execution and prevent chaos, tracking all dependencies is likely to be too much. Similarly, while a
 purely static approach toward concurrency is a radical change to well-known programming models, we
 claim that \textit{some} static information could nudge the runtime to the right path.
@@ -413,28 +413,25 @@ forwarded to a sequential queue to be dealt with later. We name such transaction
 This implies that each transaction is at most forwarded twice: once to another potential recipient,
 and next, when needed, to the be declared as orphan.
 
-\begin{lemma}
-	Detection of the Orphan Transaction.
 
-	Why is "a failing transaction that has already been forwarded once" considered an orphan? We
-	present an example to demonstrate this: assume thread $T2$ receives a forwarded transaction from
-	$T1$. Based on the the protocol of delegation, we know that this transaction must have at least
-	one key which is owned by $T2$, because $T1$ failed to access it and thus forwarded it to $T2$.
-	Moreover, if the transaction still fails, it means that it has at least one other key that is
-	owned by some other thread $T3$. This implies that $T2$ is not able to execute this
-	transaction, and any further recipient of this transaction, including $T3$, will also fail to
-	execute it because the transaction has at least one key owned by $T2$.
+Why is "a failing transaction that has already been forwarded once" considered an orphan? We
+present an example to make this clearer: assume thread $T2$ receives a forwarded transaction from
+$T1$. Based on the the protocol of delegation, we know that this transaction must have at least
+one key which is owned by $T2$, because $T1$ failed to access it and thus forwarded it to $T2$.
+Moreover, if the transaction still fails, it means that it has at least one other key that is
+owned by some other thread $T3$. This implies that $T2$ is not able to execute this
+transaction, and any further recipient of this transaction, including $T3$, will also fail to
+execute it because the transaction has at least one key owned by $T2$.
 
-	Therefore, no transaction ever needs to be forwarded more than once. A transaction can be
-	forwarded at most once, and thereafter it is considered to be an orphan.
-\end{lemma}
+Therefore, no transaction ever needs to be forwarded more than once. A transaction can be
+forwarded at most once, and thereafter it is considered to be an orphan.
 
 \subsubsection{Pseudo-Static}
 
 We predict that concurrency delegation works well when threads need to seldom forward transactions
-to one another. In other words, the transactions need to be \textit{initially} distributed between
+to one another. In the delegation model, the transactions need to be \textit{initially} distributed between
 the threads in some educated and effective way to minimize forwarding. This is where we turn to
-\textit{pseudo-static heuristics} as a form of a hint. We use the term "\textit{pseudo-static}"
+\textit{pseudo-static heuristics} in the form of a hint. We use the term "\textit{pseudo-static}"
 because we do not mean information that is necessarily available at compile time, but is rather
 known \textit{before} a particular transactions is executed. In other words, the information is
 \textit{static with respect to the lifetime of a transaction} and can be inferred without the need
