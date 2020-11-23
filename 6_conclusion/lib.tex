@@ -2,100 +2,109 @@
 
 We have come a long journey to reach this stage of our work. To make the conclusion more
 comprehensible, we first briefly recap what we have done so far, and what we have observed in the
-benchmarks of chapter \ref{chap:bench_analysis}.
+benchmarks of chapter \ref{chap:bench_analysis}. We then ... . Finally, we ...
 
+\section{Summary}
 We began by making minimal, yet important assumptions about what a blockchain system should look
 like, whilst explaining the details thereof in chapter \ref{chap:background}. Looking back in
 hindsight, the most important assumption that we have is the key-value based \textit{state}
 implementation. With the state, we can analogize a runtime executing transaction over a
-\textit{state} to a thread in a multi-core cpu, trying to access \textit{memory} as it executes
+\textit{state} to a thread in a multi-core CPU, trying to access \textit{memory} as it executes
 code. We are then faced with a problem with a setup very similar to that of the shared state
 concurrency, except the absolute need for determinism. In essence, determinism is the main
 blockchain-specific challenged imposed on this problem.
 
-We identified the de-facto way of solving this challenge in contemporary literature to be building a
+We identified the de-facto way of solving this challenge in contemporary literature to be building
 dependency graphs and piggy-backing them into the block. With further investigation, we decided to
-not proceed on continuing further down this path, rather assertion that a much simpler model can be
-sufficient, given that we utilize all of the information available.
+not proceed further down this path: instead, we considered that a much simpler model can be
+sufficient, \textit{if} we utilize all of the information available.
 
 In chapter \ref{chap:approach} we declared "\textit{a much simpler model}" to be the
 \textit{concurrency delegation} model, where conflicting transactions can be forwarded between
-threads when possible, or executed sequentially at the end otherwise. In essence, we remove the
-chance of non-determinism by allowing transactions to \textit{only} execute non-conflicting
-transactions. In other words: \textit{intra-thread} transaction can conflict as much as they want.
-But \textit{inter-thread} transactions within the threads should not. All inter-thread conflicts are
-deemed to be orphan and will be executed sequentially. The main advantageous characteristic of the
-delegation model is final outcome. Because of the absence of inter-thread conflicts, the only bit of
-data that needs to be added to each transaction is one final identifier about which thread should
-execute it, and the validator is guaranteed to be able to deterministically re-execute the block,
-whilst gaining potential throughput benefits.
+threads when possible, or executed sequentially, at the end of the processing "cycle", otherwise. In
+essence, we remove the chance of non-determinism by allowing transactions to \textit{only} execute
+non-conflicting transactions. In other words: \textit{intra-thread} transactions can conflict as
+much as they want, but \textit{inter-thread} transactions must not conflict at all. All transactions
+that generate inter-thread conflicts are deemed to be orphan, and will be executed sequentially. The
+main advantageous characteristic of the delegation model is its final outcome: because of the
+absence of inter-thread conflicts, the only bit of data that needs to be added to each transaction
+is one final identifier about which thread should execute it. The validator is guaranteed to be able
+to deterministically re-execute the block, whilst gaining potential throughput benefits.
 
-Furthermore, we declare "\textit{utilize all of the information available}" to some static hints on
-top of each transaction that need to be provided by the programmer, and denote the state keys that
-are likely to be accessed by the transaction. These hints do not need to be accurate. Moreover, we
-restricted our hints to data that is cheap to know prior to the execution of the transaction.
-Basically, the dilemma is to, not solve, but rather find a way around the halting
-problem\cite{burkholderHaltingProblem1987}. To do so, we acknowledge: most often, transaction are
-simple units of logic, with specific behavior given different inputs\footnote{Blockchain
-transactions are expensive pieces codes to execute, because they need to be re-executed by hundreds,
-if no thousands of other nodes. They are not designed to execute complex arbitrary logic, and should
-not do anytime soon in the forseeable future.}. Given this, it is fairly easy for the programmer to
-provide a somewhat accurate hints about the behavior of the transaction.
+Furthermore, we make sure we "\textit{utilize all of the information available}" by adding some
+pseudo-static hints on top of each transaction. These  hints need to be provided by the programmer,
+and denote the state keys that are likely to be accessed by the transaction. These hints do not need
+to be highly accurate. Moreover, we restricted our hints to data that is cheap to know prior to the
+execution of the transaction. Basically, the dilemma is to, not solve, but rather find a way around
+the halting problem\cite{burkholderHaltingProblem1987}. To do so, we acknowledge that, most often,
+transactions are simple units of logic, with specific behavior given different
+inputs\footnote{Blockchain transactions are expensive pieces of code to execute, because they need
+to be re-executed by hundreds, if not thousands of other nodes. They are not designed to execute
+complex arbitrary logic, and are unlikely to evolve in this direction in the forseeable future.}.
+Given this, it is likely to be easy for the programmer to provide somewhat accurate hints about the
+behavior of a transaction.
 
-We then proceed by providing merely an example implementation of the system that we designed.
-Specifically, that is the \texttt{access} macro and the two \textit{distributors} that we
-implemented. Results in chapter \ref{chap:bench_analysis} showed positive throughput gains for both
+We combined these features in a concurrent system for high-throughput transaction processing called ....
+Furthermore, we provided a prototype implementation of the system, where we included
+the \texttt{access} macro and the \textit{distributors} - see Chapter~\ref{chap:impl}.
+We used this prototype to evaluate an example application called "the millionaires' playground".
+We further benchmarked the performance of this example application. The results, presented
+in chapter \ref{chap:bench_analysis}, show throughput improvements for both
 distributor types, when executed against a synthetic balance transfer workload.
 
 % Damn this overview was nice! I am a bit impressed by myself by how good I squashed 60 pages in 6
 % paragraphs.
 
-Having reviewed almost the entirety of this work in the previous paragraphs, we can shift the
-discussion more toward some of the deeper insights that we observe.
 
-\textbf{The transactions are \textit{key}}. Needless to say, the type of the transactions that are
-being executed and the amount of inter-transaction state dependencies between them is the first and
+\section{Discussion and observations}
+
+Our work has lead to the following observations.
+
+\textbf{The transactions are \textit{key}}. Needless to say, the type of transactions that are being
+executed, and the amount of inter-transaction state dependencies between them, is the first and
 foremost factor of success. This factor trumps the underlying system as well. With a workload that
-is almost entirely interdependent transactions, even the best of systems probably fails to deliver
-good throughput. Moreover, with a workload with almost no inter-transaction dependencies, probably
-most systems perform well. We showed, in our experiments, that our system is no different with that
-regard. Nonetheless, the important point is that we managed to achieve ideal throughput gains by
-effectively leveraging the static hints of the transactions.
+is made almost entirely from interdependent transactions, even the best of systems probably fails to
+deliver high throughput. Moreover, with a workload with almost no inter-transaction dependencies,
+probably most systems perform well. We showed, in our experiments, that our system is no different
+in that regard. Nonetheless, the important point is that we managed to achieve ideal throughput
+gains by effectively leveraging the static hints of the transactions.
 
 \textbf{Simplicity}. Our work is, in some sense, a retaliatory demonstration against complicated
-concurrency control mechanism deployed (mostly in academia) on blockchains. Our main goal was not to
-trump their results and prove that our system is better per se. Rather, we showed that for certain
+concurrency control mechanisms deployed (mostly in academia) on blockchains. Our main goal was not to
+trump their results and prove that our system is better per-se. Rather, we showed that for certain
 workloads (that are --reasonably speculating-- not far from reality), a much simpler system will
 also be enough. Moreover, the new and simpler system is actually beneficial upon certain axis, for
 example smaller runtime and block overhead.
 
-\textbf{Generic Design}. This work is generic in two different levels. \textbf{First}, our
+\textbf{Generic Design}. This work is generic at two different levels. \textbf{First}, our
 \texttt{access} macro is merely one example of how the static\footnote{As before, by static we mean
 static with respect to the execution of the transaction.} data that a transaction carries can be
 used. Implementations could vary, or different means of analysis can be used. The only point is to
 remain aware that the goal is to be able to infer the state access requirements of transactions
-\textit{\textbf{without executing them}}. \textbf{Secondly}, with or without the \textbf{access}
+\textit{\textbf{without executing them}}. \textbf{Second}, with or without the \textbf{access}
 macro, we leave the decision of \textit{how to use the output of static hints} to be generic in the
-form of component that we called the distributor.
+form of component that we called the distributor. We do provide two such distributors, merely to
+illustrate the difference in complexity, and discuss their processing cost, but many other variants
+can be envisioned.
 
 \section{Future Work}
 
-Previous insights already hinted on some of the future work that we propose to be pursued. Here, we
-enumerate them in more detail.
+Our discussion and observations already hint to some of the future work that we propose to be
+pursued. Here, we enumerate such future work directions in more detail.
 
 \textbf{Inaccurate hints}. We boldly mention that static hints do not need to be accurate for the
 system to work properly. Of course, they should not be totally unrelated. A good starting point to
 reason about hints is to look at the transaction's logic and proceed with the control from
 optimistically or pessimistically. Which flow has the most state access? Which one has the least?
-The interesting follow-up question is how the behavior of the system changes when we move between
-different access macros? One might recall, the transfer transaction that we used before had a
-pessimistic access macro: we assumed the balance of both the \texttt{origin} and the
+The interesting follow-up question is how does the behavior of the system change when we move
+between different access macros? One might recall, the transfer transaction that we used before had
+a pessimistic access macro: we assumed the balance of both the \texttt{origin} and the
 \texttt{destination} will be accessed. This is not always the case. If the origin does not have
 enough funds, then the transaction finishes with an error, and only the balance key of the origin is
 accessed (i.e. \textit{tainted}). We excluded such experiments from our work here for the sake of
 brevity.
 
-\textbf{Probabilistic Hints}. An interesting addition to the previous point would the mixing of
+\textbf{Probabilistic Hints}. An interesting addition to the previous point is the mixing of
 probability theorems with the access macro. In essence, instead of relying on the programmer to
 provide the hints, the system could use benchmarks and previous data to build probabilistic models
 to accurately predict the access requirements of a transaction given specific inputs.  This
@@ -104,36 +113,37 @@ At the very extreme end of this spectrum, one could even see the utilization of 
 intelligence to accurately generate the access requirements of a transaction.
 
 \textbf{Read-Write Taint}. A comment on our work that can fundamentally question our approach is:
-why there is no distinction between read and write operations? This is a fair comment, and we agree
+why is there no distinction between read and write operations? This is a fair comment, and we agree
 that it is an unorthodox approach compared to rest of the literature in concurrent computing. We did
 not opt for this approach in our work because of our strong preference for simplicity. There are
 many paths to follow along the line of read-write distinction. Most would make our system quite
 similar to a cache coherence model, where a write operation needs to be notified to others and
-potentially invalidate other previous read operations. This is already a red line for us, as we
-don't want to carry the bourdon of rollbacks, both because of its overhead and its inherent
-undeterminism. A final interesting comment in this aspect would be that read-write taint is also
-likely to introduce read-only \texttt{access} macro hints. We foresee that it will be very useful
-for the distributor to be able know if a access hints is read-only or not. All in all, we foresee
-interesting outcomes if the path of read-write taints is pursued, but express worry about how much
-complication it will add to the system for how much actual throughput gain. The obvious benefit of
-this addition to the work would be that threads that only \textit{read} certain data will not block
-other threads.
+potentially invalidate other previous read operations. This is already a red line for us, as we do
+not want to carry the burden of rollbacks, both because of their overhead and inherent
+non-determinism. A final interesting comment about this aspect would be that read-write taint is
+also likely to introduce read-only \texttt{access} macro hints. We foresee that it will be very
+useful for the distributor to be able know if an access hint is read-only or not. All in all, we
+foresee interesting outcomes if the path of read-write taints is pursued, but express worry about
+how much complication it will add to the system, compared to the actual throughput gain. The obvious
+benefit of this addition to the work would be that threads that only \textit{read} certain data will
+not block other threads.
 
-\textbf{Continuous Analysis of Real Chains}. After all, everything that we have done here is is some
+\textbf{Continuous Analysis of Real Chains}. After all, everything that we have done here is in some
 sense hypothetical, because we do not use real transaction from a real chain. It is of great value
-for further studies to analyze different domain specific (e.g. Bitcoin) and general purpose chains
-(e.g. Ethereum) and derive characteristics from their transactions (as it was already done in
+for further studies to analyze different, domain-specific (e.g. Bitcoin) and general purpose chains
+(e.g. Ethereum), and derive characteristics from their transactions (as it was already done in
 \cite{saraphEmpiricalStudySpeculative2019}). For example, an easy study is to apply connected
 components to different blocks of the Ethereum network and see how well they can be clustered into
-disjoint components with a balanced size. Will we face the same imbalance problem as with in chapter
-\ref{chap:bench_analysis}?
+disjoint components with a balanced size. Will we face the same imbalance problem as with our
+experiments in chapter \ref{chap:bench_analysis}?
 
 \textbf{Hybrid distributor.} In our work we did not explore the possibility of hybrid distributors.
-This can also be a fairly easy addition to the system to make it more versatile. Even only within
+This can also be a fairly simple addition to the system, making it more versatile. Even only within
 the two distributors that we discussed, we could see that it was not the case that one distributor
-is the best in all cases. Round robin had limited throughput gains but it was still better than the
-ideal connected components, in data sets that had highly intertwined transaction. We propose
-building hybrid distributors that potentially chose a best one based on particular criteria.
+is the best in all cases. Round robin had limited throughput gains, but it was still better than the
+ideal connected components in data sets that had highly intertwined transactions. We propose
+building hybrid distributors that potentially chose a best distribution function based on particular
+criteria, specific to the application and/or dataset at hand.
 
 \textbf{Nonce}. We explained what a nonce is in \ref{chap_bg:subsec:nonce}. A nonce is of importance
 to us because it is very likely to be the common key between many transactions that cause them to
@@ -152,7 +162,9 @@ for any concurrency model to be sensible.
 
 \section{Recap: Research Questions and Answers}
 
-We finish the work by briefly recapping the answer to all of our research questions.
+\section{Research Questions and Answers}
+Based on this work, the answers to our research questions (formulated in
+section~\ref{chap_intro:sec:resarch_q}) are as follows.
 
 \begin{enumerate}
 	\item [\textbf{RQ1}] What approaches exist to achieve concurrent execution of transactions
@@ -175,4 +187,12 @@ We finish the work by briefly recapping the answer to all of our research questi
 	\item [\textbf{Answer}] We concluded that our approach is sufficient to achieve ideal throughput
 	gains (given the number of threads) under certain circumstances, which supports our claim that a
 	simpler system could be well enough.
+\end{enumerate}
+
+Summarizing, this work makes the following contributions:
+\begin{enumerate}
+    \item A new ...
+    \item A design of a concurrent system that ...
+    \item A first prototype of ...
+    \item A strategy for empirical evaluation that illustrates ...
 \end{enumerate}

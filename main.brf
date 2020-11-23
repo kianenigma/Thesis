@@ -66,12 +66,12 @@
 \backcite {burkholderHaltingProblem1987}{{47}{1}{Hfootnote.32}}
 \backcite {klabnikRustProgrammingLanguage2019}{{50}{4}{chapter.4}}
 \backcite {jungRustBeltSecuringFoundations2017}{{50}{4}{chapter.4}}
-\backcite {RustBlockchain}{{50}{4}{chapter.4}}
+\backcite {RustBlockchain}{{51}{4}{chapter.4}}
 \backcite {barnatFastDynamicallySizedConcurrent2015}{{51}{4.1.1}{subsection.4.1.1}}
 \backcite {RustJourneyAsync}{{52}{4.1.2}{subsection.4.1.2}}
 \backcite {StdSyncMpsc}{{52}{4.1.3}{subsection.4.1.3}}
 \backcite {TokioRust}{{52}{1}{Hfootnote.34}}
-\backcite {nuutilaFindingStronglyConnected1994}{{55}{4.3}{section.4.3}}
+\backcite {nuutilaFindingStronglyConnected1994}{{56}{4.3}{section.4.3}}
 \backcite {RefCellInteriorMutability}{{59}{4.5}{lstnumber.4.9.21}}
-\backcite {burkholderHaltingProblem1987}{{69}{6}{chapter.6}}
-\backcite {saraphEmpiricalStudySpeculative2019}{{71}{6.1}{section.6.1}}
+\backcite {burkholderHaltingProblem1987}{{69}{6.1}{section.6.1}}
+\backcite {saraphEmpiricalStudySpeculative2019}{{71}{6.3}{section.6.3}}
