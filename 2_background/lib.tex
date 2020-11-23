@@ -456,7 +456,7 @@ Nonetheless, we can see how this solves the synchronization issue in blockchains
 a bundle of transactions. The consensus protocol, namely its block authoring protocol, regulates the
 block production, so that not everyone can propose candidate blocks at the same time.
 
-\subsubsection{Interlude: The types of blockchains}
+\subsubsection{Interlude: The types of blockchains} \label{chap_bg:subsec:blockchain_types}
 
 So far, we have only talked about \textit{permissionless} blockchains, which are the focus of this
 work. Nonetheless, now is a good time to mention that a permissionless blockchain is only one out of
@@ -627,7 +627,7 @@ protocol itself.
 
 \nomenclature{Runtime}{The portion of the blockchain's code that executes transactions.}
 
-We will coin the term \textit{Runtime} as the piece of logic in the blockchain that is responsible
+We coin the term \textit{Runtime} as the piece of logic in the blockchain that is responsible
 for \textit{updating the state}. To be more specific, the runtime of any blockchain can be
 simplified as a function that takes a transaction as input, has access to read the state, and (as
 output) generates a set of new key-value pairs that need to be updated in the state (or the runtime
@@ -635,7 +635,7 @@ itself can update the state directly, depending on the design of the system). Th
 be further used in chapter \ref{chap:approach}.
 
 \begin{definition} Generic Runtime.
-	$Runtime = F(transaction): State$
+	$runtime = fn(transaction) \rightarrow state$
 \end{definition}
 
 \subsubsection{Transaction Queue} \label{chap_bg:subsec:tx_queue}
@@ -707,8 +707,6 @@ incremented by one. This effectively alleviates the vulnerability of replay atta
 that Alice signs, once submitted to the chain and upon being \textit{included}, is no longer valid
 for re-submission.
 
-\todo[inline]{Discuss in... discussion chapter that we don't address this.}
-
 \subsection{Putting it All Together: Decentralized State Transition Logic}
 \label{chap_bg:subsec:decentralized_state_machine}
 
@@ -776,7 +774,7 @@ Concurrency is the ability of a software artifact to execute units of its logic 
 to different hardware units and improve performance. The opposite viewpoint is a purely in-order
 execution, namely sequential.
 
-We will link this directly to our example of interest: a node in a blockchain system has a process
+We link this directly to our example of interest: a node in a blockchain system has a process
 which is responsible for executing blocks. By default, this process is purely sequential: all of the
 transactions in the block are executed in order, namely the same order as they appear in the block.
 Deploying concurrency \textit{should} allow this process to divide the transactions within the block
@@ -790,8 +788,6 @@ state after applying the block\footnote{Note that this is only the case of block
 \textit{import}). There is also the task of block authoring, which is actually more complicated, but
 irrelevant to the discussion of this section -- see \ref{def:auhtor_validator}.}. This comparison is
 done by means of the state root.
-
-\todo[inline]{Do a pass and remove all of this "as-mentioned", "will" crap.}.
 
 \begin{definition} \label{def:valid_block} \textit{Valid Block}: A block is valid only if its
 	execution is deterministic among all of the nodes in the network, and leads to the same state
@@ -978,5 +974,5 @@ machines that can be updated by the means of transactions. This state machine ma
 state database. Attempting to deploy concurrency on blockchains is, therefore, very similar to
 shared state concurrency, plus the stark requirement of determinism. Shared state concurrency
 attempts to resolve the problem of multiple threads accessing the same underlying memory. We
-mentioned both optimistic and pessimistic concurrency, yet have not yet mentioned which we will use.
+mentioned both optimistic and pessimistic concurrency, yet have not yet mentioned which one we use.
 This is yet to come, in the next chapter.

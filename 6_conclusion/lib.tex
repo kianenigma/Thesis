@@ -119,7 +119,6 @@ complication it will add to the system for how much actual throughput gain. The 
 this addition to the work would be that threads that only \textit{read} certain data will not block
 other threads.
 
-
 \textbf{Continuous Analysis of Real Chains}. After all, everything that we have done here is is some
 sense hypothetical, because we do not use real transaction from a real chain. It is of great value
 for further studies to analyze different domain specific (e.g. Bitcoin) and general purpose chains
@@ -136,25 +135,41 @@ is the best in all cases. Round robin had limited throughput gains but it was st
 ideal connected components, in data sets that had highly intertwined transaction. We propose
 building hybrid distributors that potentially chose a best one based on particular criteria.
 
+\textbf{Nonce}. We explained what a nonce is in \ref{chap_bg:subsec:nonce}. A nonce is of importance
+to us because it is very likely to be the common key between many transactions that cause them to
+become interdependent. For example, imagine an account \texttt{Alice} that has state keys in
+different runtime modules. One for balance, and one for different each module. These state keys can
+be accessed independently, but bringing the logic of nonce into the picture, things get a wee bit
+more complicated. Now, all of these transactions need to write to the key that stores the nonce of
+alice, and they are all dependent on one another. Things can get even worse. There could be special
+state keys that need to be accessed by \textit{all} transactions (for example: a counter for all
+transaction in the block that is kept in the state). This forcefully makes all of the transaction in
+the block sequential if no special treatment is in place for them. And indeed, this is our main
+point: we omit such special cases from our work because they should be treated differently in order
+for any concurrency model to be sensible.
+
+\todo[inline]{unify state item and storage item}.
+
 \section{Recap: Research Questions and Answers}
 
 We finish the work by briefly recapping the answer to all of our research questions.
 
 \begin{enumerate}
-	\item [\textbf{RQ1}] What approaches exist to achieve concurrent execution of transactions within a
-	blockchain system, and improve the throughput?
+	\item [\textbf{RQ1}] What approaches exist to achieve concurrent execution of transactions
+	within a blockchain system, and improve the throughput?
 
-	\item [\textbf{Answer}] We identified the current usages of concurrency within blockchains to within
-	one of the two categories that we depicted: concurrency control or concurrency avoidance. Both
-	do result in a throughput gain.
+	\item [\textbf{Answer}] We identified the current usages of concurrency within blockchains to
+	within one of the two categories that we depicted: concurrency control or concurrency avoidance.
+	Both do result in a throughput gain. Full answer in \ref{chap_approach:existing}.
 
-	\item [\textbf{RQ2}] How could both static analysis and runtime approaches be combined together to
-	achieve a new approach with minimum overhead and measurable benefits?
+	\item [\textbf{RQ2}] How could both static analysis and runtime approaches be combined together
+	to achieve a new approach with minimum overhead and measurable benefits?
 
 	\item [\textbf{Answer}] We basically opted to reduce the runtime apparatus (coined: concurrency
 	delegation) and instead compensate with pseudo-static advisory data that can compliment the
 	runtime to achieve an equally good result as concurrency control but with less overhead along
-	different axes.
+	different axes. Full answer in \ref{chap_desgin:sec:our_approach}.
+
 	\item [\textbf{RQ3}] How would such an approach be evaluated against and compared to others?
 
 	\item [\textbf{Answer}] We concluded that our approach is sufficient to achieve ideal throughput

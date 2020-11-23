@@ -1,4 +1,4 @@
-# SonicChain: A Lock-free, Pseudo-static Approach Toward Concurrency in Blockchains.
+# SonicChain: A Wait-free, Pseudo-static Approach Toward Concurrency in Blockchains.
 
 In this work we look at blockchains as (yet another) transaction processing system (much like
 databases, except being decentralized and trustless), and propose a new approach toward concurrency

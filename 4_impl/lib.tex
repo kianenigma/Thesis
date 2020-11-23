@@ -271,6 +271,18 @@ Two examples of distributor implementation as follows:
 	the same thread, effectively minimizing forwarded and orphaned transactions.
 \end{itemize}
 
+\section{Bonus: Optimizing Orphans} \label{chap_impl:sec:opt_orph}
+
+A closer look at \ref{lst:balance_tx} reveals that the first state access error is being handled by
+\texttt{.or\_forward()?} and the second one with \texttt{.or\_orphan()?}. The reason for this is
+quite interesting: Recall from \ref{chap_approach:subsec:comment_baseline} that an orphan
+transaction is basically one that needs access to state keys that are tainted by at least two
+different threads. From this, we can realize: if a transaction successfully accesses any state key,
+this means that no other thread can execute this transaction, because the key associated with that
+first state access is already tainted. Therefore, we can conclude the a massive simplification: Only
+if the first state access of a transaction fails it will will to be forwarded. Any further failure
+is simply an orphan right off the bat.
+
 \section{Bonus: Taintable State} \label{chap_impl:sec:bonus}
 
 So far, all the mentioned details of this chapter are somewhat necessary to know, in order to be
@@ -305,7 +317,7 @@ did not existed before could trigger a resize of the hashmap.
 
 \begin{remark}
 	Now it is clear why we titled our design in \ref{chap_desgin:sec:design} \textit{almost}
-	lock-free.
+	wait-free.
 \end{remark}
 
 We can now look at how this is implemented. First, we explain what the actual value stored in the

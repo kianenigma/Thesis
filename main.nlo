@@ -24,3 +24,5 @@
 \nomenclatureentry{aState root@[{State root}]\begingroup The hash of the entire state, when represented as a Merkle tree.\nomeqref {2.1}|nompageref}{19}
 \nomenclatureentry{aRuntime@[{Runtime}]\begingroup The portion of the blockchain's code that executes transactions.\nomeqref {2.1}|nompageref}{21}
 \nomenclatureentry{aAccount Nonce@[{Account Nonce}]\begingroup An initiger linked to each account and incremented per transaction. Used to prevent replay attacks.\nomeqref {2.1}|nompageref}{22}
+\nomenclatureentry{aConcurrency Avoidance@[{Concurrency Avoidance}]\begingroup A scheme in contrast to concurrency control in which no synchnization is used btween the threads.\nomeqref {3.0}|nompageref}{37}
+\nomenclatureentry{aTaintable State@[{Taintable State}]\begingroup Special HashMap-like datastructure that assigns a taint to each key.\nomeqref {3.0}|nompageref}{39}
