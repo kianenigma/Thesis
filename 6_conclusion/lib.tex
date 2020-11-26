@@ -1,8 +1,8 @@
 \chapter{Conclusion} \label{chap:conclusion}
 
-We have come a long journey to reach this stage of our work. To make the conclusion more
+We wehave embarked in a long journey to reach this stage of our work. To make the conclusion more
 comprehensible, we first briefly recap what we have done so far, and what we have observed in the
-benchmarks of chapter \ref{chap:bench_analysis}. We then ... . Finally, we ...
+benchmarks of chapter \ref{chap:bench_analysis}. We then enumerate our conclusive observations in \ref{chap_conc:sec:discussion}. We then answer the research questions in \ref{chap_conc:sec:rq}. Finally, we mention some of the future work to be done in \ref{chap_conc:sec:future_work}.
 
 \section{Summary}
 We began by making minimal, yet important assumptions about what a blockchain system should look
@@ -22,17 +22,17 @@ sufficient, \textit{if} we utilize all of the information available.
 In chapter \ref{chap:approach} we declared "\textit{a much simpler model}" to be the
 \textit{concurrency delegation} model, where conflicting transactions can be forwarded between
 threads when possible, or executed sequentially, at the end of the processing "cycle", otherwise. In
-essence, we remove the chance of non-determinism by allowing transactions to \textit{only} execute
+essence, we remove the chance of non-determinism by allowing threads to \textit{only} execute
 non-conflicting transactions. In other words: \textit{intra-thread} transactions can conflict as
 much as they want, but \textit{inter-thread} transactions must not conflict at all. All transactions
 that generate inter-thread conflicts are deemed to be orphan, and will be executed sequentially. The
-main advantageous characteristic of the delegation model is its final outcome: because of the
+main advantage of the delegation model is its final outcome: because of the
 absence of inter-thread conflicts, the only bit of data that needs to be added to each transaction
 is one final identifier about which thread should execute it. The validator is guaranteed to be able
 to deterministically re-execute the block, whilst gaining potential throughput benefits.
 
 Furthermore, we make sure we "\textit{utilize all of the information available}" by adding some
-pseudo-static hints on top of each transaction. These  hints need to be provided by the programmer,
+pseudo-static hints on top of each transaction. These hints need to be provided by the programmer,
 and denote the state keys that are likely to be accessed by the transaction. These hints do not need
 to be highly accurate. Moreover, we restricted our hints to data that is cheap to know prior to the
 execution of the transaction. Basically, the dilemma is to, not solve, but rather find a way around
@@ -52,17 +52,13 @@ We further benchmarked the performance of this example application. The results,
 in chapter \ref{chap:bench_analysis}, show throughput improvements for both
 distributor types, when executed against a synthetic balance transfer workload.
 
-% Damn this overview was nice! I am a bit impressed by myself by how good I squashed 60 pages in 6
-% paragraphs.
-
-
-\section{Discussion and observations}
+\section{Discussion and observations} \label{chap_conc:sec:discussion}
 
 Our work has lead to the following observations.
 
 \textbf{The transactions are \textit{key}}. Needless to say, the type of transactions that are being
 executed, and the amount of inter-transaction state dependencies between them, is the first and
-foremost factor of success. This factor trumps the underlying system as well. With a workload that
+foremost factor of throughput improvement. This factor trumps the underlying system as well. With a workload that
 is made almost entirely from interdependent transactions, even the best of systems probably fails to
 deliver high throughput. Moreover, with a workload with almost no inter-transaction dependencies,
 probably most systems perform well. We showed, in our experiments, that our system is no different
@@ -87,14 +83,49 @@ form of component that we called the distributor. We do provide two such distrib
 illustrate the difference in complexity, and discuss their processing cost, but many other variants
 can be envisioned.
 
-\section{Future Work}
+\section{Research Questions and Answers} \label{chap_conc:sec:rq}
+
+Based on this work, the answers to our research questions (formulated in
+section~\ref{chap_intro:sec:resarch_q}) are as follows.
+
+\begin{enumerate}
+	\item [\textbf{RQ1}] What approaches exist to achieve concurrent execution of transactions
+	within a blockchain system, and improve the throughput?
+
+	\item [\textbf{Answer}] We identified the current usages of concurrency within blockchains to
+	within one of the two categories that we depicted: concurrency control or concurrency avoidance.
+	Both do result in a throughput gain. Full answer in \ref{chap_approach:existing}.
+
+	\item [\textbf{RQ2}] How could both static analysis and runtime approaches be combined together
+	to achieve a new approach with minimum overhead and measurable benefits?
+
+	\item [\textbf{Answer}] We basically opted to reduce the runtime apparatus (coined: concurrency
+	delegation) and instead compensate with pseudo-static advisory data that can compliment the
+	runtime to achieve an equally good result as concurrency control but with less overhead in validation. Full answer in \ref{chap_desgin:sec:our_approach}.
+
+	\item [\textbf{RQ3}] How would such an approach be evaluated against and compared to others?
+
+	\item [\textbf{Answer}] We used an empirical evaluation approach to measure the throughput gain. A \textit{realistically} synthesized data set was created for this purpose. We concluded that our approach is sufficient to achieve ideal throughput
+	gains (given the number of threads) under certain circumstances, which supports our claim that a
+	simpler system could be well enough.
+\end{enumerate}
+
+Summarizing, this work makes the following contributions:
+\begin{enumerate}
+    \item A new runtime model for concurrency with minimal overhead, namely concurrency Delegation
+    \item A proposal to couple runtime machinery with pseudo-static information for better result. 
+    \item A first prototype of such a system, namely SonicChain, implemented in the Rust programming language. 
+    \item An empirical analysis of the system against realistic workloads.
+\end{enumerate}
+
+\section{Future Work} \label{chap_conc:sec:future_work}
 
 Our discussion and observations already hint to some of the future work that we propose to be
 pursued. Here, we enumerate such future work directions in more detail.
 
 \textbf{Inaccurate hints}. We boldly mention that static hints do not need to be accurate for the
 system to work properly. Of course, they should not be totally unrelated. A good starting point to
-reason about hints is to look at the transaction's logic and proceed with the control from
+reason about hints is to look at the transaction's logic and proceed with the control flow
 optimistically or pessimistically. Which flow has the most state access? Which one has the least?
 The interesting follow-up question is how does the behavior of the system change when we move
 between different access macros? One might recall, the transfer transaction that we used before had
@@ -145,54 +176,15 @@ ideal connected components in data sets that had highly intertwined transactions
 building hybrid distributors that potentially chose a best distribution function based on particular
 criteria, specific to the application and/or dataset at hand.
 
-\textbf{Nonce}. We explained what a nonce is in \ref{chap_bg:subsec:nonce}. A nonce is of importance
+\textbf{Nonce-aware execution}. We explained what a nonce is in \ref{chap_bg:subsec:nonce}. A nonce is of importance
 to us because it is very likely to be the common key between many transactions that cause them to
 become interdependent. For example, imagine an account \texttt{Alice} that has state keys in
 different runtime modules. One for balance, and one for different each module. These state keys can
 be accessed independently, but bringing the logic of nonce into the picture, things get a wee bit
 more complicated. Now, all of these transactions need to write to the key that stores the nonce of
-alice, and they are all dependent on one another. Things can get even worse. There could be special
+Alice, and they are all dependent on one another. Things can get even worse. There could be special
 state keys that need to be accessed by \textit{all} transactions (for example: a counter for all
 transaction in the block that is kept in the state). This forcefully makes all of the transaction in
 the block sequential if no special treatment is in place for them. And indeed, this is our main
-point: we omit such special cases from our work because they should be treated differently in order
+point: we omit such special cases from our work because they should be treated \textit{specially} in order
 for any concurrency model to be sensible.
-
-\todo[inline]{unify state item and storage item}.
-
-\section{Recap: Research Questions and Answers}
-
-\section{Research Questions and Answers}
-Based on this work, the answers to our research questions (formulated in
-section~\ref{chap_intro:sec:resarch_q}) are as follows.
-
-\begin{enumerate}
-	\item [\textbf{RQ1}] What approaches exist to achieve concurrent execution of transactions
-	within a blockchain system, and improve the throughput?
-
-	\item [\textbf{Answer}] We identified the current usages of concurrency within blockchains to
-	within one of the two categories that we depicted: concurrency control or concurrency avoidance.
-	Both do result in a throughput gain. Full answer in \ref{chap_approach:existing}.
-
-	\item [\textbf{RQ2}] How could both static analysis and runtime approaches be combined together
-	to achieve a new approach with minimum overhead and measurable benefits?
-
-	\item [\textbf{Answer}] We basically opted to reduce the runtime apparatus (coined: concurrency
-	delegation) and instead compensate with pseudo-static advisory data that can compliment the
-	runtime to achieve an equally good result as concurrency control but with less overhead along
-	different axes. Full answer in \ref{chap_desgin:sec:our_approach}.
-
-	\item [\textbf{RQ3}] How would such an approach be evaluated against and compared to others?
-
-	\item [\textbf{Answer}] We concluded that our approach is sufficient to achieve ideal throughput
-	gains (given the number of threads) under certain circumstances, which supports our claim that a
-	simpler system could be well enough.
-\end{enumerate}
-
-Summarizing, this work makes the following contributions:
-\begin{enumerate}
-    \item A new ...
-    \item A design of a concurrent system that ...
-    \item A first prototype of ...
-    \item A strategy for empirical evaluation that illustrates ...
-\end{enumerate}

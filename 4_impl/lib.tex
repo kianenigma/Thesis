@@ -6,7 +6,7 @@
 \end{chapquote}
 
 In this chapter we bring the system architecture mentioned at the end of the chapter
-\ref{chap:approach} one step closer to a real programming environment. This chapter is by no means
+\ref{chap:approach} closer to a running prototype. This chapter is by no means
 extensive, since there are many many implementation details that could be worth noting. Nonetheless,
 in favour of brevity we minimize the details to only those that:
 
@@ -15,6 +15,8 @@ in favour of brevity we minimize the details to only those that:
 	\item Impose a particular practical challenge that we find interesting.
 \end{itemize}
 
+The entire source code of the prototype is available as free and open source software \cite{paimaniKianenigmaSubSonic2020}.
+
 For the implementation, we use the Rust programming language
 \cite{klabnikRustProgrammingLanguage2019}. Being backed by Mozilla, Rust has a lot to offer in the
 domain of system programming and low-level applications, such as a blockchain runtime. Rust is a
@@ -22,7 +24,7 @@ unique language, among the few rare ones in which one can claim that the learnin
 steep, as mastering it is \textit{not} just a matter of learning the new syntax. One of the reasons for this
 learning curve is Rust's compile-time memory management system, which means all allocations and
 de-allocations are inferred and checked \textit{at compile time}. This ensures that the program is
-memory-safe, whilst having no garbage collector at runtime. Rust delivers, in some sense, the performance
+memory-safe, even in a multi-threaded context\footnote{The Rust community often uses the term "Fearless Concurrency" for this combination -- memory safety and concurrency TODO ref.}, whilst having no garbage collector at runtime. Rust delivers, in some sense, the performance
 of C, combined with the abstractions and safety features of Java or
 C\#\cite{jungRustBeltSecuringFoundations2017}.
 
@@ -101,8 +103,7 @@ ecosystem\cite{TokioRust}.}. Therefore, a language that wants to support green t
 \subsection{Communication}
 
 For communication, we use multi-producer-single-consumer\cite{StdSyncMpsc} (\texttt{mpsc} for short)
-channels. Our choice for this type of channel is restricted by the fact that this is the only one
-available in the standard library and we preferred keeping the implementation dependency-free.
+channels - the only type available in the standard library.
 \ref{figure:figures/design.png} depicted the communication medium for the threads as something
 similar to a bus, where all threads can directly communicate with all other threads. In reality, the
 layout of the channels is a bit more complicated.
@@ -113,7 +114,7 @@ receiver cannot be copied around -- this is ensured by the Rust's compile time c
 approach, each thread has an \texttt{mpsc} channel and keeps the receiving handle to itself,
 while giving a copy of the producer handle to all other threads.
 
-Listing \ref{lst:mpsc} demonstrates this process.
+Listing \ref{lst:mpsc} demonstrates this process. A producer and receiver pair are created at line 2. Further down, two threads are created, where each receive a \texttt{clone} of the producer. The receiver will stay in the starting thread, and it is used at the end to checks for incoming messages.
 
 \begin{lstlisting}[caption={How Channels Allow Communication Between Threads (with slight simplification)}\label{lst:mpsc}]
 // In the local thread.
@@ -146,11 +147,11 @@ while let Ok(msg) = receiver.rcv() {
 
 \section{Example Runtime: Balances} \label{chap_impl:sec:balances}
 
-Next, we demonstrate an example runtime to help the readers get familair with the context of the implementation and how the final outcome looks like. Our final implementation supports
-multiple \textit{modules} within the blockchain runtime, each having their own specific business
+Next, we demonstrate an example runtime to help the readers get familiar with the context of the implementation and how the final outcome looks like. Recall from ~\ref{chap_bg:subsec:runtime} that a runtime is the core state transition logic of each chain. Our final implementation supports
+multiple runtime \textit{modules} within, each having their own specific business
 logic. The simplest example of such module is a \texttt{balances} module that takes care of storing
 the balance of some accounts and allows the transfer of tokens between them. We now enumerate some
-of the important bits of code involved in these modules.
+of the important bits of code involved in this module.
 
 First, there needs to be a \texttt{struct} to store the balance of a single account, which we named
 \texttt{AccountBalance} - see listing~\ref{lst:balance_struct} for the full definition.
@@ -165,11 +166,6 @@ pub struct AccountBalance {
 	reserved: u128,
 }
 \end{lstlisting}
-
-\begin{remark}
-	The support for \texttt{reserved} balances allows more sophisticated testing, further details of
-	which are outside the scope of this chapter.
-\end{remark}
 
 The state layout of this modules is simple: there needs to be one mapping, with the key being an
 account identifier and the value being \texttt{AccountBalance}, as in listing
@@ -195,7 +191,7 @@ explained in \ref{chap:impl:subsec:state_and_concurrent_map}. To recap, the code
 macro means: the final state key of an any account in the storage is computed as:
 \texttt{"balances:balance\_of".hash() + account.hash()}.
 
-Overall, the inline documentation of the listing should be clear in delivering: There exists a state
+Overall, the inline documentation of the listing should make it clear that: there exists a state
 \textit{mapping} from \texttt{AccountId} to \texttt{AccountBalance}". We have already seen what
 \texttt{AccountBalance} is, and \texttt{AccountId} is an alias for --no surprise-- a public key.
 
@@ -258,12 +254,12 @@ Two examples of distributor implementation are as follows:
 
 	Specifically: all transactions provide a list of state keys
 	that they might access during their execution, via the \texttt{access} macro. This distributor
-	builds a graph of transactions and state keys, where each transaction has an edge to all the keys
+	builds a bipartite graph of transactions and state keys, where each transaction has an edge to all the keys
 	that it might access. Therefore, two transactions that are likely to access the same state key
 	end up being \textit{connected}, because they both have an edge to that key. The connected
 	component, as the name suggests, identifies these connected transactions. Every group of
 	transactions that access a common set of state keys are grouped as a component. Once all
-	components are identified, they are distributed among threads as evenly as possible. In essence,
+	components are identified, they are distributed among threads as evenly as possible\footnote{Using a simple greedy algorithm that we do not describe here.}. In essence,
 	keeping a full component as a unit of work distribution ensures that transactions that might conflict will end up being sent to
 	the same thread, effectively minimizing forwarded and orphaned transactions.
 \end{itemize}
@@ -307,19 +303,14 @@ Recall that our initial proposal was for the state to be wait-free, meaning that
 would succeed or fail immediately. We can solidify this idea as such: \textit{only the first} access
 to each key of the state might incur some waiting for other threads; thereafter, all operations
 are wait-free. It should be clear why we can obtain this property: if a key is accessed just
-once, it is tainted, and, therefore, all further accesses can be immediately responded based on that
+once, it is tainted, and, therefore, all further accesses can be immediately executed based on that
 taint value. Specifically, a following access from the owner thread succeeds, while a following access from
 another thread fails. It is, unfortunately,
 impossible to allow \textit{all} accesses to be wait-free, because a write operation to a key that
-had not existed before could trigger a resize of the hashmap.
+had not existed before could trigger a resize of the hashmap. Now it is clear why we titled our design in \ref{chap_desgin:sec:design} \textit{almost} wait-free.
 
-\begin{remark}
-	Now it is clear why we titled our design in \ref{chap_desgin:sec:design} \textit{almost}
-	wait-free.
-\end{remark}
-
-Next, we discuss how this behoviour is implemented. First, we explain what the actual value stored in the
-state is. Listing \ref{lst:state_value} shows the data type stored in the state. Note that the generic struct has
+Next, we discuss how this behaviour is implemented. First, we explain what the actual value stored in the
+state is. Listing \ref{lst:state_value} shows the data type stored in the state. Note that the generic \texttt{struct} has
 separate \texttt{taint} and \texttt{data} fields. Moreover, the taint is \textit{optional}, meaning
 that it may or may not exist (denoted by \texttt{Option<\_>}).
 
@@ -352,7 +343,7 @@ To recap, the \texttt{Key = Vec<u8>} is computed from hashing and concatenation,
 example \texttt{u128} for the case of balances (as seen in \ref{lst:balance_struct}).
 
 Finally, we can demonstrate the locking procedure. To implement the state, we wrap a
-\texttt{StateType} in a \texttt{RwLock} inside a new struct.
+\texttt{StateType} in a \texttt{RwLock} inside a new \texttt{struct}.
 This struct will then implement appropriate methods to allow the runtime to access the state - see listing~\ref{lst:struct_taint_state}.
 
 \begin{lstlisting}[caption={The wrapper for \texttt{StateType}}\label{lst:struct_taint_state}]
@@ -400,7 +391,7 @@ and other threads can also access it at the same time).
 	all other threads can proceed.
 \end{itemize}
 
-One final important remark is of interest. We mentioned Rust's memory safety with much confidence in
+One final important remark is of interest. We mentioned Rust's concurrent memory safety with much confidence in
 earlier sections of this chapter, claiming that it can prevent memory errors in compile time.
 Nonetheless, we see that using a \texttt{RefCell}, we can alter some data, even when shared between
 threads, without any synchronization. How is this possible?
@@ -419,7 +410,7 @@ In our example, we have such a contract with the compiler as well. We know that:
 \end{itemize}
 
 All race conditions are resolved, thus no compiler checks are needed. Indeed, this contract needs to
-be delivered to the compiler by a single \texttt{unsafe} block of code in our state
+be delivered to the compiler by a single \texttt{unsafe} statement in our state
 implementation - listing~\ref{lst:unsafe}.
 Here, \texttt{Sync} is a trait to mark data types that are safe to be shared between threads. As the name
 recommends, it is a marker trait with no functions. \texttt{RefCell} is not \texttt{Sync} by
@@ -428,7 +419,6 @@ a \texttt{RefCell}, it is also not \texttt{Sync} be default. The statement in th
 \texttt{unsafe}, tells the compiler to make an exception in this case and allow \texttt{StateValue}
 to be used in a multi threaded context. This allows us to wrap the \texttt{TaintState} in an
 \texttt{Arc} (atomic reference counted pointer) and share it between threads.
-
 
 \begin{lstlisting}[caption={Unsafe Implementation in State}\label{lst:unsafe}]
 unsafe impl<V, T> Sync for StateValue<V, T> {}
