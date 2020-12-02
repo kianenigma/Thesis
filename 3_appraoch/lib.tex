@@ -437,8 +437,9 @@ known \textit{before} a particular transactions is executed. In other words, the
 \textit{static with respect to the lifetime of a transaction} and can be inferred without the need
 to \textit{execute} the transaction, but rather by just \textit{inspecting} it.
 
-Our approach is based upon these key ideas: taintable state, concurrency delegation, and pseudo-static hints. In the next section, we connect these ideas and
-depict how they work together in the form of a unified algorithm.
+Our approach is based upon these key ideas: taintable state, concurrency delegation, and
+pseudo-static hints. In the next section, we connect these ideas and depict how they work together
+in the form of a unified algorithm.
 
 \subsection{Baseline Algorithm} \label{subsec:baseline_alg}
 
@@ -678,7 +679,7 @@ the exact state keys that it must access is impossible.
 The important point is to remember that the annotation can still be reasonably accurate without the
 need for executing the transaction. This annotation can state, in a best effort manner, which state
 keys are \textit{likely} to be accessed by this transaction, based on, for example, one of the
-common execution paths of the transaction. Listing~\ref{lst:static_pseudo} shows an abstract example of these static \textbf{annotations}.
+common execution paths of the transaction. Listing \ref{lst:static_pseudo} shows an abstract example of these static \textbf{annotations}.
 
 \begin{lstlisting}[caption={Example of Static Hints}\label{lst:static_pseudo}]
 #[access = (origin.state_key(), arg1.state_key())]
@@ -721,7 +722,7 @@ to less contention, and, consequently, to less forwarding and less orphans.
 
 In this section, we bring \ref{subsec:baseline_alg} and \ref{subsec:applying_static_hints} into one
 picture, and explain the entire system architecture. The all-in-one system architecture is presented
-in Figure~\ref{figure:figures/design.png}. In the following paragraph, we explain all its
+in Figure \ref{figure:figures/design.png}. In the following paragraph, we explain all its
 components, as indicated by the labels in the figure, finally connecting all the dots of our
 concurrent system as we move forward.
 
