@@ -79,7 +79,7 @@ type Value = Vec<u8>;
 type State = HashMap<Key, Value>;
 \end{lstlisting}
 
-Listing \ref{lst:mpsc} shows how the final state type is created. Namely, we alias the state to be a
+Listing \ref{lst:maps} shows how the final state type is created. Namely, we alias the state to be a
 hashmap with both key and values being opaque byte arrays.
 
 \begin{remark}
@@ -319,12 +319,12 @@ just once, it is tainted, and, therefore, all further accesses can be immediatel
 that taint value. Specifically, a following access from the owner thread succeeds, while a following
 access from another thread fails. It is, unfortunately, impossible to allow \textit{all} accesses to
 be wait-free, because a write operation to a key that had not existed before could trigger a resize
-of the hashmap. Now it is clear why we titled SonicChain \textit{almost} wait-free.
+of the HashMap. Now it is clear why we titled SonicChain \textit{almost} wait-free.
 
 Next, we discuss how this behavior is implemented. First, we explain what the actual value stored in
 the state is. Listing \ref{lst:state_value} shows the data type stored in the state. Note that the
 generic \texttt{struct} has separate \texttt{taint} and \texttt{data} fields. Moreover, the taint is
-\textit{optional}, meaning that it may or may not exist (denoted by \texttt{Option<\_>}).
+\textit{optional}, meaning that it may or may not exist , as denoted by \texttt{Option<\_>} in listing \ref{lst:state_value}.
 
 \begin{lstlisting}[caption={The state value type}\label{lst:state_value}]
 pub struct StateValue<V, T> {
@@ -335,10 +335,10 @@ pub struct StateValue<V, T> {
 }
 \end{lstlisting}
 
-The final state type is defined in listing \ref{lst:state_type}. Note that the key type, the value
+The final state type is defined in listing \ref{lst:generic_state_type}. Note that the key type, the value
 type, and the taint type are all left out generic.
 
-\begin{lstlisting}[caption={The final \textbf{(generic}) state type}\ref{lst:state_type}]
+\begin{lstlisting}[caption={The final generic state type}\label{lst:generic_state_type}]
 pub type StateType<K, V, T> = HashMap<K, StateValue<V, T>>;
 \end{lstlisting}
 
@@ -433,7 +433,7 @@ our state implementation - listing \ref{lst:unsafe}. Here, \texttt{Sync} is a tr
 types that are safe to be shared between threads. As the name recommends, it is a marker trait with
 no functions. \texttt{RefCell} is not \texttt{Sync} by default, because it allows arbitrary interior
 mutability. Because our \texttt{StateValue} contains a \texttt{RefCell}, it is also not
-\texttt{Sync} be default. The statement in this listing, which needs to be \texttt{unsafe}, tells
+\texttt{Sync} be default. The statement in listing \ref{lst:unsafe}, which needs to be \texttt{unsafe}, tells
 the compiler to make an exception in this case and allow \texttt{StateValue} to be used in a multi
 threaded context. This allows us to wrap the \texttt{TaintState} in an \texttt{Arc} (atomic
 reference counted pointer) and share it between threads.

@@ -56,14 +56,12 @@ playground}. This is because we assign a very large amount of initial balance to
 ensuring that it is many times larger than the transfer amount. Consequently, all transfers will
 \textbf{succeed}.
 
-\begin{remark}
-	Despite the transfer being a dead-simple transaction, the success or failure branches have
-	different \textbf{state access requirements}. Namely, a succeeding transaction accesses the
-	balance of both the origin and the destination of the transfer, while a failing one only
-	accesses the former. This, next to the value placed as a hint in the access macro can lead to
-	interesting combinations that are outside the scope of this chapter, but will be discussed
-	further in chapter \ref{chap:conclusion}.
-\end{remark}
+Note that despite the transfer being a dead-simple transaction, the success or failure branches have
+different \textbf{state access requirements}. Namely, a succeeding transaction accesses the
+balance of both the origin and the destination of the transfer, while a failing one only
+accesses the former. This, next to the value placed as a hint in the access macro can lead to
+interesting combinations that are outside the scope of this chapter, but will be discussed
+further in chapter \ref{chap:conclusion}.
 
 We assume that there are no time limits imposed on the author of the block, and allow it to finish
 executing all transactions. Of course, as we already delineated earlier, this is not how things work
