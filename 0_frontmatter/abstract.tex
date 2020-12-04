@@ -6,15 +6,15 @@ work, we tackle this issue with concurrency, yet we aim to take a radically diff
 valuing \textit{simplicity}. We embrace the simplicity through two steps: first, we formulate a
 simple runtime mechanism to deal with conflicts called \textit{concurrency delegation}. This method
 is much simpler and has less overhead, particularly in scenarios where conflicting transactions are
-relatively rare. Moreover, to reduce the number of conflicting transactions, we propose using static
-annotations attached to each transaction provided by the programmer. These annotations are
-pseudo-static: they are static with respect to the lifetime of the transaction, and therefore are
-free to use information such as the origin and parameters of the transaction. We propose a
-distributor component in our system that can use the output of the pseudo-static annotations and use
-them to effectively distribute transactions between threads in the \textit{least}-conflicting way.
-We name the outcome of a system combining concurrency delegation and pseudo-static annotations as
-SonicChain. We evaluate SonicChain for both validation and authoring tasks against a common workload
-in blockchains, namely, balance transfers, and observe that it performs expectedly well while
-introducing very little overhead and additional complexity to the system.
+relatively rare. Moreover, to further reduce the number of conflicting transactions, we propose
+using static annotations attached to each transaction, provided by the programmer. These annotations
+are pseudo-static: they are static with respect to the lifetime of the transaction, and therefore
+are free to use information such as the origin and parameters of the transaction. We propose a
+distributor component that can use the output of this pseudo-static annotations and use them to
+effectively distribute transactions between threads in the \textit{least}-conflicting way. We name
+the outcome of a system combining concurrency delegation and pseudo-static annotations as
+\textit{SonicChain}. We evaluate SonicChain for both validation and authoring tasks against a common
+workload in blockchains, namely, balance transfers, and observe that it performs expectedly well
+while introducing very little overhead and additional complexity to the system.
 
 \end{abstracts}
