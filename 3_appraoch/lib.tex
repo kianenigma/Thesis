@@ -278,7 +278,7 @@ validator.
 
 \subsection*{Concurrency Avoidance}
 
-\nomenclature{Concurrency Avoidance}{A scheme in contrast to concurrency control in which no synchronization is used between the threads.}
+\nomenclature{Concurrency Avoidance}{A scheme in contrast to concurrency control in which no synchronization is used between the threads}
 
 Next, we name an out-of-the-box work that takes a rather different path. Many studies in the
 blockchain literature use datasets from the database industry as their reference. Such datasets
@@ -373,7 +373,7 @@ Our approach is based on three key pivotal ideas, explained in the next sections
 
 \subsubsection{Almost Wait-Free: "Taintable" State}\label{chapt_approach:subsubsec:taintable_state}
 
-\nomenclature{Taintable State}{Special HashMap-like data structure that assigns a taint to each key.}
+\nomenclature{Taintable State}{Special HashMap-like data structure that assigns a taint to each key}
 We have already seen that locking is a common primitive to achieve shared-state concurrency. In our
 approach, we relax this primitive such that any access to a shared state by a thread \textbf{does
 not incur long waiting times}, but instead, it might \textit{immediately} fail. To do so, we link

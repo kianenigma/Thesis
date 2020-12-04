@@ -38,8 +38,8 @@ Similarly, this \textit{distribution} trait is transparent to the end-user when 
 interact with the blockchain, and they indeed see the system as one cohesive unit. All of these
 nodes together form the \textit{blockchain network}.
 
-\nomenclature{Node}{A single entity in a network.}
-\nomenclature{Blockchain Network}{The set of entire nodes holding (a partial) copy of a particular ledger.}
+\nomenclature{Node}{A single entity in a network}
+\nomenclature{Blockchain Network}{The set of entire nodes holding (a partial) copy of a particular ledger}
 
 Blockchains are also \textbf{decentralized}. This term was first introduced in a revolutionary paper
 in 1964 as a \textbf{middle ground} between purely \textit{centralized} systems that have a single
@@ -291,8 +291,8 @@ state}: the \textbf{transactions}.
 
 \subsubsection{Transactions and Signatures} \label{chap_bg:subsec:transaction_sig}
 
-\nomenclature{Transaction}{Arbitrary data provided by the outer world that can update the blockchain's state.}
-\nomenclature{Origin}{The source (i.e. the sender) of a transaction. Usually Provided through public-key cryptography.}
+\nomenclature{Transaction}{Arbitrary data provided by the outer world that can update the blockchain's state}
+\nomenclature{Origin}{The source (i.e. the sender) of a transaction. Usually Provided through public-key cryptography}
 
 Transactions are pieces of information submitted to the system, that are eventually appended to the
 blockchain in the form of a new block. And, as mentioned, everyone keeps the history of all blocks,
@@ -345,9 +345,9 @@ section.
 
 \subsubsection{Blocks} \label{chap_bg:subsec:block}
 
-\nomenclature{Block}{A bundle of transaction that can be appended to the chain.}
-\nomenclature{Parent Hash}{A hash of the previous block, mentioned in the header of all blocks.}
-\nomenclature{Genesis Block}{The first block of each chain, and it has no parent hash.}
+\nomenclature{Block}{A bundle of transaction that can be appended to the chain}
+\nomenclature{Parent Hash}{A hash of the previous block, mentioned in the header of all blocks}
+\nomenclature{Genesis Block}{The first block of each chain, and it has no parent hash}
 
 Blocks are nothing but bundles of transactions, and they allow for ordering, which somewhat relaxes
 the problem explained in the previous section, namely the race condition between transactions. To do
@@ -390,7 +390,7 @@ brings us to the consensus and authorship of blocks, explained in the next secti
 
 \subsubsection{Consensus and Block Authoring} \label{chap_bg:subsec:consensus_authorship}
 
-\nomenclature{Block Authoring}{The sensitive task of preparing a new block and propagating it to the network.}
+\nomenclature{Block Authoring}{The sensitive task of preparing a new block and propagating it to the network}
 
 The consensus protocol in a blockchain consists of a set of algorithms that ensure all nodes in the
 network maintain an eventually consistent view of the ledger state (both the chain itself, and the
@@ -523,7 +523,7 @@ is later explained in \ref{chap_approach:sec:ways_to_speedup}.
 
 \subsubsection{Forks: A Glitch in The Consensus Protocol}
 
-\nomenclature{Canonical Chain}{The current based chain that most of the nodes agree upon (particularly in the context of a fork).}
+\nomenclature{Canonical Chain}{The current based chain that most of the nodes agree upon (particularly in the context of a fork)}
 
 Coming back to the \textit{permissionless} block authoring schemes mentioned in
 \ref{chap_bg:subsec:consensus_authorship}, it turns out that a perfect consensus cannot exist in a
@@ -588,7 +588,7 @@ at a radix-16 tree leaf, which can be traversed by this base 16 hash string.
 \figuremacro{figures/trie.png}
 	{Merkle Tree} {A binary Merkel Tree. The root hash contains a digest of all the 4 data nodes.}
 
-\nomenclature{State root}{The hash of the entire state, when represented as a Merkle tree.}
+\nomenclature{State root}{The hash of the entire state, when represented as a Merkle tree}
 In such a data structure, we can clearly see that the root of the Merkle tree has a very important
 property: \textit{it is the fingerprint of the \textbf{entire} data}. This piece of data is very
 important in blockchains, and is usually referred to as \textbf{state root}. In essence, if two
@@ -622,7 +622,7 @@ protocol itself.
 
 \subsubsection{Runtime} \label{chap_bg:subsec:runtime}
 
-\nomenclature{Runtime}{The portion of the blockchain's code that executes transactions.}
+\nomenclature{Runtime}{The portion of the blockchain's code that executes transactions}
 
 We coin the term \textit{Runtime} as the piece of logic in the blockchain that is responsible for
 \textit{updating the state}. To be more specific, the runtime of any blockchain can be simplified as
@@ -683,7 +683,7 @@ turn into a \textbf{Denial of Service} attack (DoS).
 
 \subsubsection{Account Nonce} \label{chap_bg:subsec:nonce}
 
-\nomenclature{Account Nonce}{An integer linked to each account and incremented per transaction. Used to prevent replay attacks.}
+\nomenclature{Account Nonce}{An integer linked to each account and incremented per transaction. Used to prevent replay attacks}
 We mentioned that signatures allow transactions to be signed only by an entity that owns a private
 key associated with the account. This allows anyone to verify a transaction that claims to spend
 some funds from an account. Nonetheless, given that the block history is public, this pattern is
