@@ -1,50 +1,20 @@
-% \begin{abstractslong}    %uncommenting this line, gives a different abstract heading
-\begin{abstracts}        %this creates the heading for the abstract page
+\begin{abstracts}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac orci a nulla finibus ornare. Proin
-ultricies tellus a metus facilisis tristique. Vivamus vel lectus magna. Donec nibh sapien, pulvinar
-ut hendrerit nec, porta nec est. Nam rutrum aliquet egestas. Etiam nibh ex, ultrices vel arcu eu,
-vulputate venenatis enim. Vestibulum vel nisi quis libero finibus sollicitudin. Aenean ornare nibh
-id tincidunt tempus. Duis imperdiet, dui sed finibus tempor, lacus enim tempor sem, eget fermentum
-enim magna sit amet nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-inceptos himenaeos. In malesuada ligula risus, sit amet efficitur quam accumsan sed. Vestibulum ante
-ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Mauris non felis sed felis
-euismod efficitur interdum eget massa. Nullam eget accumsan arcu. Nunc suscipit volutpat ligula sed
-blandit.
-
-Vivamus lobortis leo est, gravida consequat risus volutpat eget. Morbi quam mi, porta ut vulputate
-in, gravida ut ipsum. Ut ultricies ullamcorper molestie. Suspendisse vestibulum eros eget elit
-finibus volutpat non vitae risus. Pellentesque gravida, lacus sit amet egestas fringilla, diam erat
-laoreet augue, id feugiat orci lorem vitae augue. Sed augue augue, volutpat et fringilla quis,
-dictum vel velit. Nam et congue diam.
-
-Integer rhoncus ipsum ante, non sollicitudin nisi sagittis vel. Duis rhoncus consequat ante at
-semper. Vivamus ex turpis, blandit in nisi eget, hendrerit scelerisque libero. Donec posuere dui
-libero, vitae ornare orci tempus sollicitudin. Mauris ut tortor vel orci malesuada blandit in a
-felis. Phasellus at congue mauris. Sed efficitur tellus at ligula euismod rutrum. Aliquam mattis
-scelerisque ultricies. Integer rutrum erat a tellus ultricies cursus. Integer gravida suscipit
-nulla, interdum lacinia elit dictum sed. Donec luctus nibh ac tortor rutrum rutrum. Aliquam vitae
-fermentum ante, ac maximus turpis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-vel neque id felis viverra pretium.
-
-Nullam scelerisque, orci quis porttitor rutrum, orci magna mattis neque, ac vestibulum dolor erat
-eget mi. Curabitur porta, lectus ac faucibus pellentesque, ante diam pretium nisi, ut maximus mauris
-lorem tincidunt eros. Mauris scelerisque elit ut ante auctor, in lacinia mauris dictum. Nam nec
-mattis nulla, eget tincidunt leo. Ut bibendum at mi nec commodo. Suspendisse augue massa, pharetra
-id pellentesque at, finibus at odio. Vestibulum ac enim ut tellus fermentum feugiat nec id eros.
-Duis hendrerit sem et ornare hendrerit. Suspendisse at sem vel tellus aliquet tempor. Fusce accumsan
-elementum est, sed aliquet nibh facilisis at. Sed venenatis condimentum magna. Curabitur iaculis
-augue in arcu ullamcorper placerat. Suspendisse ac placerat justo.
-
-Maecenas facilisis, enim quis fermentum rhoncus, nunc magna pretium risus, nec lacinia lectus metus
-sed tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-himenaeos. Curabitur hendrerit quam sed dolor vehicula pharetra. Morbi pretium ligula vitae nisi
-ultrices, in mattis nisi mattis. Fusce facilisis ex nec purus malesuada gravida. Quisque facilisis
-tincidunt sapien, ac dignissim libero porta sit amet. Curabitur in sem et libero imperdiet
-sollicitudin eget ut turpis. Morbi vulputate risus a augue lacinia, vehicula vestibulum odio
-aliquet. Donec placerat diam et lorem viverra aliquam. Praesent nibh ipsum, hendrerit eget ultricies
-mollis, convallis id est. Nullam imperdiet, arcu non faucibus malesuada, metus velit tempor diam, at
-semper erat urna sed orci.
+Blockchains have a two-sided reputation: they are praised for disrupting some of our institutions
+through innovative technology for good, yet notorious for being slow and expensive to use. In this
+work, we tackle this issue with concurrency, yet we aim to take a radically different approach by
+valuing \textit{simplicity}. We embrace the simplicity through two steps: first, we formulate a
+simple runtime mechanism to deal with conflicts called \textit{concurrency delegation}. This method
+is much simpler and has less overhead, particularly in scenarios where conflicting transactions are
+relatively rare. Moreover, to reduce the number of conflicting transactions, we propose using static
+annotations attached to each transaction provided by the programmer. These annotations are
+pseudo-static: they are static with respect to the lifetime of the transaction, and therefore are
+free to use information such as the origin and parameters of the transaction. We propose a
+distributor component in our system that can use the output of the pseudo-static annotations and use
+them to effectively distribute transactions between threads in the \textit{least}-conflicting way.
+We name the outcome of a system combining concurrency delegation and pseudo-static annotations as
+SonicChain. We evaluate SonicChain for both validation and authoring tasks against a common workload
+in blockchains, namely, balance transfers, and observe that it performs expectedly well while
+introducing very little overhead and additional complexity to the system.
 
 \end{abstracts}
-% \end{abstractlongs}

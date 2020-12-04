@@ -1,21 +1,21 @@
 \chapter{Implementation} \label{chap:impl}
 
 \begin{chapquote}{u/goofbe on reddit}
-	Rust is like a futuristic laser gun with an almost AI-like foot detector that turns the safety
-	on when it recognises your foot.
+    Rust is like a futuristic laser gun with an almost AI-like foot detector that turns the safety
+    on when it recognizes your foot.
 \end{chapquote}
 
-In this chapter we bring the system architecture mentioned at the end of the chapter
-\ref{chap:approach} closer to a running prototype. This chapter is by no means
-extensive, since there are many many implementation details that could be worth noting. Nonetheless,
-in favour of brevity we minimize the details to only those that:
+In this chapter, we bring the system architecture mentioned at the end of the chapter
+\ref{chap:approach} closer to a running prototype. This chapter is by no means extensive since there
+are many many implementation details that could be worth noting. Nonetheless, in favor of brevity,
+we minimize the details to only those that:
 
 \begin{itemize}
-	\item Are important with regards to the evaluation of the system.
-	\item Impose a particular practical challenge that we find interesting.
+    \item Are important with regards to the evaluation of the system.
+    \item Impose a particular practical challenge that we find interesting.
 \end{itemize}
 
-The entire source code of the prototype is available as free and open source software
+The entire source code of the prototype is available as free and open-source software
 \cite{paimaniKianenigmaSubSonic2020}.
 
 For the implementation, we use the Rust programming language
@@ -32,18 +32,18 @@ some sense, the performance of C, combined with the abstractions and safety feat
 C\#\cite{jungRustBeltSecuringFoundations2017}.
 
 \begin{remark}
-	We assume some basic Rust knowledge in the rest of this chapter. An interested reader without
-	any Rust experience can also follow, yet they are likely to have to look up some types and
-	concepts in the documentation.
+    We assume some basic Rust knowledge in the rest of this chapter. An interested reader without
+    any Rust experience can also follow, yet they are likely to have to look up some types and
+    concepts in the documentation.
 \end{remark}
 
 Lastly, it is worth mentioning that our choice is not merely out of interest. In the last few years,
-Rust have been heavily invested in, by big blockchains companies and in their research
+Rust has been heavily invested in, by big blockchains companies and in their research
 \cite{RustBlockchain}.
 
 \section{The Rust Standard Library}
 
-First, we explain some of the primitive types available in the Rust's standard library that we use
+First, we explain some of the primitive types available in Rust's standard library that we use
 in our implementation. Note that these types are merely \textit{our choice} for this implementation.
 Although similar data types from other libraries (or \textit{crates}, in the Rust jargon) are also
 acceptable, we prefer to limit ourselves to the standard library and remain dependency-free in our
@@ -55,7 +55,7 @@ For the taintable state, we need a data type that is \textit{similar} to a typic
 \texttt{HashMap}\cite{barnatFastDynamicallySizedConcurrent2015}, yet has slight differences. Rust
 does not provide a concurrent HashMap in the standard library, so the way to go is to
 implement our own custom data structure. To implement this, we use a \texttt{HashMap} and a
-\texttt{RwLock}, both of which are provided by the standard library. The HashMap behaves just as a
+\texttt{RwLock}, both of which are provided by the standard library. The HashMap behaves just like a
 typical \texttt{HashMap} in any programming language. The \texttt{RwLock} is a locking primitive
 with read-write distinction, where multiple \textit{read} requests can be done at the same time,
 while a \textit{write} request will block access of all-but-one requests.
@@ -83,9 +83,7 @@ Listing \ref{lst:maps} shows how the final state type is created. Namely, we ali
 hashmap with both key and values being opaque byte arrays.
 
 \begin{remark}
-	A careful reader might notice at this point that we explained how we build the \textit{key} byte
-	array (hashing and concatenation), yet we have not yet discussed how the value byte array is
-	built. This will be explained in \ref{chap_impl:sec:bonus}.
+    A careful reader might notice at this point that we explained how we build the \textit{key} byte array (hashing and concatenation), yet we have not yet discussed how the value byte array is built. This will be explained in \ref{chap_impl:sec:bonus}.
 \end{remark}
 
 \subsection{Threading Model}
@@ -115,12 +113,12 @@ complicated.
 
 The process of using Rust's \texttt{mpsc} channels is such that each channel has one receiver and
 one producer handle, and the producer handle can be freely copied into different threads (while the
-receiver cannot be copied around -- this is ensured by the Rust's compile time checks). With this
+the receiver cannot be copied around -- this is ensured by Rust's compile-time checks). With this
 approach, each thread has an \texttt{mpsc} channel and keeps the receiving handle to itself, while
 giving a copy of the producer handle to all other threads.
 
-Listing \ref{lst:mpsc} demonstrates this process. A producer and receiver pair are created at line
-2. Further down, two threads are created, where each receive a \texttt{clone()} of the producer. The
+Listing \ref{lst:mpsc} demonstrates this process. A producer and receiver pair is created at line
+2. Further down, two threads are created, where each receives a \texttt{clone()} of the producer. The
 receiver will stay in the starting thread, and it is used at the end to checks for incoming
 messages.
 
@@ -130,25 +128,25 @@ let (producer, receiver) = std::mpsc::channel();
 
 // spawn a new thread.
 std::thread::spawn(|| {
-	// this scope is local to a new thread.
-	let local_producer = producer.clone();
-	// note the cloned handle ----^^^^^^^
+    // this scope is local to a new thread.
+    let local_producer = producer.clone();
+    // note the cloned handle ----^^^^^^^
 
-	local_producer.send("thread1");
+    local_producer.send("thread1");
 });
 
 // spawn another new thread.
 std::thread::spawn(|| {
-	// this scope is local to a new thread.
-	let another_local_producer = producer.clone();
-	// note the cloned handle -----------^^^^^^^
+    // this scope is local to a new thread.
+    let another_local_producer = producer.clone();
+    // note the cloned handle -----------^^^^^^^
 
-	another_local_producer.send("thread2");
+    another_local_producer.send("thread2");
 });
 
 // check incoming messages.
 while let Ok(msg) = receiver.rcv() {
-	// do something with `msg`.
+    // do something with `msg`.
 }
 \end{lstlisting}
 
@@ -158,7 +156,7 @@ Next, we demonstrate an example runtime to help the readers get familiar with th
 implementation and how the final outcome looks like. Recall from \ref{chap_bg:subsec:runtime} that
 a runtime is the core state transition logic of each chain. Our final implementation supports
 multiple runtime \textit{modules} within, each having their own specific business logic. The
-simplest example of such module is a \texttt{balances} module that takes care of storing the balance
+simplest example of such a module is a \texttt{balances} module that takes care of storing the balance
 of some accounts and allows the transfer of tokens between them. We now enumerate some of the
 important bits of code involved in this module.
 
@@ -169,27 +167,27 @@ First, there needs to be a \texttt{struct} to store the balance of a single acco
 /// The amount of balance that a certain account.
 #[derive(Debug, Clone, Default, Eq, PartialEq, Encode, Decode)]
 pub struct AccountBalance {
-	/// The amount that is free and allowed to be transferred out.
-	free: u128,
-	/// The amount that is reserved, potentially because of the balance being used in other modules.
-	reserved: u128,
+    /// The amount that is free and allowed to be transferred out.
+    free: u128,
+    /// The amount that is reserved, potentially because of the balance being used in other modules.
+    reserved: u128,
 }
 \end{lstlisting}
 
-The state layout of this modules is simple: there needs to be one mapping, with the key being an
+The state layout of these modules is simple: there needs to be one mapping, with the key being an
 account identifier and the value being \texttt{AccountBalance}, as in listing
 \ref{lst:balance_struct}.
 
 \begin{lstlisting}[caption={State Layout of the Balances Module}\label{lst:balance_state}]
 decl_storage_map!(
-	// Auxillary name assigned to the storage struct.
-	BalanceOf,
-	// Auxillary name used in key hashing.
-	"balance_of",
-	// Key type.
-	AccountId,
-	// Value type.
-	AccountBalance,
+    // Auxillary name assigned to the storage struct.
+    BalanceOf,
+    // Auxillary name used in key hashing.
+    "balance_of",
+    // Key type.
+    AccountId,
+    // Value type.
+    AccountBalance,
 );
 \end{lstlisting}
 
@@ -209,34 +207,34 @@ of some tokens from one account to another one, presented in listing \ref{lst:ba
 
 \begin{lstlisting}[caption={Transfer Transaction}\label{lst:balance_tx}]
 #[access = (|origin| vec![
-	<BalanceOf<R>>::key_for(origin),
-	<BalanceOf<R>>::key_for(dest)
+    <BalanceOf<R>>::key_for(origin),
+    <BalanceOf<R>>::key_for(dest)
 ])]
 fn transfer(runtime, origin, dest: AccountId, value: Balance) {
-	// read the balance of the origin.
-	let mut old_balance = BalanceOf::read(runtime, origin).or_forward()?;
+    // read the balance of the origin.
+    let mut old_balance = BalanceOf::read(runtime, origin).or_forward()?;
 
-	if let Some(remaining) = old_balance.free.checked_sub(value) {
-		// origin has enough balance. Continue.
-		old_balance.free = remaining;
+    if let Some(remaining) = old_balance.free.checked_sub(value) {
+        // origin has enough balance. Continue.
+        old_balance.free = remaining;
 
-		// new balance of the origin.
-		BalanceOf::write(runtime, origin, old_balance).unwrap()
+        // new balance of the origin.
+        BalanceOf::write(runtime, origin, old_balance).unwrap()
 
-		// new balance of the destination.
-		BalanceOf::mutate(runtime, dest, |old| old.free += value).or_orphan()?;
+        // new balance of the destination.
+        BalanceOf::mutate(runtime, dest, |old| old.free += value).or_orphan()?;
 
-		Ok(())
-	} else {
-		Err(DispatchError::LogicError("Does not have enough funds."))}
-	}
+        Ok(())
+    } else {
+        Err(DispatchError::LogicError("Does not have enough funds."))}
+    }
 \end{lstlisting}
 
 The logic of the transaction should be straightforward: (1) read the origin's balance; (2) if they
 have enough free balance, update the balance of the origin and destination, (3) Else, return an
 error.
 
-The more interesting bit is in the lines 1-4 of listing \ref{lst:balance_tx}, where our long
+The more interesting bit is in lines 1-4 of listing \ref{lst:balance_tx}, where our long
 promised \texttt{access} macro is being used in action. The interpretation of the macro is basically
 as follows: this transaction will (most likely\footnote{Recall that the \texttt{access} macro was
 supposed to be a best-effort \textit{guess}.}) access two state keys, the balance of the origin and
@@ -244,7 +242,7 @@ the balance of the destination.
 
 \section{Generic Distributor}
 
-Another note-worthy detail of the implementation is the distributor component. Recall that the
+Another noteworthy detail of the implementation is the distributor component. Recall that the
 distributor is responsible for tagging each transaction in the transaction queue with the identifier
 of one thread. We emphasize that we leave this detail \textit{generic} in our implementation,
 similar to its position in chapter \ref{chap:approach}. This means that there is no concrete
@@ -257,23 +255,22 @@ transaction forwarding.
 Two examples of distributor implementation are as follows:
 
 \begin{itemize}
-	\item \textbf{Round Robin}: This distributor simply ignores the \texttt{access} macro and
-	assigns transactions to threads one at a time, in a sequence.
-	\item \textbf{Connected Components}\cite{nuutilaFindingStronglyConnected1994}: This graph
-	processing algorithm is the exact opposite end of the spectrum compared to Round Robin, meaning
-	that it \textit{heavily} takes the \texttt{access} macro into account.
+    \item \textbf{Round Robin}: This distributor simply ignores the \texttt{access} macro and
+    assigns transactions to threads one at a time, in a sequence.
+    \item \textbf{Connected Components}\cite{nuutilaFindingStronglyConnected1994}: This graph
+    processing algorithm is the exact opposite end of the spectrum compared to Round Robin, meaning
+    that it \textit{heavily} takes the \texttt{access} macro into account.
 
-	Specifically: all transactions provide a list of state keys that they might access during their
-	execution, via the \texttt{access} macro. This distributor builds a bipartite graph of
-	transactions and state keys, where each transaction has an edge to all the keys that it might
-	access. Therefore, two transactions that are likely to access the same state key end up being
-	\textit{connected}, because they both have an edge to that key. The connected component, as the
-	name suggests, identifies these connected transactions. Every group of transactions that access
-	a common set of state keys are grouped as a component. Once all components are identified, they
-	are distributed among threads as evenly as possible\footnote{Using a simple greedy algorithm
-	that we do not describe here.}. In essence, keeping a full component as a unit of work
-	distribution ensures that transactions that might conflict will end up being sent to the same
-	thread, effectively minimizing forwarded and orphaned transactions.
+    Specifically: all transactions provide a list of state keys that they might access during their
+    execution, via the \texttt{access} macro. This distributor builds a bipartite graph of
+    transactions and state keys, where each transaction has an edge to all the keys that it might
+    access. Therefore, two transactions that are likely to access the same state key end up being
+    \textit{connected}, because they both have an edge to that key. The connected component, as the
+    name suggests, identifies these connected transactions. Every group of transactions that access
+    a common set of state keys is grouped as a component. Once all components are identified, they are distributed among threads as evenly as possible\footnote{Using a simple greedy algorithm
+    that we do not describe here.}. In essence, keeping a full component as a unit of work
+    distribution ensures that transactions that might conflict will end up being sent to the same
+    thread, effectively minimizing forwarded and orphaned transactions.
 \end{itemize}
 
 \section{Bonus: Optimizing Orphans} \label{chap_impl:sec:opt_orph}
@@ -285,7 +282,7 @@ transaction is basically one that needs access to state keys that are tainted by
 different threads. From this, we can realize: if a transaction successfully accesses any state key,
 this means that no other thread can execute this transaction, because the key associated with that
 first state access is already tainted. Therefore, we can conclude a massive simplification: Only if
-the first state access of a transaction fails it will to be forwarded. Any further failure is simply
+the first state access of a transaction fails it will be forwarded. Any further failure is simply
 an orphan right off the bat.
 
 \section{Bonus: Taintable State} \label{chap_impl:sec:bonus}
@@ -300,13 +297,13 @@ Let us recap the situation in the state \texttt{HashMap}. We know that the state
 concatenation of some prefixes and values). Two questions arise:
 
 \begin{itemize}
-	\item How is the \textit{value} constructed? For example the \texttt{decl\_storage\_map!()} in
-	the balances module mapped an \texttt{AccountId} to an \texttt{AccountBalance}. How exactly is
-	the \texttt{AccountBalance} encoded to \texttt{Vec<u8>}?
-	\item We claimed that the state is almost wait-free. How can the underlying implementation
-	support this? As noted, our tainting logic is very special to our use case, and the
-	implementation of a typical concurrent \texttt{HashMap} will not be a good inspiration for us,
-	because it would have different waiting semantics.
+    \item How is the \textit{value} constructed? For example the \texttt{decl\_storage\_map!()} in
+    the balances module mapped an \texttt{AccountId} to an \texttt{AccountBalance}. How exactly is
+    the \texttt{AccountBalance} encoded to \texttt{Vec<u8>}?
+    \item We claimed that the state is almost wait-free. How can the underlying implementation
+    support this? As noted, our tainting logic is very special to our use case, and the
+    implementation of a typical concurrent \texttt{HashMap} will not be a good inspiration for us,
+    because it would have different waiting semantics.
 \end{itemize}
 
 The answers are actually connected and are provided together.
@@ -316,7 +313,7 @@ state would succeed or fail immediately. We can solidify this idea as such: \tex
 access to each key of the state \textit{might} incur some waiting for other threads; thereafter, all
 operations are wait-free. It should be clear why we can obtain this property: if a key is accessed
 just once, it is tainted, and, therefore, all further accesses can be immediately executed based on
-that taint value. Specifically, a following access from the owner thread succeeds, while a following
+that taint value. Specifically, following access from the owner thread succeeds, while a following
 access from another thread fails. It is, unfortunately, impossible to allow \textit{all} accesses to
 be wait-free, because a write operation to a key that had not existed before could trigger a resize
 of the HashMap. Now it is clear why we titled SonicChain \textit{almost} wait-free.
@@ -328,10 +325,10 @@ generic \texttt{struct} has separate \texttt{taint} and \texttt{data} fields. Mo
 
 \begin{lstlisting}[caption={The state value type}\label{lst:state_value}]
 pub struct StateValue<V, T> {
-	/// The data itself.
-	data: RefCell<V>,
-	/// The taint associated with the data.
-	taint: Option<T>,
+    /// The data itself.
+    data: RefCell<V>,
+    /// The taint associated with the data.
+    taint: Option<T>,
 }
 \end{lstlisting}
 
@@ -365,9 +362,9 @@ implement appropriate methods to allow the runtime to access the state - see lis
 \begin{lstlisting}[caption={The wrapper for \texttt{StateType}}\label{lst:struct_taint_state}]
 /// Public interface of a state database.
 pub trait GenericState<K, V, T> {
-	fn read(&self, key: &K, current: T) -> Result<V, T>;
-	fn write(&self, key: &K, value: V, current: T) -> Result<(), T>;
-	fn mutate(&self, key: &K, update: impl Fn(&mut V) -> (), current: T) -> Result<(), T>;
+    fn read(&self, key: &K, current: T) -> Result<V, T>;
+    fn write(&self, key: &K, value: V, current: T) -> Result<(), T>;
+    fn mutate(&self, key: &K, update: impl Fn(&mut V) -> (), current: T) -> Result<(), T>;
 }
 
 /// A struct that implements `GenericState`.
@@ -378,11 +375,11 @@ pub trait GenericState<K, V, T> {
 /// This is a highly concurrent implementation. Locking is scarce.
 #[derive(Debug, Default)]
 pub struct TaintState<K: KeyT, V: ValueT, T: TaintT> {
-	backend: RwLock<StateType<K, V, T>>,
+    backend: RwLock<StateType<K, V, T>>,
 }
 
 impl<K, V, T> GenericState<K, V, T> for TaintState<K, V, T> {
-	// implementation
+    // implementation
 }
 \end{lstlisting}
 
@@ -390,22 +387,18 @@ The most interesting piece of code omitted in \ref{lst:struct_taint_state} is th
 implementation} part of \texttt{GenericState} for \texttt{TaintState}: this where we define how and
 when we use the \texttt{RwLock} of \texttt{backend} in \texttt{TaintState}.
 
-Specifically, each access to backend will first acquire a read lock (which is not blocking, and
+Specifically, each access to the backend will first acquire a read lock (which is not blocking, and
 other threads can also access it at the same time). Two possible outcomes exist:
 
 \begin{itemize}
-	\item If the key is already tainted, the state operations will fail or succeed trivially: all
-	non-owner threads will receive an error with the thread identifier of the owner, and all owner
-	operations will succeed. Moreover, note that the inner data in the map itself is wrapped in a
-	\texttt{RefCell}, which allows interior mutability\cite{RefCellInteriorMutability}. In essence,
-	this means that the \textit{owner} thread can manipulate the data only with acquiring a read
-	lock. Our tainting logic and rules ensure that this will not lead to any race conditions.
+    \item If the key is already tainted, the state operations will fail or succeed trivially: all
+    non-owner threads will receive an error with the thread identifier of the owner, and all owner
+    operations will succeed. Moreover, note that the inner data in the map itself is wrapped in a
+    \texttt{RefCell}, which allows interior mutability\cite{RefCellInteriorMutability}. In essence,
+    this means that the \textit{owner} thread can manipulate the data only by acquiring a read lock. Our tainting logic and rules ensure that this will not lead to any race conditions.
 
-	\item If a key is not already tainted (or non-existent in the inner \texttt{HashMap}), then the
-	thread proceeds by trying to acquire a write lock. This is needed, because this operation is
-	going to alter the \texttt{taint} field of a \texttt{StateValue}, and all other threads need to
-	be blocked. Once the taint has been updated, the write access is immediately dropped, so that
-	all other threads can proceed.
+    \item If a key is not already tainted (or non-existent in the inner \texttt{HashMap}), then the
+    thread proceeds by trying to acquire a write lock. This is needed, because this operation is going to alter the \texttt{taint} field of a \texttt{StateValue}, and all other threads need to be blocked. Once the taint has been updated, the write access is immediately dropped, so that all other threads can proceed.
 \end{itemize}
 
 One final important remark is of interest. We mentioned Rust's concurrent memory safety with much
@@ -417,13 +410,13 @@ The key is that Rust does allow such operations in \texttt{unsafe} mode. The "un
 sometimes called the "wild west" of Rust, is based on a contract between the programmer and the
 compiler, where the programmer manually testifies that certain operations are memory safe, and need
 not be checked by the compiler. In some sense, unsafe Rust is like a fallback to \texttt{C}, where
-memory can be arbitrarily accessed, allocated, de-allocated and such.
+memory can be arbitrarily accessed, allocated, de-allocated, and such.
 
 In our example, we have such a contract with the compiler as well. We know that:
 
 \begin{itemize}
-	\item If all threads access the \textit{taint} with a \textbf{write} lock, and
-	\item If all threads access the \textit{data} after checking the taint, via a \textbf{read} lock.
+    \item If all threads access the \textit{taint} with a \textbf{write} lock, and
+    \item If all threads access the \textit{data} after checking the taint, via a \textbf{read} lock.
 \end{itemize}
 
 All race conditions are resolved, thus no compiler checks are needed.
@@ -434,8 +427,7 @@ types that are safe to be shared between threads. As the name recommends, it is 
 no functions. \texttt{RefCell} is not \texttt{Sync} by default, because it allows arbitrary interior
 mutability. Because our \texttt{StateValue} contains a \texttt{RefCell}, it is also not
 \texttt{Sync} be default. The statement in listing \ref{lst:unsafe}, which needs to be \texttt{unsafe}, tells
-the compiler to make an exception in this case and allow \texttt{StateValue} to be used in a multi
-threaded context. This allows us to wrap the \texttt{TaintState} in an \texttt{Arc} (atomic
+the compiler to make an exception in this case and allow \texttt{StateValue} to be used in a multi-threaded context. This allows us to wrap the \texttt{TaintState} in an \texttt{Arc} (atomic
 reference counted pointer) and share it between threads.
 
 \begin{lstlisting}[caption={Unsafe Implementation in State}\label{lst:unsafe}]

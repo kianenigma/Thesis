@@ -1,10 +1,10 @@
 \chapter{Conclusion} \label{chap:conclusion}
 
 \begin{chapquote}{Edsger Dijkstra}
-	Simplicity is prerequisite for reliability.
+    Simplicity is a prerequisite for reliability.
 \end{chapquote}
 
-We have embarked in a long journey to reach this stage of our work. To make the conclusion more
+We have embarked on a long journey to reach this stage of our work. To make the conclusion more
 comprehensible, we first briefly recap what we have done so far, and what we have observed in the
 benchmarks of chapter \ref{chap:bench_analysis}. We then enumerate our conclusive observations in
 \ref{chap_conc:sec:discussion}. We then answer the research questions in \ref{chap_conc:sec:rq}.
@@ -47,7 +47,7 @@ the halting problem\cite{burkholderHaltingProblem1987}. To do so, we acknowledge
 transactions are simple units of logic, with specific behavior given different
 inputs\footnote{Blockchain transactions are expensive pieces of code to execute, because they need
 to be re-executed by hundreds, if not thousands of other nodes. They are not designed to execute
-complex arbitrary logic, and are unlikely to evolve in this direction in the forseeable future.}.
+complex arbitrary logic, and are unlikely to evolve in this direction in the foreseeable future.}.
 Given this, it is likely to be easy for the programmer to provide somewhat accurate hints about the
 behavior of a transaction.
 
@@ -76,8 +76,8 @@ to achieve ideal throughput gains by effectively leveraging the static hints of 
 concurrency control mechanisms deployed (mostly in academia) on blockchains. Our main goal was not
 to trump their results and prove that our system is better per-se. Rather, we showed that for
 certain workloads (that are --reasonably speculating-- not far from reality), a much simpler system
-will also be enough. Moreover, the new and simpler system is actually beneficial upon certain axis,
-for example smaller runtime and block overhead.
+will also be enough. Moreover, the new and simpler system is actually beneficial upon a certain
+axis, for example, smaller runtime and block overhead.
 
 \textbf{Generic Design}. This work is generic at two different levels. \textbf{First}, our
 \texttt{access} macro is merely one example of how the static\footnote{As before, by static we mean
@@ -92,30 +92,31 @@ can be envisioned.
 
 \section{Research Questions and Answers} \label{chap_conc:sec:rq}
 
-Based on this work, the answers to our research questions (formulated in
-section \ref{chap_intro:sec:resarch_q}) are as follows.
+Based on this work, the answers to our research questions (formulated in section
+\ref{chap_intro:sec:resarch_q}) are as follows.
 
 \begin{enumerate}
-	\item [\textbf{RQ1}] What approaches exist to achieve concurrent execution of transactions
-	within a blockchain system, and improve the throughput?
+    \item [\textbf{RQ1}] What approaches exist to achieve concurrent execution of transactions
+    within a blockchain system, and improve the throughput?
 
-	\item [\textbf{Answer}] We identified the current usages of concurrency within blockchains to
-	within one of the two categories that we depicted: concurrency control or concurrency avoidance.
-	Both do result in a throughput gain. Full answer in \ref{chap_approach:existing}.
+    \item [\textbf{Answer}] We identified the current usages of concurrency within blockchains to
+    within one of the two categories that we depicted: concurrency control or concurrency avoidance.
+    Both do result in a throughput gain. Full answer in \ref{chap_approach:existing}.
 
-	\item [\textbf{RQ2}] How could both static analysis and runtime approaches be combined together
-	to achieve a new approach with minimum overhead and measurable benefits?
+    \item [\textbf{RQ2}] How could both static analysis and runtime approaches be combined together
+    to achieve a new approach with minimum overhead and measurable benefits?
 
-	\item [\textbf{Answer}] We basically opted to reduce the runtime apparatus (coined: concurrency
-	delegation) and instead compensate with pseudo-static advisory data that can compliment the
-	runtime to achieve an equally good result as concurrency control but with less overhead in validation. Full answer in \ref{chap_desgin:sec:our_approach}.
+    \item [\textbf{Answer}] We basically opted to reduce the runtime apparatus (coined: concurrency
+    delegation) and instead compensate with pseudo-static advisory data that can complement the
+    runtime to achieve an equally good result as concurrency control but with less overhead in
+    validation. Full answer in \ref{chap_desgin:sec:our_approach}.
 
-	\item [\textbf{RQ3}] How would such an approach be evaluated against and compared to others?
+    \item [\textbf{RQ3}] How would such an approach be evaluated against and compared to others?
 
-	\item [\textbf{Answer}] We used an empirical evaluation approach to measure the throughput gain.
-	A \textit{realistically} synthesized data set was created for this purpose. We concluded that
-	our approach is sufficient to achieve ideal throughput gains (given the number of threads) under
-	certain circumstances, which supports our claim that a simpler system could be well enough.
+    \item [\textbf{Answer}] We used an empirical evaluation approach to measure the throughput gain.
+    A \textit{realistically} synthesized data set was created for this purpose. We concluded that
+    our approach is sufficient to achieve ideal throughput gains (given the number of threads) under
+    certain circumstances, which supports our claim that a simpler system could be well enough.
 \end{enumerate}
 
 Summarizing, this work makes the following contributions:
@@ -129,7 +130,7 @@ Summarizing, this work makes the following contributions:
 
 \section{Future Work} \label{chap_conc:sec:future_work}
 
-Our discussion and observations already hint to some of the future work that we propose to be
+Our discussion and observations already hint at some of the future work that we propose to be
 pursued. Here, we enumerate such future work directions in more detail.
 
 \textbf{Inaccurate hints}. We boldly mention that static hints do not need to be accurate for the
@@ -154,23 +155,23 @@ accurately generate the access requirements of a transaction.
 
 \textbf{Read-Write Taint}. A comment on our work that can fundamentally question our approach is:
 why is there no distinction between read and write operations? This is a fair comment, and we agree
-that it is an unorthodox approach compared to rest of the literature in concurrent computing. We did
-not opt for this approach in our work because of our strong preference for simplicity. There are
+that it is an unorthodox approach compared to the rest of the literature in concurrent computing. We
+did not opt for this approach in our work because of our strong preference for simplicity. There are
 many paths to follow along the line of read-write distinction. Most would make our system quite
 similar to a cache coherence model, where a write operation needs to be notified to others and
 potentially invalidate other previous read operations. This is already a red line for us, as we do
 not want to carry the burden of rollbacks, both because of their overhead and inherent
 non-determinism. A final interesting comment about this aspect would be that read-write taint is
 also likely to introduce read-only \texttt{access} macro hints. We foresee that it will be very
-useful for the distributor to be able know if an access hint is read-only or not. All in all, we
+useful for the distributor to be able to know if an access hint is read-only or not. All in all, we
 foresee interesting outcomes if the path of read-write taints is pursued, but express worry about
-how much complication it will add to the system, compared to the actual throughput gain. The obvious
-benefit of this addition to the work would be that threads that only \textit{read} certain data will
-not block other threads.
+how many complications it will add to the system, compared to the actual throughput gain. The
+obvious benefit of this addition to the work would be that threads that only \textit{read} certain
+data will not block other threads.
 
 \textbf{Continuous Analysis of Real Chains}. After all, everything that we have done here is in some
 sense hypothetical, because we do not use real transaction from a real chain. It is of great value
-for further studies to analyze different, domain-specific (e.g. Bitcoin) and general purpose chains
+for further studies to analyze different, domain-specific (e.g. Bitcoin) and general-purpose chains
 (e.g. Ethereum), and derive characteristics from their transactions (as it was already done in
 \cite{saraphEmpiricalStudySpeculative2019}). For example, an easy study is to apply connected
 components to different blocks of the Ethereum network and see how well they can be clustered into
@@ -182,8 +183,8 @@ This can also be a fairly simple addition to the system, making it more versatil
 the two distributors that we discussed, we could see that it was not the case that one distributor
 is the best in all cases. Round robin had limited throughput gains, but it was still better than the
 ideal connected components in data sets that had highly intertwined transactions. We propose
-building hybrid distributors that potentially chose a best distribution function based on particular
-criteria, specific to the application and/or dataset at hand.
+building hybrid distributors that potentially chose the best distribution function based on
+particular criteria, specific to the application and/or dataset at hand.
 
 \textbf{Nonce-aware execution}. We explained what a nonce is in \ref{chap_bg:subsec:nonce}. A nonce
 is of importance to us because it is very likely to be the common key between many transactions that
@@ -194,6 +195,6 @@ wee bit more complicated. Now, all of these transactions need to write to the ke
 nonce of Alice, and they are all dependent on one another. Things can get even worse. There could be
 special state keys that need to be accessed by \textit{all} transactions (for example: a counter for
 all transaction in the block that is kept in the state). This forcefully makes all of the
-transaction in the block sequential if no special treatment is in place for them. And indeed, this
+transactions in the block sequential if no special treatment is in place for them. And indeed, this
 is our main point: we omit such special cases from our work because they should be treated
 \textit{specially} in order for any concurrency model to be sensible.

@@ -1,10 +1,10 @@
 \chapter{A Novel Approaches Toward Concurrency in Blockchains} \label{chap:approach}
 
 \begin{chapquote}{Official Go Programming Language Documentation.}
-	Don't share memory to communicate, communicate to share memory.
+    Don't share memory to communicate, communicate to share memory.
 \end{chapquote}
 
-In this chapter we build up all the details and arguments needed to introduce our approach toward
+In this chapter, we build up all the details and arguments needed to introduce our approach toward
 concurrency within blockchains. We start with an interlude, enumerating different ways to improve
 blockchains' throughput from an end-to-end perspective, and highlight concurrency as our method of
 choice.
@@ -14,7 +14,7 @@ choice.
 
 Blockchains can be seen, in a very broad way, as \textit{decentralized state machines that
 transition by means of transactions}. The throughput of a blockchain network, measured in
-transactions per second, is a function of numerous components, and can be analysed from different
+transactions per second, is a function of numerous components, and can be analyzed from different
 points of view. While in this work we focus mainly on one aspect, it is helpful to enumerate
 different viewpoints and see how each of them affects the overall throughput \footnote{This
 categorization is by no means exhaustive. We are naming only a handful.}.
@@ -28,15 +28,15 @@ protocols: Proof of \textbf{Work} and Proof of \textbf{Stake}. They use the comp
 that an entity has \textit{authority} to perform some operation, such as authoring a block. It is
 important to note that each of these consensus protocols has \textit{inherently} different
 throughput characteristics \cite{meneghettiSurveyEfficientParallelization2019}. Proof of work, as
-the names suggests, requires the author to prove their legitimacy by providing proof that they have
+the name suggests, requires the author to prove their legitimacy by providing proof that they have
 solved a particular hashing puzzle. This is slow by nature, and wastes a lot of computation power on
 each node that wants to produce blocks, which in turn has a negative impact on the frequency of
 blocks, which directly impacts the transaction throughput. Improving the throughput of Proof of Work
-requires the network to agree on an easier puzzle, that can in turn make the system less secure
+requires the network to agree on an easier puzzle, that can, in turn, make the system less secure
 \cite{gervaisSecurityPerformanceProof2016} (further details of which are outside the scope of this
 work).
 
-To the contrary, Proof of Stake does not need puzzle solving, which is beneficial in terms of
+On the contrary, Proof of Stake does not need puzzle solving, which is beneficial in terms of
 computation resources. Moreover, since the chance of any node being the author is determined by
 their stake\footnote{Using some hypothetical election algorithm which is irrelevant to this work.},
 more frequent blocks do not impact the security of the chain as much as Proof of Work does.
@@ -58,15 +58,15 @@ was mentioned in table \ref{table:blockchain_types} of chapter
 fastest.
 
 \subsubsection{Sharding}
-An interesting consensus-related optimisation that is gaining a lot of relevance in recent years is
+An interesting consensus-related optimization that is gaining a lot of relevance in recent years is
 a technique called \textit{sharding}, borrowed from the databases field. Shards are slices of data
 (in the database jargon) that are maintained on different nodes. In a blockchain system, shards
 refer to sub-chains that are maintained by sub-networks of the whole system. In essence, instead of
 keeping \textit{all} the nodes in the entire system synchronized at \textit{all} times, sharded
 blockchains consist of \textit{multiple} smaller networks, each maintaining their own cannon chain.
 Albeit, most of the time these sub-chains all have the same prefix and only differ in the most
-recent blocks. At fixed intervals, sub-networks come to agreement and synchronize their shards with
-one another. In some sense, sharding allows smaller sub-networks to progress
+recent blocks. At fixed intervals, sub-networks come to an agreement and synchronize their shards
+with one another. In some sense, sharding allows smaller sub-networks to progress
 faster\cite{forestierBlockcliqueScalingBlockchains2019, al-bassamChainspaceShardedSmart2017,
 shreyDiPETransFrameworkDistributed2019}.
 
@@ -74,12 +74,12 @@ shreyDiPETransFrameworkDistributed2019}.
 
 Another approach to improve the throughput is changing the nature of the chain itself. A classic
 blockchain is theoretically limited due to its shape: a chain has only \textit{one} head, thus only
-one new block can be added at each point in time. This property brings extra security, and make the
+one new block can be added at each point in time. This property brings extra security, and makes the
 chain state easier to reason about (i.e. there is only one canonical chain). A radical approach is
 to question this property and allow different blocks (or individual transactions) to be created at
 the same time. Consequently, this approach turns a blockchain from a literal \textit{chain of
 blocks} into a \textit{graph of transactions} \cite{pervezComparativeAnalysisDAGBased2018}. Most
-often, such technologies are referred to Directed Acyclic Graphs (DAG) solutions. A prominent
+often, such technologies are referred to as Directed Acyclic Graphs (DAG) solutions. A prominent
 example of this is the IOTA project\cite{mIOTANextGenerationBlock2018}.
 
 Allowing the chain to grow from different heads (i.e. seeing it as a graph) allows true parallelism
@@ -87,9 +87,9 @@ Allowing the chain to grow from different heads (i.e. seeing it as a graph) allo
 such approaches is still an active area of research, and achieving decentralization with such loose
 authoring constraints has proven to be challenging \cite{sompolinskySPECTREFastScalable2016}.
 
-Altering chain topology brings even more radical changes to the original idea of blockchain.
-While being very promising for some fields such as massively large user applications (i.e. "Internet
-of Things", micro-payments), we do not consider DAGs in this work. We choose to adhere to the
+Altering chain topology brings even more radical changes to the original idea of blockchain. While
+being very promising for some fields such as massively large user applications (i.e. "Internet of
+Things", micro-payments), we do not consider DAGs in this work. We choose to adhere to the
 definitions provided in chapter \ref{chap:background} as our baseline of what a blockchain is.
 
 \subsection{Deploying Concurrency over Transaction Processing}
@@ -103,9 +103,9 @@ chain-specific detail. Any chain will eventually come to a point where it must e
 transactions, be it in the form of a chain, or a DAG, with any consensus. Thus, concurrency is a
 viable solution as long as the notions of transactions and blocks exist.
 
-Our work specifically focuses on this aspect of blockchain systems, and proposes a novel approach
-to achieve concurrency within each block's execution, both in the authoring phase and in the
-validation phase, thereby increasing the throughput.
+Our work specifically focuses on this aspect of blockchain systems, and proposes a novel approach to
+achieve concurrency within each block's execution, both in the authoring phase and in the validation
+phase, thereby increasing the throughput.
 
 \subsection{Summary} \label{chap_bg:subsec:summary_speedup}
 
@@ -116,11 +116,11 @@ what we are trying to tackle in this work. As an example, for some consortium ch
 is less of an issue, altering the consensus is likely to result in a significant throughput gain,
 without using any of the other methods such as sharding and concurrency.
 
-Instead, we acknowledge that each of these approaches have their own merit and could be useful in a
+Instead, we acknowledge that each of these approaches has its own merit and could be useful in a
 certain scenario. Therefore, we put our focus on concurrency for the rest of this work. We
 concurrency as a universal improvement that can be applied to any chain. Moreover, It is worth
 noting that having optimal hardware utilization (to reduce costs) is an important factor in the
-blockchain industry, as many chains are ran by people who are making profit out of running
+blockchain industry, as many chains are run by people who are making a profit out of running
 validators and miners.
 
 Finally, by seeing these broad options, we can clarify our usage of the word "throughput". One might
@@ -128,7 +128,7 @@ notice that the first two options mentioned in this section (consensus, chain to
 the throughput at the \textit{block} level: more blocks can be added, thus more transaction
 throughput. This is in contrast to what concurrency can do. The concurrency explained in
 \ref{chap_approach:subsec:out_of_box_concurrency} is the matter of what happens \textit{within}
-\textit{\textbf{a}} block. Henceforth, by throughput we mean throughput of transactions that are
+\textit{\textbf{a}} block. Henceforth, by throughput, we mean throughput of transactions that are
 being executed within a (\textit{single}) block. Similarly, by concurrent, we mean concurrent within
 the transactions of a (\textit{single}) block, not concurrency between the blocks themselves.
 
@@ -157,7 +157,7 @@ happens.
 
 A concurrent author has access to a pool\footnote{Also referred to as queue in
 \ref{chap_bg:subsec:tx_queue}, and sometimes called \textit{mempool} in the industry.} of
-transactions that have been received over the network, most often via the gossip protocol. Form a
+transactions that have been received over the network, most often via the gossip protocol. From a
 consensus point of view, it is absolutely irrelevant to ensure all nodes have the same transactions
 in their local pool. In other words, from a consensus point of view, there is no consensus in the
 transaction pool layer. All that matters is that any node, once chosen to be the author, has a pool
@@ -168,29 +168,29 @@ A number of ambiguities arise here. We dismiss them all in the following enumera
 only focus on the concurrency aspect.
 
 \begin{itemize}
-	\item Typically, the author needs some way to \textit{prefer} a subset of the transactions pool,
-	as most often all of it cannot be fit into the block. For this work, we leave this detail
-	generic and assume that each author has first filtered out its \textit{pool} into a new
-	\textit{queue} of transactions (noting that the former is \textit{unordered} and the latter is
-	\textit{ordered}) that she prefers to include in the block. In reality, a common strategy here
-	is to prioritize the transactions that will pay off the most fee, as this will benefit the block
-	author.
-	\item The fact that the authoring time is limited is the whole reason why the author is
-	incentivized to use concurrency: the more transaction that can be fitted into the block in a
-	limited amount of time, the more the sum of transaction fees, thus more reward for the author.
-	\item A block must have some chain-specific \textit{resource} (e.g. computation, state
-	read/write, byte length of transactions) limit. For simplicity, we assume that each block can
-	fit a fixed \textit{maximum} number of transactions, but this limit is so high that the
-	bottleneck is not the transaction limit itself, but rather the amount of \textit{time} that that
-	author has to prepare the block, bolstering the importance of high throughput. In reality, some
-	blockchains have adopted a similar approach (i.e., a cap on \textit{number} of transactions), or
-	have limited the size of the block. Complex chains that support arbitrary code execution even go
-	further and limit the \textit{computation} cost of the transactions - see, for example,
-	Ethereum's gas metering\cite{perezBrokenMetreAttacking2020}.
+    \item Typically, the author needs some way to \textit{prefer} a subset of the transactions pool,
+    as most often all of it cannot be fit into the block. For this work, we leave this detail
+    generic and assume that each author has first filtered out its \textit{pool} into a new
+    \textit{queue} of transactions (noting that the former is \textit{unordered} and the latter is
+    \textit{ordered}) that she prefers to include in the block. In reality, a common strategy here
+    is to prioritize the transactions that will pay off the most fee, as this will benefit the block
+    author.
+    \item The fact that the authoring time is limited is the whole reason why the author is
+    incentivized to use concurrency: the more transaction that can be fitted into the block in a
+    limited amount of time, the more the sum of transaction fees, thus more reward for the author.
+    \item A block must have some chain-specific \textit{resource} (e.g. computation, state
+    read/write, byte length of transactions) limit. For simplicity, we assume that each block can
+    fit a fixed \textit{maximum} number of transactions, but this limit is so high that the
+    bottleneck is not the transaction limit itself, but rather the amount of \textit{time} that that
+    author has to prepare the block, bolstering the importance of high throughput. In reality, some
+    blockchains have adopted a similar approach (i.e., a cap on \textit{number} of transactions), or
+    have limited the size of the block. Complex chains that support arbitrary code execution even go
+    further and limit the \textit{computation} cost of the transactions - see, for example,
+    Ethereum's gas metering\cite{perezBrokenMetreAttacking2020}.
 \end{itemize}
 
-Having all these parameters fixed, we can focus on the block building part, namely executing
-each transaction and placing it in the block.
+Having all these parameters fixed, we can focus on the block building part, namely executing each
+transaction and placing it in the block.
 
 A \textbf{sequential author} would simply execute all the transactions one by one (in some order of
 preference) up until the time limit, and calculate the new state root. These transactions are then
@@ -205,21 +205,21 @@ non-deterministic. Therefore, the author is expected to piggy-back some auxiliar
 block, to allow validators to execute it deterministically. Maintaining determinism is the first and
 foremost criterion of the concurrent author.
 
-Moreover, the secondary criterion is a net positive gain in throughput. The concurrent author
-prefers to be able to execute more transactions within the fixed time frame that she has for
-authoring, for she will then be rewarded with more transaction fees.
+Moreover, the second criterion is a net positive gain in throughput. The concurrent author prefers
+to be able to execute more transactions within the fixed time frame that she has for authoring, for
+she will then be rewarded with more transaction fees.
 
 \subsection{Concurrent Validator} \label{chap_appraoch:subsec:concurrent_validator}
 
-A validator's role is simpler in both the sequential and concurrent fashion. Recall that the a block
-is an ordered container for transactions. Then, the sequential validator has a trivial role:
-re-execute the transactions sequentially and compare state roots. The concurrent validator however,
-is likely to need to do more.
+A validator's role is simpler in both the sequential and concurrent fashion. Recall that a block is
+an ordered container for transactions. Then, the sequential validator has a trivial role: re-execute
+the transactions sequentially and compare state roots. The concurrent validator, however, is likely
+to need to do more.
 
 More specifically, the concurrent validator knows that a concurrent author must have executed all or
 some of the transactions within the block concurrently. Therefore, conflicting transactions must
 have \textbf{preceded} one another in \textit{some} way. The goal of the concurrent validator is to
-reproduce the \textit{same precedence} in an efficient manner, and thus arrive to the same state
+reproduce the \textit{same precedence} in an efficient manner, and thus arrive at the same state
 root.
 
 For example, assume the author uses a simple Mutex to perform concurrency. In this case, some
@@ -230,7 +230,7 @@ order to arrive at the same state root.
 
 \section{Existing Approaches}\label{chap_approach:existing}
 
-In this section we look at some of the already existing approaches toward concurrency in
+In this section, we look at some of the already existing approaches toward concurrency in
 blockchains. These approaches are essentially a practical resemblance of what was explained in the
 previous section. While doing so, we denote their deficiencies and build upon them to introduce our
 approach.
@@ -252,18 +252,18 @@ Therefore, the runtime needs to keep track of which locks were requested by whic
 This dependency graph needs to be sent to the validators as well. The validators parse the
 dependency graph and, based on that information, spawn the required number of threads, and
 distribute the transactions among them. \cite{dickersonSmartLocksAddingConcurrency2017} is among the
-earliest works on concurrency within blockchain, and adopts such an approach.
+earliest works on concurrency within a blockchain, and adopts such an approach.
 
 The details of generating the dependency graph with minimum size, encoding it in the block in an
 efficient way, and parsing it in the validator are being highly simplified here. These steps are
 critical, as they are the main overheads of this approach. The size of this graph needs to be small,
 as it needs to be added to the block and increases the network overhead. Moreover, the overhead of
-this extra processing must be worthwhile for the author, as otherwise it would be in contrast to the
-whole objective of deploying concurrency. There are some works that only focus on the "dependency
-graph generating and processing" aspect of the process. They assume some means exist through which
-the read and write set of each transaction can be computed (i.e., by monitoring the lock requests
-that each thread sends at runtime). On top of this, they provide efficient ways to build the
-dependency graph, and use it at the validator's end \cite{EnablingConcurrencySmart2018}.
+this extra processing must be worthwhile for the author, as otherwise, it would be in contrast to
+the whole objective of deploying concurrency. There are some works that only focus on the
+"dependency graph generating and processing" aspect of the process. They assume some means exist
+through which the read and write set of each transaction can be computed (i.e., by monitoring the
+lock requests that each thread sends at runtime). On top of this, they provide efficient ways to
+build the dependency graph, and use it at the validator's end \cite{EnablingConcurrencySmart2018}.
 
 The next step of this progression is to utilize transactional memory. This line of research follows
 the same pattern. More recent works use software transactional memory (STM) to reduce the waiting
@@ -273,25 +273,25 @@ and compared in this line of research, such as Read-Write STMs, Single-Version O
 and Multi-Version Object-based STMs
 \cite{anjanaEfficientConcurrentExecution2019,anjanaEfficientFrameworkOptimistic2019}. Nonetheless,
 the underlying procedure stays the same: some means of concurrency control to handle conflicts,
-track dependency and use it to encode precedence, then re-create the same precedence in the
+track dependency, and use it to encode precedence, then re-create the same precedence in the
 validator.
 
 \subsection*{Concurrency Avoidance}
 
-\nomenclature{Concurrency Avoidance}{A scheme in contrast to concurrency control in which no synchnization is used btween the threads.}
+\nomenclature{Concurrency Avoidance}{A scheme in contrast to concurrency control in which no synchronization is used between the threads.}
 
-Next, we name an out-of-the box work that takes a rather different path. Many studies in the
+Next, we name an out-of-the-box work that takes a rather different path. Many studies in the
 blockchain literature use datasets from the database industry as their reference. Such datasets
 might have unrealistically high rates of contention. \cite{saraphEmpiricalStudySpeculative2019} is
 an empirical study that tries to determine the conflict rates within Ethereum transactions, a
 \textit{live}, and arguably well-adopted network. While doing so, the study demonstrates a
-different, wait-free approach. In the concurrent simulator of this work, all transaction are
+different, wait-free approach. In the concurrent simulator of this work, all transactions are
 executed in parallel, with the assumption that they do not conflict. If a conflict happens and a
-transaction aborts, it is discarded, and re-executed again at later phase, sequentially. This
+transaction aborts, it is discarded, and re-executed again at a later phase, sequentially. This
 essentially clusters transactions into two groups: concurrent and sequential. All of the concurrent
-transactions are guaranteed not to conflict. The sequential transaction do not matter as they are
-executed sequentially. Aside from their findings about the conflict rates in different periods of
-time in Ethereum, they also report speedups in \textit{some} cases, not being too shy of the speedup
+transactions are guaranteed not to conflict. The sequential transactions do not matter as they are
+executed sequentially. Aside from their findings of the conflict rates in different periods of time
+in Ethereum, they also report speedups in \textit{some} cases, not being too shy of the speedup
 amounts reported by \cite{dickersonSmartLocksAddingConcurrency2017}, which uses locking.
 
 This is an inspiring finding, implying that perhaps complicated concurrency control might not be
@@ -312,7 +312,7 @@ an industrial example of a chain that has a programming model that is fundamenta
 concurrent\cite{darrylRCast21Currency2019}, namely
 pi-calculus\cite{turnerPolymorphicPiCalculusTheory1996}. Such approaches are also inspiring, yet we
 prefer devising an approach which does \textit{not} need to alter such fundamental assumptions about
-the programming model, in favour of easy adoption and outreach.
+the programming model, in favor of easy adoption and outreach.
 
 The aforementioned 3 broad approaches (concurrency control, concurrency avoidance, static analysis)
 are essentially the taxonomy that we have found to answer the first research question, namely the
@@ -320,33 +320,33 @@ different ways to utilize concurrency within a blockchain. We close this section
 the scope of the referenced works in this chapter
 
 \begin{remark}
-	Most of the surveyed related work name their work as approaches toward concurrency for
-	\textbf{smart contracts}. At this point, it would be helpful to clarify that. The details of
-	smart contract chains are well beyond the scope of this work. But, it is worth noting that a
-	smart contract chain is a \textit{fixed} chain that has a fixed state transition logic, and a
-	part of that logic is to store codes (smart contracts) and execute them upon being dispatched.
-	Moreover, since Ethereum is the prominent smart contract chain, all of these works present
-	themselves with simulators that can hypothetically be implemented in the Ethereum node. To the
-	contrary, we do not limit ourselves to smart contracts or any specific chain in this work;
-	instead, we build upon the idea that the future of blockchains will not be a \textit{single}
-	chain (chain maximalism), but rather an abundance of domain specific chains interoperating with
-	one another. To achieve this, one needs to think in the context of a framework for building
-	blockchains, not a particular blockchain per se.
+    Most of the surveyed related work name their work as approaches toward concurrency for
+    \textbf{smart contracts}. At this point, it would be helpful to clarify that. The details of
+    smart contract chains are well beyond the scope of this work. But, it is worth noting that a a
+    smart-contract chain is a \textit{fixed} chain that has a fixed state transition logic, and a
+    part of that logic is to store codes (smart contracts) and execute them upon being dispatched.
+    Moreover, since Ethereum is the prominent smart contract chain, all of these works present
+    themselves with simulators that can hypothetically be implemented in the Ethereum node. To the
+    contrary, we do not limit ourselves to smart contracts or any specific chain in this work;
+    instead, we build upon the idea that the future of blockchains will not be a \textit{single}
+    chain (chain maximalism), but rather an abundance of domain-specific chains interoperating with
+    one another. To achieve this, one needs to think in the context of a framework for building
+    blockchains, not a particular blockchain per se.
 \end{remark}
 
 \section{Our Approach} \label{chap_desgin:sec:our_approach}
 
 In this section, we describe our approach towards concurrency in a blockchain runtime, both in the
-authoring phase and in validation. First, we begin by drawing a conclusion from the surveyed studies
-in \ref{chap_approach:existing}.
+authoring phase and in the validation phase. First, we begin by drawing a conclusion from the
+surveyed studies in \ref{chap_approach:existing}.
 
 \subsection{Core Idea: Finding a New Balance}
 
 We begin by pointing out that all of the mentioned works, regardless of their outcome, produce a
-sizable amount of overhead. We think these overheads are preventable and argue that perhaps a different
-approach can prevent them all-together.
+sizable amount of overhead. We think these overheads are preventable and argue that perhaps a
+different approach can prevent them altogether.
 
-Both locking and transactional memory result in a sizeable overhead while authoring. This is mostly
+Both locking and transactional memory results in a sizeable overhead while authoring. This is mostly
 hidden in some sort of runtime overhead, for example, the need to keep track of locking order, and
 consequently to parse it into a dependency graph. Moreover, this dependency graph inevitably
 increases the block size, because the dependency graph needs to be propagated to all other nodes.
@@ -360,20 +360,20 @@ workload with some non-negligible degree of contention, because it basically fal
 sequential model where most transactions are aborted and moved to the sequential model. Results from
 \cite{saraphEmpiricalStudySpeculative2019} show the same trend.
 
-To the contrary, we aim to minimize these overheads by finding a new balance between the
-"concurrency control" and "concurrency avoidance" models. Moreover, we find a new balance
-between "runtime" and "static" as well. While \textit{some} runtime apparatus is needed to orchestrate the
+On the contrary, we aim to minimize these overheads by finding a new balance between the
+"concurrency control" and "concurrency avoidance" models. Moreover, we find a new balance between
+"runtime" and "static" as well. While \textit{some} runtime apparatus is needed to orchestrate the
 execution and prevent chaos, tracking all dependencies is likely to be too much. Similarly, while a
-purely static approach toward concurrency is a radical change to the programmable language of a chain, we
-claim that \textit{some} static information could nudge the runtime to the right path.
+purely static approach toward concurrency is a radical change to the programmable language of a
+chain, we claim that \textit{some} static information could nudge the runtime to the right path.
 
-\subsection{Key Ideas: Almost Wait-Free, Delegation and Pseudo-Static}
+\subsection{Key Ideas: Almost Wait-Free, Delegation, and Pseudo-Static}
 
 Our approach is based on three key pivotal ideas, explained in the next sections.
 
 \subsubsection{Almost Wait-Free: "Taintable" State}\label{chapt_approach:subsubsec:taintable_state}
 
-\nomenclature{Taintable State}{Special HashMap-like datastructure that assigns a taint to each key.}
+\nomenclature{Taintable State}{Special HashMap-like data structure that assigns a taint to each key.}
 We have already seen that locking is a common primitive to achieve shared-state concurrency. In our
 approach, we relax this primitive such that any access to a shared state by a thread \textbf{does
 not incur long waiting times}, but instead, it might \textit{immediately} fail. To do so, we link
@@ -398,8 +398,8 @@ of doing that. This is the middle ground between \textit{concurrency avoidance} 
 
 Compared to concurrency control, threads in the concurrency delegation model do not try to resolve
 contention in any sophisticated way. Instead, they simply delegate (aka, \textit{forward}) the
-transactions to whoever they think \textit{might} be able to execute them successfully. There is no
-waiting involved, and no record being kept about access precedence.
+transactions to whomever they think \textit{might} be able to execute them successfully. There is no
+waiting involved, and no record is kept about access precedence.
 
 On the other hand, compared with concurrency avoidance, concurrency delegation does not
 automatically assume that just because a transaction's state operation has failed, the transaction
@@ -411,29 +411,29 @@ given a second chance to succeed in a concurrent fashion.
 Finally, if a transaction is already forwarded and still cannot be executed, (only) then it is
 forwarded to a sequential queue to be dealt with later. We name such transactions \textbf{orphans}.
 This implies that each transaction is at most forwarded twice: once to another potential recipient,
-and next, when needed, to the be declared as orphan.
+and next, when needed, to be declared as an orphan.
 
 
-Why is "a failing transaction that has already been forwarded once" considered an orphan? We
-present an example to make this clearer: assume thread $T2$ receives a forwarded transaction from
-$T1$. Based on the the protocol of delegation, we know that this transaction must have at least
-one key which is owned by $T2$, because $T1$ failed to access it and thus forwarded it to $T2$.
-Moreover, if the transaction still fails, it means that it has at least one other key that is
-owned by some other thread $T3$. This implies that $T2$ is not able to execute this
-transaction, and any further recipient of this transaction, including $T3$, will also fail to
-execute it because the transaction has at least one key owned by $T2$.
+Why is "a failing transaction that has already been forwarded once" considered an orphan? We present
+an example to make this clearer: assume thread $T2$ receives a forwarded transaction from $T1$.
+Based on the protocol of delegation, we know that this transaction must have at least one key which
+is owned by $T2$, because $T1$ failed to access it and thus forwarded it to $T2$. Moreover, if the
+transaction still fails, it means that it has at least one other key that is owned by some other
+thread $T3$. This implies that $T2$ is not able to execute this transaction, and any further
+recipient of this transaction, including $T3$, will also fail to execute it because the transaction
+has at least one key owned by $T2$.
 
-Therefore, no transaction ever needs to be forwarded more than once. A transaction can be
-forwarded at most once, and thereafter it is considered to be an orphan.
+Therefore, no transaction ever needs to be forwarded more than once. A transaction can be forwarded
+at most once, and thereafter it is considered to be an orphan.
 
 \subsubsection{Pseudo-Static}
 
 We predict that concurrency delegation works well when threads need to seldom forward transactions
-to one another. In the delegation model, the transactions need to be \textit{initially} distributed between
-the threads in some educated and effective way to minimize forwarding. This is where we turn to
-\textit{pseudo-static heuristics} in the form of a hint. We use the term "\textit{pseudo-static}"
-because we do not mean information that is necessarily available at compile time, but is rather
-known \textit{before} a particular transactions is executed. In other words, the information is
+to one another. In the delegation model, the transactions need to be \textit{initially} distributed
+between the threads in some educated and effective way to minimize forwarding. This is where we turn
+to \textit{pseudo-static heuristics} in the form of a hint. We use the term "\textit{pseudo-static}"
+because we do not mean information that is necessarily available at compile-time, but is rather
+known \textit{before} a particular transaction is executed. In other words, the information is
 \textit{static with respect to the lifetime of a transaction} and can be inferred without the need
 to \textit{execute} the transaction, but rather by just \textit{inspecting} it.
 
@@ -446,10 +446,10 @@ in the form of a unified algorithm.
 We first look into the baseline algorithm, which essentially combines the concurrency delegation and
 the taintable state, without any static heuristics. We consider a single master thread (henceforth
 called "master"), and $4$\footnote{Needless to say, all of the arguments in this section are
-applicable to virtually any number of threads.} worker threads (henceforth called "workers"),
-each having the ability send messages over channels to one another. The master has access to a
+applicable to virtually any number of threads.} worker threads (henceforth called "workers"), each
+having the ability to send messages over channels to one another. The master has access to a
 potentially unbounded queue of (\textit{ordered}\footnote{Recall that each node has an unordered
-\textit{pool} of transaction, from which they chose an ordered \textit{queue} based on some
+\textit{pool} of transactions, from which they chose an ordered \textit{queue} based on some
 arbitrary preference.}, ready to execute) transactions. Moreover, it has an (initially) empty queue
 of orphan transactions, to which workers can forward transactions. Additionally, each worker has a
 local queue, to which the master and other workers can send transactions. The master and all workers
@@ -457,35 +457,35 @@ share a reference to the same state database, $S$, which follows the logic of a 
 explained in \ref{chapt_approach:subsubsec:taintable_state}.
 
 \begin{remark}
-	As we will see, it is crucial to remember that both the transaction queue and the block are
-	\textbf{ordered} containers for transactions. In other words, they both act like an ordered
-	\texttt{list}/\texttt{array}/\texttt{vector} of transactions. The order of transaction in the
-	queue will end up being used to order the transaction in the final block as well.
+    As we will see, it is crucial to remember that both the transaction queue and the block are
+    \textbf{ordered} containers for transactions. In other words, they both act like an ordered
+    \texttt{list}/\texttt{array}/\texttt{vector} of transactions. The order of transactions in the
+    queue will end up being used to order the transaction in the final block as well.
 \end{remark}
 
 The master's (simplified) execution logic during \textbf{authoring} is as follows:
 
 \begin{enumerate}
-	\item \textbf{Distribution phase}: The master starts distributing transactions between workers
-	by some arbitrary function $F$. In essence, $F$ is a $fn(transaction) \rightarrow identifier$,
-	meaning that, for each transaction, it outputs one thread identifier. Once the distribution is
-	done, each transaction in the queue is \textit{tagged} by the identifier of one worker thread.
-	The distribution phase ends with the master sending each transaction to its corresponding
-	worker's local queue.
+    \item \textbf{Distribution phase}: The master starts distributing transactions between workers
+    by some arbitrary function $F$. In essence, $F$ is a $fn(transaction) \rightarrow identifier$,
+    meaning that, for each transaction, it outputs one thread identifier. Once the distribution is
+    done, each transaction in the queue is \textit{tagged} by the identifier of one worker thread.
+    The distribution phase ends with the master sending each transaction to its corresponding
+    worker's local queue.
 
-	\item \textbf{Collection phase}: The master then waits for reports from all workers, indicating
-	that they are done with executing all of the transactions that they have received earlier.
-	During this phase, threads might forward transactions to one another, and might forward
-	transactions back to the master, if deemed to be orphan, exactly as explained in the concurrency
-	delegation model. Both of these events are reported to the master and the tag of each
-	transaction might change in the initial queue. Once termination is detected by the master
-	thread, a message is sent to all workers to shut them down.
+    \item \textbf{Collection phase}: The master then waits for reports from all workers, indicating
+    that they are done with executing all of the transactions that they have received earlier.
+    During this phase, threads might forward transactions to one another, and might forward
+    transactions back to the master, if deemed to be orphan, exactly as explained in the concurrency
+    delegation model. Both of these events are reported to the master and the tag of each
+    transaction might change in the initial queue. Once termination is detected by the master
+    thread, a message is sent to all workers to shut them down.
 
-	\item \textbf{Orphan phase}: Once all worker threads are done, the master executes any
-	transactions that it has received in its orphan queue. At this point, the master thread is sure
-	that there are no other active threads in the system, thus accessing $S$ without worrying about
-	the taint is safe. The transactions are executed sequentially on top of $S$, and their tag is
-	changed to a special identifier for orphan transactions.
+    \item \textbf{Orphan phase}: Once all worker threads are done, the master executes any
+    transactions that it has received in its orphan queue. At this point, the master thread is sure
+    that there are no other active threads in the system, thus accessing $S$ without worrying about
+    the taint is safe. The transactions are executed sequentially on top of $S$, and their tag is
+    changed to a special identifier for orphan transactions.
 \end{enumerate}
 
 Then, the master is ready to finalize the block. By this point, each transaction is either tagged to
@@ -497,65 +497,67 @@ the same key), but they are ordered and are known the be executed by the same th
 deterministic. The transactions in the last group, namely the orphan group, are executed
 sequentially and in isolation, thus deterministic.
 
-The worker side of the processing (with slght simplifications) is as follows:
+The worker side of the processing (with slight simplifications) is as follows:
 
 \begin{enumerate}
-	\item \textbf{Depleting local queue}: Having received a number of transactions from the master
-	(after the "\textit{Distribution phase}"), each worker then tries to deplete its local queue.
-	For each transaction $Tx$, the logic is as follows:
+    \item \textbf{Depleting local queue}: Having received a number of transactions from the master
+    (after the "\textit{Distribution phase}"), each worker then tries to deplete its local queue.
+    For each transaction $Tx$, the logic is as follows:
 
-	If $Tx$ is executed successfully, nothing is done or reported. This is because the master is
-	already \textit{assuming} that $Tx$ is executed by the current worker, therefore nothing need to
-	be reported. If $Tx$ fails due to a taint error, it is forward to the owner of the state key
-	that caused the failure. Note that at this point we know that $Tx$ has not been forwarded
-	before, because it is being retrieved from the initial local queue.
+    If $Tx$ is executed successfully, nothing is done or reported. This is because the master is
+    already \textit{assuming} that $Tx$ is executed by the current worker, therefore nothing needs
+    to be reported. If $Tx$ fails due to a taint error, it is forward to the owner of the state key
+    that caused the failure. Note that at this point we know that $Tx$ has not been forwarded
+    before, because it is being retrieved from the initial local queue.
 
-	At the end of this phase, the worker sends an overall report to the master, noting how many
-	of the transactions it could execute successfully, and how many ended up being forwarded. This
-	data is then used at the master to detect termination.
+    At the end of this phase, the worker sends an overall report to the master, noting how many of
+    the transactions it could execute successfully, and how many ended up being forwarded. This data
+    is then used at the master to detect termination.
 
-	\item \textbf{Termination phase}: Once done with their local queue, the workers listen for
-	two types of messages, namely \textit{termination} or \textit{forwarded} transactions from other threads.
-	Termination is the message from the master to shut down the worker. Forwarded transactions are
-	those that another worker is \textit{delegating}/\textit{forwarding} to the current
-	worker because of a taint error. The forwarded transaction is then executed locally and, if it is
-	successful, the result is reported to the master. If the execution fails again due to a taint
-	error, then the transaction is forwarded to the master as an orphan.
+    \item \textbf{Termination phase}: Once done with their local queue, the workers listen for two
+    types of messages, namely \textit{termination} or \textit{forwarded} transactions from other
+    threads. Termination is the message from the master to shut down the worker. Forwarded
+    transactions are those that another worker is \textit{delegating}/\textit{forwarding} to the
+    current worker because of a taint error. The forwarded transaction is then executed locally and,
+    if it is successful, the result is reported to the master. If the execution fails again due to a
+    taint error, then the transaction is forwarded to the master as an orphan.
 
-	Note that in this case, reporting is vital, because a worker is ending up executing a
-	transaction and the master is \textit{not} aware of it, because the worker who finally executes the transaction is not the same as
-	assigned in the "Distribution phase" of the master. This reporting is also needed for the termination
-	detection of this phase.
+    Note that in this case, reporting is vital, because a worker is ending up executing a
+    transaction and the master is \textit{not} aware of it, because the worker who finally executes
+    the transaction is not the same as assigned in the "Distribution phase" of the master. This
+    reporting is also needed for the termination detection of this phase.
 \end{enumerate}
 
-\subsubsection{Analysis and Comments on the Baseline Algorithm} \label{chap_approach:subsec:comment_baseline}
+\subsubsection{Analysis and Comments on the Baseline Algorithm}
+\label{chap_approach:subsec:comment_baseline}
 
-A number of noteworthy remarks exists on the baseline algorithm:
+A number of noteworthy remarks exist on the baseline algorithm:
 
 \textbf{Termination Detection}. We intentionally did not describe how the master detects the
-termination of the collection phase, because, if we wanted to describe it, we needed further information from the
-worker's logic. Recall that the master knows how many transactions it has initially
-distributed between all the workers. Moreover, from the reports sent by the worker at the end of
-"Depleting local queue" phase, it knows how many of them executed in their \textit{designated
+termination of the collection phase, because, if we wanted to describe it, we needed further
+information from the worker's logic. Recall that the master knows how many transactions it has
+initially distributed between all the workers. Moreover, from the reports sent by the worker at the
+end of "Depleting local queue" phase, it knows how many of them executed in their \textit{designated
 thread}, and how many of them ended up being \textit{forwarded}. Also, recall that each forwarded
 transaction, upon being executed successfully, is reported to the master. Similarly, each forwarded
 transaction that fails is also reported to the master (by being forwarded to the orphan queue
-residing in the master thread). Thus, the master can safely assert that \textit{Termination is achieved once
-the sum of "all locally-executed transactions at workers", "forwarded and successfully executed
-transactions" and "orphan transactions" is equal to the initial count of transactions in the queue}.
-At this point, the termination message is created and broadcasted to all workers.
+residing in the master thread). Thus, the master can safely assert that \textit{Termination is
+achieved once the sum of "all locally-executed transactions at workers", "forwarded and successfully
+executed transactions" and "orphan transactions" is equal to the initial count of transactions in
+the queue}. At this point, the termination message is created and broadcasted to all workers.
 
 \begin{definition}
-	\textbf{Termination of the master thread's collection phase. }
+    \textbf{Termination of the master thread's collection phase. }
 
-	Assume $N$ initial transaction. Each worker thread, upon finishing the "deplete local queue"
-	phase, reports back $\{ r_{1}, r_{2}, r_{3}, r_{4} \}$ respectively, indicating the number of transactions
-	that each executed locally. Given $D$ as the number of reports of transactions being
-	forwarded, and $O$ as the size of the orphan queue, termination of the collection phase is achieved iff
+    Assume $N$ initial transaction. Each worker thread, upon finishing the "deplete local queue"
+    phase, reports back $\{ r_{1}, r_{2}, r_{3}, r_{4} \}$ respectively, indicating the number of
+    transactions that each executed locally. Given $D$ as the number of reports of transactions
+    being forwarded, and $O$ as the size of the orphan queue, termination of the collection phase is
+    achieved iff
 
-	\begin{equation}
-		\sum_{t = 1}^{4} r_{t} + D + O == N
-	\end{equation}
+    \begin{equation}
+        \sum_{t = 1}^{4} r_{t} + D + O == N
+    \end{equation}
 \end{definition}
 
 
@@ -569,32 +571,31 @@ reality, $T_{2}$ \textit{first} executed all of its designated transactions and 
 executes any forwarded transactions. Recall that the queue is an ordered container for transactions
 and its order will eventually end up building the order of the transaction in the block.
 
-\textbf{Orphan Transactions}. An orphan transaction is a transaction that has already been
-forwarded and still fails to execute at its current host thread, due to a taint error. We now
-represent this from a different perspective. In our concurrency delegation scheme, threads race to
-access state keys and, upon successful access, they taint them. Any transaction has a number of state
-keys that it needs to access in order to be processed. \textit{An orphan transaction is one that has
-state keys being tainted by at least two \textbf{different} threads}. For example, assume a
-transaction needs to access keys $K_{1}$ and $K_{2}$. Assume thread $T_{0}$ is executing this
-transaction. If $K_{1}$ is already tainted by a $T_{1}$ and $K_{2}$ by a $T_{2}$, then this
-transaction will inevitably end up being in the orphan queue. The transaction is first forwarded
-from $T_{0}$ to $T_{1}$, where it can successfully access $K_{1}$, but still fails to access
-$K_{2}$ and thus orphaned\footnote{An interesting optimization can be applied on top of this logic,
-which is explained further in \ref{chap_impl:sec:opt_orph}.}.
+\textbf{Orphan Transactions}. An orphan transaction is a transaction that has already been forwarded
+and still fails to execute at its current host thread, due to a taint error. We now represent this
+from a different perspective. In our concurrency delegation scheme, threads race to access state
+keys and, upon successful access, they taint them. Any transaction has a number of state keys that
+it needs to access in order to be processed. \textit{An orphan transaction is one that has state
+keys being tainted by at least two \textbf{different} threads}. For example, assume a transaction
+needs to access keys $K_{1}$ and $K_{2}$. Assume thread $T_{0}$ is executing this transaction. If
+$K_{1}$ is already tainted by a $T_{1}$ and $K_{2}$ by a $T_{2}$, then this transaction will
+inevitably end up being in the orphan queue. The transaction is first forwarded from $T_{0}$ to
+$T_{1}$, where it can successfully access $K_{1}$, but still fails to access $K_{2}$ and thus
+orphaned\footnote{An interesting optimization can be applied on top of this logic, which is
+explained further in \ref{chap_impl:sec:opt_orph}.}.
 
-\textbf{Minimal Overhead}. Our approach incurs minimal overhead to the block. In
-fact, the only additional data needed is one identifier attached to each
-transaction, indicating which thread must execute it (and the special case thereof, orphan
-transaction), namely the \textit{tag}. This can be as small as a single byte per transaction,
-which is negligible. Note that transactions within the block still maintain partial order: the
-transactions of a particular tag are sorted within their tag. Only the relative order of
-transactions from different tags is lost, which is not significant, because they are guaranteed by
-the author to not conflict.
+\textbf{Minimal Overhead}. Our approach incurs minimal overhead to the block. In fact, the only
+additional data needed is one identifier attached to each transaction, indicating which thread must
+execute it (and the special case thereof, orphan transaction), namely the \textit{tag}. This can be
+as small as a single byte per transaction, which is negligible. Note that transactions within the
+block still maintain partial order: the transactions of a particular tag are sorted within their
+tag. Only the relative order of transactions from different tags is lost, which is not significant,
+because they are guaranteed by the author to not conflict.
 
 \textbf{Validation}. We can now consider validation as well. As expected, due to the minimal
 overhead and the simplicity of the baseline algorithm, the validation logic is fairly simple. Each
-block is received with all of its transactions having a tag. The ones tagged to be orphan are set
-aside for later execution. Then, one worker thread is spawned per tag and transactions are assigned
+block is received with all of its transactions having a tag. The ones tagged to be orphans are set
+aside for later execution. Then, one worker thread is spawned per tag, and transactions are assigned
 to threads based on their tags, and in the same relative order. The workers can then execute
 concurrently, \textit{without the need for any concurrency control}, because they effectively know
 that all contentious transactions already have the same tags, and thus are ordered
@@ -604,118 +605,111 @@ orphan transactions are executed sequentially and validation comes to an end.
 
 \subsubsection{Determinism in Concurrency Delegation}
 
-Finally, we must address the most important requirement: \textbf{Determinism}. We proof determinism by
-showing that the validation and authoring both have the exact same execution environment, and the
-transactions are executed in the exact same order in both phases. In more detail, both the author and the
-validator spawn the same number of threads, and all of the transactions executed by any
-thread during authoring are re-executed by a single thread in the validation phase as well.
+Finally, we must address the most important requirement: \textbf{Determinism}. We prove determinism
+by showing that the validation and authoring both have the exact same execution environment, and the
+transactions are executed in the exact same order in both phases. In more detail, both the author
+and the validator spawn the same number of threads, and all of the transactions executed by any
+thread during authoring is re-executed by a single thread in the validation phase as well.
 
 First, consider all transactions that are executed in their initially designated worker, based on
 the aforementioned distributor function $F$. All of these transactions are assigned a tag, and have
-some partial order within the tag. By design, they are also placed in their
-designated worker thread's queue with the same order, and thus executed in the same order.
-Consequently, they are, yet again, placed in the final block with the same order within the tag.
-Therefore, the worker thread in the authoring phase and the worker thread
-in the validation phase will execute \textit{exactly the same} transactions, in the exact same
-order.
+some partial order within the tag. By design, they are also placed in their designated worker
+thread's queue with the same order, and thus executed in the same order. Consequently, they are, yet
+again, placed in the final block with the same order within the tag. Therefore, the worker thread in
+the authoring phase and the worker thread in the validation phase will execute \textit{exactly the
+same} transactions, in the exact same order.
 
-Next, consider the transactions that ended up being forwarded. These transactions are
-executed \textit{after} the designated transactions of their final host thread. The master thread,
-responsible for building the final block, has to note this change and ensure that this partial
-order is maintained in the final block. The first step for the master is to change the tag of this
+Next, consider the transactions that ended up being forwarded. These transactions are executed
+\textit{after} the designated transactions of their final host thread. The master thread,
+responsible for building the final block, has to note this change and ensure that this partial order
+is maintained in the final block. The first step for the master is to change the tag of this
 forwarded transaction to the tag of its newly designated thread. Then, to ensure that the order
-\textit{within the tag} is maintained, the master simply places this transaction at the end
-of the queue. This ensures that this transaction will be placed in the final block in such a way
-that it is executed after all the transactions that have the same tag. Then, we can apply the same
-logic as the previous paragraph and assert that the order of execution of all transactions with a
-specific tag stays the same within one thread in both authoring and validation, thus deterministic.
+\textit{within the tag} is maintained, the master simply places this transaction at the end of the
+queue. This ensures that this transaction will be placed in the final block in such a way that it is
+executed after all the transactions that have the same tag. Then, we can apply the same logic as the
+previous paragraph and assert that the order of execution of all transactions with a specific tag
+stays the same within one thread in both authoring and validation, thus deterministic.
 
-Last but not least, the orphan transactions also need the same property to be executed deterministically:
-maintaining order. The master needs to make sure that all the transactions that are tagged as
-\texttt{Orphan} within the block have the same order as they were executed.
+Last but not least, the orphan transactions also need the same property to be executed
+deterministically: maintaining order. The master needs to make sure that all the transactions that
+are tagged as \texttt{Orphan} within the block have the same order as they were executed.
 
-Given the deterministic execution of all types of transactions in our concurrent system, we conclude that our approach is fully deterministic, with minimal additional effort
-effort. Indeed, the only subtlety that needs to be taken care of is the re-ordering of a transaction in
-the queue (and consequently the block) when it is \textit{successfully} forwarded.
+Given the deterministic execution of all types of transactions in our concurrent system, we conclude
+that our approach is fully deterministic, with minimal additional effort . Indeed, the only subtlety
+that needs to be taken care of is the re-ordering of a transaction in the queue (and consequently
+the block) when it is \textit{successfully} forwarded.
 
 
 \subsection{Applying Pseudo-Static Heuristics} \label{subsec:applying_static_hints}
 
-The previous section is a complete description of a concurrent system that is deterministic and can be deployed
-as-is, without any further requirements. Nonetheless, one can argue that this system might not be
-efficient in the throughput gain that it can deliver. This is because we said nothing about the
-distribution function of the master, namely $F$. While we keep this distribution function generic in
-this entire work, we make one important claim about it: using static information of
-the transaction can be \textit{very} beneficial, and is key to high performance.
+The previous section is a complete description of a concurrent system that is deterministic and can
+be deployed as-is, without any further requirements. Nonetheless, one can argue that this system
+might not be efficient in the throughput gain that it can deliver. This is because we said nothing
+about the distribution function of the master, namely $F$. While we keep this distribution function
+generic in this entire work, we make one important claim about it: using static information of the
+transaction can be \textit{very} beneficial, and is key to high performance.
 
-Static information is anything that can be known about a transaction, before it hits the runtime
-and gets executed. In other words, we are interested in any information that can be inferred from
-the transaction, \textit{without} needing to \textit{execute} it. A clear example of such information is the
-origin of the transaction (i.e., the sender account). Because of public key cryptography usage, all
-transactions carry a signature and the origin account as a part of their payload. Therefore, using
-the origin as static information is permitted, because it is known even \textit{before} the
-transaction is executed. The similar reasoning applies to the arguments of the transaction as well.
-These are information that are encoded in the payload of the transaction, and the runtime of the
-master thread (before starting authoring) can effectively use them to optimise $F$. To the contrary,
+Static information is anything that can be known about a transaction, before it hits the runtime and
+gets executed. In other words, we are interested in any information that can be inferred from the
+transaction, \textit{without} needing to \textit{execute} it. A clear example of such information is
+the origin of the transaction (i.e., the sender account). Because of public-key cryptography usage,
+all transactions carry a signature and the origin account as a part of their payload. Therefore,
+using the origin as static information is permitted, because it is known even \textit{before} the
+transaction is executed. Similar reasoning applies to the arguments of the transaction as well.
+These are information that is encoded in the payload of the transaction, and the runtime of the
+master thread (before starting authoring) can effectively use them to optimize $F$. On the contrary,
 consider the return value of the transaction. This is a piece of information that is not considered
 static with respect to the transaction, because it can only be known by executing the transaction.
 
 \begin{remark}
-	Given the above paragraph, we denote that out definition of static is different than the term
-	which is usually referred to compile-time information. Therefore, we used the term pseudo-static
-	in some places to delineate the difference.
+    Given the above paragraph, we denote that our definition of static is different from the term
+    which is usually referred to as compile-time information. Therefore, we used the term
+    pseudo-static in some places to delineate the difference.
 \end{remark}
 
-We use this these pseudo-static information to our benefit, by proposing a static annotation to be added by the programmer
-to each transaction. Recall that the underlying state of the blockchain runtime is a key-value
-database, so each state access is linked to a key. Moreover, if $F$ can know the list of keys
-accessed by each transaction, it could create a perfect distribution where no transaction is ever
-forwarded or orphaned, because no thread ever reaches a taint error while accessing the state. Of
-course, things are not simple. In practice, it is impossible to know the execution path of a complex
-transaction without executing it\footnote{An interested reader can refer to the "Halting problem"
-for a formal representation of this issue \cite{burkholderHaltingProblem1987}.}, therefore knowing
-the exact state keys that it must access is impossible.
+We use this pseudo-static information to our benefit, by proposing a static annotation to be added
+by the programmer to each transaction. Recall that the underlying state of the blockchain runtime is
+a key-value database, so each state access is linked to a key. Moreover, if $F$ can know the list of
+keys accessed by each transaction, it could create a perfect distribution where no transaction is
+ever forwarded or orphaned, because no thread ever reaches a taint error while accessing the state.
+Of course, things are not simple. In practice, it is impossible to know the execution path of a
+complex transaction without executing it\footnote{An interested reader can refer to the "Halting
+problem" for a formal representation of this issue \cite{burkholderHaltingProblem1987}.}, therefore
+knowing the exact state keys that it must access is impossible.
 
 The important point is to remember that the annotation can still be reasonably accurate without the
-need for executing the transaction. This annotation can state, in a best effort manner, which state
+need for executing the transaction. This annotation can state, in a best-effort manner, which state
 keys are \textit{likely} to be accessed by this transaction, based on, for example, one of the
-common execution paths of the transaction. Listing \ref{lst:static_pseudo} shows an abstract example of these static \textbf{annotations}.
+common execution paths of the transaction. Listing \ref{lst:static_pseudo} shows an abstract example
+of these static \textbf{annotations}.
 
 \begin{lstlisting}[caption={Example of Static Hints}\label{lst:static_pseudo}]
-#[access = (origin.state_key(), arg1.state_key())]
-fn transaction(origin, arg1, arg2) {
-	read(origin);
-	if condition {
-		// more probable branch!
-		read(arg1)
-	} else {
-		// less probable branch!
-		read(arg2)
-	}
-}
+#[access = (origin.state_key(), arg1.state_key())] fn transaction(origin, arg1, arg2) {read(origin);
+if condition {// more probable branch! read(arg1)} else {// less probable branch! read(arg2)}}
 \end{lstlisting}
 
 We observe a transaction, embodied as a function named \texttt{transaction}, which has 3 arguments:
-the origin and two auxilliary ones. Furthermore, we observe a macro\footnote{This style refers to the
+the origin and two auxiliary ones. Furthermore, we observe a macro\footnote{This style refers to the
 Rust programming language, but is applicable to any other compiled language as well.} that is
 providing the state keys that \textit{might} be accessed by this transaction. In this case, the
-second argument is not relevant and seemingly only some state key of the origin and the
+second argument is not relevant, and seemingly only some state key of the origin and the
 \texttt{arg1} might be accessed.
 
-This macro syntax is just one example - its specification is irrelevant at this point. What matters is that the transaction can provide the runtime with some easy-to-compute, pseudo-static
-information about the \textit{state access} of the transaction (therefore we called the macro
-\texttt{\#access} in listing \ref{lst:static_pseudo}). The runtime can then effectively use this
-information in the transaction distribution phase to come up with a better distribution that leads
-to less contention, and, consequently, to less forwarding and less orphans.
+This macro syntax is just one example - its specification is irrelevant at this point. What matters
+is that the transaction can provide the runtime with some easy-to-compute, pseudo-static information
+about the \textit{state access} of the transaction (therefore we called the macro \texttt{\#access}
+in listing \ref{lst:static_pseudo}). The runtime can then effectively use this information in the
+transaction distribution phase to come up with a better distribution that leads to less contention,
+and, consequently, to less forwarding and fewer orphans.
 
 \begin{remark}
-	One might question: why is the system limited by the halting problem and cannot pre-execute all transactions in the first
-	place? This is partially answered in the transaction validation section (see
-	\ref{chap_bg:subsec:validation}). The more detailed reason is that this static hinting must fit
-	into the transaction validation pipeline, because the transactions for which we are keen to know
-	the access keys are not yet included in any block, thus not accountable. In short, executing all
-	transactions in order pool is an easy Denial Of Service attack vector, specially in chains that
-	allow arbitrary code execution by the user.
+    One might question: why is the system limited by the halting problem and cannot pre-execute all
+    transactions in the first place? This is partially answered in the transaction validation
+    section (see \ref{chap_bg:subsec:validation}). The more detailed reason is that this static
+    hinting must fit into the transaction validation pipeline, because the transactions for which we
+    are keen to know the access keys are not yet included in any block, thus not accountable. In
+    short, executing all transactions in-order pool is an easy Denial Of Service attack vector,
+    especially in chains that allow arbitrary code execution by the user.
 \end{remark}
 
 \subsection{System Architecture}
@@ -728,40 +722,42 @@ concurrent system as we move forward.
 
 \figuremacro{figures/design.png}{Overall System Architecture.}
 
-%Figure \ref{figure:figures/design.png} includes enumerated labels on each system component, and we use these labels to explain each component.
+%Figure \ref{figure:figures/design.png} includes enumerated labels on each system component, and we
+%use these labels to explain each component.
 
 \begin{itemize}
-	\item \textbf{1} shows the taintable state. We can see that each cell is not merely a key-value
-	pair, but rather a \texttt{(taint, key, value)} triplet. Some keys are not tainted
-	(\texttt{None}), while some are already tainted by a thread because they have been accessed by
-	it. An access to each of the keys by a thread succeeds if the key is untainted, or is tainted by
-	the accessor thread. Else, an error is returned, notifying the identifier of the thread that owns
-	the key.
-	\item \textbf{2} emphasizes the need of all threads to access the state; ideally, this access is wait-free. Any access to a key in the
-	state either \textit{immediately} succeeds, in which case the key is tainted. Else, it is
-	\textit{immediately} rejected because of a taint error.
-	\item \textbf{3} shows the communication channels between the master and workers. These channels
-	allow all of the threads to communicate by means of sending messages to one another. Most
-	often these messages are simply a transaction to be forwarded. It is worth noting that worker
-	threads can also communicate in the same manner.
-	\item \textbf{4} indicates the local queue of each thread. This is where the transactions that the
-	master thread designates to each thread live, until they are executed. Needless to say, this
-	queue is also ordered.
-	\item \textbf{5} identifies the orphan queue, where the master thread maintains an ordered queue of
-	transactions that are essentially rejected by the workers and need to be executed in a second
-	sequential phase. Once all the workers are done accessing the state, the master thread
-	exclusively starts using the state (essentially ignoring all the taint values) and executes
-	all the orphan transactions sequentially.
-	\item \textbf{6} importantly depicts the transaction distributor component of the master thread.
-	This component is invoked prior to the process of authoring to tag all the transactions that are
-	ready to be executed in the transaction queue. This effectively determines which thread gets to
-	execute which transactions.
-	\item \textbf{7} is the transaction queue, where an ordered subset of the transaction pool is
-	verified and awaiting to be delegated to worker threads.
+    \item \textbf{1} shows the taintable state. We can see that each cell is not merely a key-value
+    pair, but rather a \texttt{(taint, key, value)} triplet. Some keys are not tainted
+    (\texttt{None}), while some are already tainted by a thread because they have been accessed by
+    it. Access to each of the keys by a thread succeeds if the key is untainted, or is tainted by
+    the accessor thread. Else, an error is returned, notifying the identifier of the thread that
+    owns the key.
+    \item \textbf{2} emphasizes the need of all threads to access the state; ideally, this access is
+    wait-free. Any access to a key in the state either \textit{immediately} succeeds, in which case
+    the key is tainted. Else, it is \textit{immediately} rejected because of a taint error.
+    \item \textbf{3} shows the communication channels between the master and workers. These channels
+    allow all of the threads to communicate by means of sending messages to one another. Most often
+    these messages are simply a transaction to be forwarded. It is worth noting that worker threads
+    can also communicate in the same manner.
+    \item \textbf{4} indicates the local queue of each thread. This is where the transactions that
+    the master thread designates to each thread live until they are executed. Needless to say, this
+    queue is also ordered.
+    \item \textbf{5} identifies the orphan queue, where the master thread maintains an ordered queue
+    of transactions that are essentially rejected by the workers and need to be executed in a second
+    sequential phase. Once all the workers are done accessing the state, the master thread
+    exclusively starts using the state (essentially ignoring all the taint values) and executes all
+    the orphan transactions sequentially.
+    \item \textbf{6} importantly depicts the transaction distributor component of the master thread.
+    This component is invoked prior to the process of authoring to tag all the transactions that are
+    ready to be executed in the transaction queue. This effectively determines which thread gets to
+    execute which transactions.
+    \item \textbf{7} is the transaction queue, where an ordered subset of the transaction pool is
+    verified and awaiting to be delegated to worker threads.
 \end{itemize}
 
-With this overall blueprint of the system's architecture, we conclude the design of SonicChain, and move forward to the next chapter, where
-we cover some of the implementation details of our prototype.
+With this overall blueprint of the system's architecture, we conclude the design of SonicChain and
+move forward to the next chapter, where we cover some of the implementation details of our
+prototype.
 
 
 
