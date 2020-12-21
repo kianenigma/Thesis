@@ -28,6 +28,7 @@ validation task is fairly simpler. Furthermore, we set the \texttt{access} macro
 transaction to point to the account balance key of the \texttt{origin} and \texttt{destination}
 account, as demonstrated in listing \ref{lst:balance_sig}.
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[caption={Signature of the Transfer and its Access Hints}\label{lst:balance_sig}]
 #[access = (|origin| vec![
     <BalanceOf<R>>::key_for(origin),
@@ -35,6 +36,8 @@ account, as demonstrated in listing \ref{lst:balance_sig}.
 ])]
 fn transfer(runtime, origin, dest: AccountId, value: Balance) { /* implementation */ }
 \end{lstlisting}
+\end{minipage}
+
 
 Then, we use this information to spawn two benchmarks, one with \textbf{connected components} and
 one with a \textbf{round robin} distributor. Indeed, we also use a \textbf{sequential} version as
